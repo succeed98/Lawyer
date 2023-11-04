@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+
+
+{% block content %}
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Lawyer System. </a></li>
+
+
+                            <li class="breadcrumb-item active">Profile</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Profile</h4>
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!--
+
+            end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body  met-pro-bg">
+                        <div class="met-profile">
+                            <div class="row">
+                                <div class="col-lg-4 align-self-center mb-3 mb-lg-0">
+                                    <div class="met-profile-main">
+                                        <div class="met-profile-main-pic">
+
+                                            {% if lawyer.user.avatar %}
+                                            <img src="{{lawyer.user.avatar.url}}" alt="" class="rounded-circle"
+                                                style="height:50px;width:50px">
+
+                                            {% else %}
+                                            <img src="{% static './assets/images/users/user-4.jpg' %}" alt=""
+                                                class="rounded-circle">
+
+                                            {% endif %}
+
+
+                                        </div>
+                                        <div class="met-profile_user-detail">
+                                            <h5 class="met-user-name">{{lawyer.user.first_name}}
+                                                {{lawyer.user.last_name}}</h5>
+                                            <p class="mb-0 met-user-name-post">{{lawyer.lawyer_status|title}} Lawyer</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-lg-4 ml-auto">
+                                    <ul class="list-unstyled personal-detail">
+                                        <li class=""><i class="dripicons-phone mr-2 text-info font-18"></i> <b> phone
+                                            </b> : {{lawyer.user.phone}}</li>
+                                        <li class="mt-2"><i class="dripicons-mail text-info font-18 mt-2 mr-2"></i> <b>
+                                                Email </b> : {{lawyer.user.email}}</li>
+                                        <li class="mt-2"><i class="fas fa-users text-info font-18 mt-2 mr-2"></i> <b>
+                                                Team </b> : {{lawyer.user.team|title}}</li>
+                                        <!-- <li class="mt-2"><i class="dripicons-location text-info font-18 mt-2 mr-2"></i> <b>Location</b> : USA</li> -->
+                                    </ul>
+                                    <div class="button-list btn-social-icon">
+                                        <button type="button" class="btn btn-blue btn-round">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </button>
+
+                                        <button type="button" class="btn btn-secondary btn-round ml-2">
+                                            <i class="fab fa-twitter"></i>
+                                        </button>
+
+                                        <button type="button" class="btn btn-pink btn-round  ml-2">
+                                            <i class="fab fa-dribbble"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <!--end f_profile-->
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <!--end card-body-->
+                    <div class="card-body">
+                        <ul class="nav nav-pills mb-0" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="general_detail_tab" data-toggle="pill"
+                                    href="#general_detail">General</a>
+                            </li>
+
+                            <!-- <li class="nav-item">
+                                <a class="nav-link" id="education_detail_tab" data-toggle="pill"
+                                    href="#education_detail">Principles</a>
+                            </li> -->
+
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="settings_detail_tab" data-toggle="pill"
+                                    href="#settings_detail">Settings</a>
+                            </li>
+
+                            
+                            {% if all_team %}
+                            <li class="nav-item">
+                                <a class="nav-link" id="settings_detail_tab"
+                                    href="{% url 'view_team_logs' %}">Team Logs</a>
+                            </li>
+                            {% endif %}
+                                
+                            
+                        </ul>
+                    </div>
+                    <!--end card-body-->
+                </div>
+
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+        <div class="row">
+            <div class="col-12">
+                <div class="tab-content detail-list" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="general_detail">
+                        <div class="row">
+                            <div class="col-12">
+
+                                <!--end card-->
+
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <h4 class="header-title mt-0">My Cases</h4>
+                                        <div class="table-responsive dash-social">
+                                            <table id="datatable" class="table">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>Case Title</th>
+                                                        <th>Team</th>
+                                                        <th>Lead Professional</th>
+                                                        <th>Status</th>
+                                                        <th>Date Added</th>
+                                                        <th>Added By</th>
+
+
+                                                        <th>Action</th>
+                                                    </tr>
+                                                    <!--end tr-->
+                                                </thead>
+
+                                                {% include 'cases/snippets/list.html' with cases=cases %}
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!--end card-body-->
+                                </div>
+
+
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+                    </div>
+                    <!--end general detail-->
+
+                    <div class="tab-pane fade" id="education_detail">
+                        <div class="row">
+
+                            <div class="col-lg-12 col-xl-9 mx-auto">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <hr>
+
+                                        <div class="">
+                                            <form class="form-horizontal form-material mb-0" method="POST"
+                                                action="{% url 'principles:add_principle'  %}"
+                                                enctype="multipart/form-data">
+
+                                                {% include 'accounts/snippets/p_form.html' with p_form=p_form  %}
+
+                                                <button
+                                                    class="btn btn-gradient-primary btn-sm text-light px-4 mt-3 float-right mb-0">Add
+                                                </button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!--end row-->
+                    </div>
+                    <!--end education detail-->
+
+                    <div class="tab-pane fade" id="settings_detail">
+                        <div class="row">
+                            <div class="col-lg-12 col-xl-9 mx-auto">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <hr>
+
+                                        <div class="">
+                                            <form class="form-horizontal form-material mb-0" method="POST"
+                                                action="{% url 'accounts:update_profile' user.pk %}"
+                                                enctype="multipart/form-data">
+
+                                                {% include 'accounts/snippets/form.html' %}
+
+                                                <button
+                                                    class="btn btn-gradient-primary btn-sm text-light px-4 mt-3 float-right mb-0">Update
+                                                    Profile</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </div>
+                <!--end settings detail-->
+            </div>
+            <!--end tab-content-->
+
+        </div>
+        <!--end col-->
+    </div>
+    <!--end row-->
+
+</div>
+{% endblock content %}

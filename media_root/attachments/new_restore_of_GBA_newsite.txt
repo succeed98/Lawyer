@@ -1,0 +1,19 @@
+gbanewsite/wp-admin
+
+peter
+Admin@GBA2020
+support@integrisgh.com
+
+db
+db name:	dev_newsite
+db user:	dev_ghanabar
+db pass:	Admin@GBA2020
+
+
+
+
+Want to Edit the Label and Placeholder texts for the login page of my BuddyBoss website.
+
+I've tried using different plugins to effect these changes, but it only affects the background, logos, and button.
+
+However, I am not able to effect changes on the Login Text nor the Login Placeholder

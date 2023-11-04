@@ -1,0 +1,397 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load auth_extras %}
+{% load crispy_forms_tags %}
+{% block title %}
+{% load mathfilters %}
+{{case}} | Time Spent
+
+
+{% endblock title %}
+
+{% block content %}
+
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a></li>
+
+                            </li>
+                            <li class="breadcrumb-item active"></li><a href="{% url 'cases:case_detail' case.pk %}">Cases Detail</a></li>
+                        </ol>
+                    </div>
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <span class="float-right text-muted font-weight-normal"></span>
+                                <h1 class="font-54 font-weight-normal mt-0 mb-4">{{timer_sum}}</h1>
+                                <h5 class="mb-0 font-weight-normal">Total Hours</h5>
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+                    </div><!--end col-->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <span class="float-right text-muted font-weight-normal"></span>
+                                <h1 class="font-54 font-weight-normal mt-0 mb-4">{{timer_min}}</h1>
+                                <h5 class="mb-0 font-weight-normal">Total Minutes</h5>
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+                    </div><!--end col-->
+                    
+                       
+                    
+                    <div class="col-lg-4">
+                        <div class="card ">
+                            <div class="card-body">
+                                <span class="float-right text-muted font-weight-bold"></span>
+                                <h1 class="font-54 font-weight-bold mt-0 mb-4">{{my_time}} GH₵</h1>
+                                <h5 class="mb-0 font-weight-bold">Total Amount</h5>
+                            </div><!--end card-body-->
+                        </div><!--end card-->
+                    </div><!--end col-->
+                </div><!--end row-->
+
+
+
+                <div class="card">
+
+                    <div class="card-body">
+                       
+
+                        <h4 class="mt-0 header-title">Tasks Left to be generated </h4>
+
+                        <div class="table-responsive dash-social">
+                            <table id="datatable" class="table">
+                                <thead>
+                                    <tr>
+
+                                        <th>User</th>
+                                        <th>Hour Charge (GH₵)</th>
+                                        <th>Case</th>
+                                        <th>Time Spent</th>
+                                        <th>Total Amount</th>
+                                        <th> Date Created</th>
+                                        
+                                        <th>Manage</th>
+                                         
+                                            
+
+                                      
+
+                                    </tr>
+                                </thead>
+
+
+                                <!-- load -->
+
+
+                                <tbody>
+
+                                    {% for timer in  timer_list %}
+                                    <tr>
+
+
+                                        <td> {{timer.user|title}}
+                                        </td>
+                                        {% if timer.user|has_group:'Lawyer' %}
+                                        <td> {{timer.user.lawyer.per_hour_charge}}
+                                            {% else %}
+                                        <td> {{timer.user.otherstaff.per_hour_charge}}
+                                            {%endif%}
+                                        </td>
+
+
+
+
+
+                                        <td> {{timer.case|title}} </td>
+                                        <td>{{timer.hour_time }} Hours
+                                            {{timer.minutes_time }} Minutes
+                                            {{timer.seconds_time }} Seconds  </td>
+                                        
+
+                                        <td> {{timer.total_charge_payment}} GH₵ </td>
+                                        <td>{{timer.date_time_created}}</td>
+                                        
+
+                                        {% if case.lead_professional.user.id == request.user.id or timer.user == request.user %}
+                                            
+                                            
+                                                
+
+                                        <td><button data-toggle="modal" name="button-end" data-animation="bounce" data-target=".bd-example-modal-xl1{{timer.id}}" class="btn btn-primary dropdown-toggle">Manage</button>                                       </td>
+                                        {%else%}
+                                        <td>#</td>
+                                        {% endif %}
+
+                                         
+
+
+                                            
+
+                                   
+
+                                    </tr>
+                                    
+
+
+
+                                    <div class="modal fade bd-example-modal-xl1{{timer.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title mt-0" id="myModalLabel">Edit Time</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div id="dropzone">
+                                                        <form action="{%url 'cases:edit_start_timer' %}" method="post">
+                                                            {% csrf_token %}
+
+                                                            <label for="purpose">Name of Task</label>
+                                                            <input type="text" name="name_task" value="{{timer.name_task}}" class="form-control" id="">
+                                                            <label for="purpose">Purpose of Task</label>
+                                                            <textarea class="form-control" name="purpose"  id="" cols="30" rows="10">{{timer.purpose_of_task}}</textarea>
+                                                            <input type="number" name="timer_id" value="{{timer.id}}" hidden class="form-control" id="case_id">
+                                                            
+                                                            <div class = "row">
+                                                                <div class="col-1">
+                                                                    <label for="brief_hour">Hour:</label>
+                                                                    <input type="number" name="hour" value="{{timer.hour_time}}" id ="brief_hour" class="form-control" id="">
+                                                                </div>
+                                                                <div class="col-1">
+                                                                    <label for="brief_minutes">Minutes:</label>
+                                                                    <input type="number" name="minutes" value="{{timer.minutes_time}}" id ="brief_minutes" class="form-control" id="">
+                                                                </div>
+                                                                <div class="col-1">
+                                                                    <label for="brief_seconds">Seconds:</label> 
+                                                                    <input type="number" name="seconds_payment" value="{{timer.seconds_time}}" id ="brief_seconds" class="form-control" id="">
+                                                                </div>
+                                                                <div class="col-2">
+                                                                    <label for="brief_seconds">Total Amount:</label> 
+                                                                    <input type="number" name="seconds_payment" disabled value="{{timer.total_charge_payment}}" id ="brief_seconds" class="form-control" id="">
+                                                                </div>
+                                                            </div>
+                                    
+                                    
+                                                        <div class="text-center">
+                                                        <button type="submit" class="btn btn-success waves-effect" >Update</button>
+                                    
+                                                        </div>
+                                                    </form>
+                                    
+                                                    </div>
+                                                   
+                                                    
+                                                </div>
+                                    
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
+
+
+
+                                    {% endfor %}
+                                    <tfoot>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            {% if case.lead_professional.user.id == request.user.id %}
+                                            {% if timer_list == None %}
+                                            {% else %}
+                                            <td colspan="2"> <b> click to generate total invoice of all the tasks </b></td>
+                                            <td><a href="{%url 'cases:generate_invoice_total' case.id %}" class="btn btn-gradient-secondary dropdown-toggle">Generate</a></td>
+                                            {% endif %}
+
+                                            {%endif%}  
+                                        </tr>
+                                    </tfoot>
+
+
+
+                                    <!--end tr-->
+
+
+
+
+                                </tbody>
+                                
+                            </table>
+                        </div>
+
+
+                    </div>
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="card">
+
+                <div class="card-body">
+                   
+
+                    <h4 class="mt-0 header-title">All Tasks </h4>
+
+                    <div class="table-responsive dash-social">
+                        <table id="datatable" class="table">
+                            <thead>
+                                <tr>
+
+                                    <th>User</th>
+                                    <th>Hour Charge (GH₵)</th>
+                                    <th>Case</th>
+                                    <th>Time Spent</th>
+                                    <th>Total Amount</th>
+
+                                    <th>Date Created</th>
+                                    
+                                    <th>Manage</th>
+                                     
+                                        
+
+                                  
+
+                                </tr>
+                            </thead>
+
+
+                            <!-- load -->
+
+
+                            <tbody>
+
+                                {% for timer in  all_tasks %}
+                                <tr>
+
+
+                                    <td> {{timer.user|title}}
+                                    </td>
+                                    {% if timer.user|has_group:'Lawyer' %}
+                                    <td> {{timer.user.lawyer.per_hour_charge}}
+                                        {% else %}
+                                    <td> {{timer.user.otherstaff.per_hour_charge}}
+                                        {%endif%}
+                                    </td>
+
+
+
+
+
+                                    <td> {{timer.case|title}} </td>
+                                    <td>{{timer.hour_time }} Hours
+                                        {{timer.minutes_time }} Minutes
+                                        {{timer.seconds_time }} Seconds  </td>
+                                    
+
+                                    <td> {{timer.total_charge_payment}} GH₵ </td>
+                                    <td>{{timer.date_time_created}}</td>
+                                    
+
+                                    <td>#</td>
+                                </tr>
+                                
+
+
+
+                                {% endfor %}
+                            </tbody>
+                            
+                        </table>
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
+
+
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}

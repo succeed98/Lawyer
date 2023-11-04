@@ -1,0 +1,25 @@
+{% load crispy_forms_tags %}
+
+
+
+
+
+<form action="{% url 'cases:upload_files' case.pk %}" method="post" enctype="multipart/form-data">
+
+
+
+    {% csrf_token %}
+    <div id="div_id_file" class="form-group"> <label for="id_file" class=" requiredField">
+        File<span class="asteriskField">*</span> </label> <div class="custom-file "> 
+            
+            <input type="file" name="file" multiple="" class="clearablefileinput form-control custom-file-input" accept=".pdf,.txt,.doc,.docx,.rtf, .mp3, .ogg, .wav, .mp4, .webm, .ogv" required="" id="id_file">
+            
+            
+            <label class="custom-file-label" for="id_file">Choose file</label> </div> </div>
+    
+    <center>
+        <button type="submit" class="btn btn-secondary">Add Files</button>
+        <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Close</button>
+
+    </center>
+</form>

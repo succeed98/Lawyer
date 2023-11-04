@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+ Expesses
+{% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+
+{% block content %}
+
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a></li>
+
+
+                            <li class="breadcrumb-item active">Expenses</li>
+                        </ol>
+                    </div>
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class='card-body'>
+
+
+                        <h4 class="mt-0 header-title">Expense List</h4>
+
+                        <div class="table-responsive dash-social">
+                            <table id="datatable" class="table">
+                                <thead>
+                                    <tr>
+
+                                        <th>#</th>
+                                        <th>Case</th>
+
+                                        <th>Description</th>
+                                        <th>Amount (&#8373;)</th>
+                                        <th>Category</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+
+
+                                <!-- load -->
+
+
+                                <tbody>
+
+                                    {% for expense in  expense_list %}
+                                    <tr>
+
+                                        <td>{{forloop.counter}}</td>
+                                        <td> <a href="{{expense.get_absolute_url}}">{{expense.case|title}}</a>
+                                        </td>
+
+
+
+
+
+                                        <td> {{expense.description}}</td>
+                                        <td>{{expense.amount}}</td>
+                                        {% if expense.categories == "Exists" or expense.categories == "Approved" %}
+                                        <td class="text-success">Approved</td>
+                                        {% elif expense.categories == "Denied" %}
+                                        <td class="text-danger">Denied</td>
+                                        {% elif expense.categories == "Pending" %}
+                                        <td class="text-warning">Pending</td>
+                                        {% endif %}
+
+
+
+
+                                        <td>
+
+                                            <a href="{% url 'accounts:case_expenses' expense.case.pk %}"
+                                             class="btn btn-gradient-secondary waves-effect waves-light"><i
+                                                    class="mdi mdi-eye"></i></a>
+
+
+
+
+
+
+                                        </td>
+
+                                    </tr>
+
+
+
+                                    {% endfor %}
+
+
+
+                                    <!--end tr-->
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+</div>
+</div>
+
+{% endblock content %}

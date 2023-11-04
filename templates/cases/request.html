@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+File Requests
+{% endblock title %}
+
+{% load crispy_forms_tags %}
+
+
+
+
+
+
+
+{% block content %}
+<!-- Page Content-->
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Lawyer System. </a></li>
+
+
+                            <li class="breadcrumb-item active">File Requests</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">File Requests</h4>
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+
+
+
+
+                        <h4 class="header-title mt-0">Requests</h4>
+                        <div class="table-responsive dash-social">
+                            <table id="datatable" class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Case/Letter Title </th>
+                                        <th>Case/Letter Number </th>
+                                        <th>Suit Number </th>
+                                        <th>Client </th>
+                                        <th>Requested By</th>
+                                        <th>Action</th>
+
+
+
+
+
+                                    </tr>
+                                    <!--end tr-->
+                                </thead>
+
+                                <tbody> {% for rec in rec_list  %}
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{rec.case_title|title}}</td>
+                                        <td>{{rec.case_number|title}}</td>
+                                        <td>{{rec.suit_number|title}}</td>
+                                        <td>{{rec.client|title}}</td>
+                                        <td>{{rec.requested_by|title}}</td>
+                                        <td><a href="{% url 'cases:approve_request' rec.pk %}"
+                                                class="btn btn-secondary">Approve</a></td>
+                                    </tr>
+
+
+                                    {% endfor %}
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+
+
+    </div>
+
+</div>
+{% endblock content %}

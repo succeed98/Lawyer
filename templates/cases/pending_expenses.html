@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+  Pending Expense
+{% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+
+{% block content %}
+
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a></li>
+
+                            </li>
+                            <li class="breadcrumb-item active">Pending Expenses</li>
+                        </ol>
+                    </div>
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-body">
+                        <!-- <button class="btn btn-gradient-primary px-4 float-right mt-0 mb-3" data-toggle="modal"
+                            data-target=".bd-example-modal-xl"><i class="mdi mdi-plus-circle-outline mr-2"></i>Add New
+                            Expense</button> -->
+
+                        <h4 class="mt-0 header-title">Pending Expense List</h4>
+
+                        <div class="table-responsive dash-social">
+                            <table id="datatable" class="table">
+                                <thead>
+                                    <tr>
+
+                                        <th>#</th>
+                                        <th>Case</th>
+
+                                        <th>Description</th>
+                                        <th>Amount (&#8373;)</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+
+
+                                <!-- load -->
+
+
+                                <tbody>
+
+                                    {% for expense in  expense_list %}
+                                    <tr>
+
+                                        <td>{{forloop.counter}}</td>
+                                        <td> <a href="{{expense.get_absolute_url}}">{{expense.case|title}}</a>
+                                        </td>
+
+
+
+
+
+                                        <td> {{expense.description}}</td>
+                                        <td>{{expense.amount}}</td>
+
+
+
+
+                                        <td>
+
+                                            <a href="{% url 'cases:expense_detail' expense.pk %}"
+                                              1  class="btn btn-gradient-secondary waves-effect waves-light"><i
+                                                    class="mdi mdi-eye"></i></a>
+                                            
+                                            <a href="{% url 'cases:accept_expense' expense.pk %}"
+                                             class="btn btn-gradient-secondary waves-effect waves-light">Approve</a>
+
+                                             <a href="{% url 'cases:decline_expense' expense.pk %}"
+                                             class="btn btn-danger waves-effect waves-light">Disapprove</a>
+
+
+
+
+                                        </td>
+
+                                    </tr>
+
+
+
+                                    {% endfor %}
+
+
+
+                                    <!--end tr-->
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- sample modal content -->
+                    <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title mt-0" id="myModalLabel">New Expense</h5>
+                                    {% load static %}
+                                    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+                                    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{% url 'cases:add_expense' %}" method="post">
+                                        {% csrf_token %}
+                                        <label for="case">Case</label>
+                                        <!-- <select  name="cases" class="form-control" id="e3">
+                                            {% for case in case_list  %}
+                                                <option class="form-control"  value="{{case_id}}">{{case|title}}</option>
+
+                                            {% endfor %}
+                                          </select> -->
+                                        {{form|crispy}}
+
+
+
+                                        <center>
+                                            <button type="submit" class="btn btn-secondary">Add Expense</button>
+                                            <button type="button" class="btn btn-danger waves-effect"
+                                                data-dismiss="modal">Close</button>
+
+
+                                        </center>
+
+                                </div>
+                                </form>
+
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div> <!-- end row -->
+</div>
+{% endblock content %}
+
+

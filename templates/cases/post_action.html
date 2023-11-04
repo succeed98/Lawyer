@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load auth_extras %}
+{% load crispy_forms_tags %}
+{% block title %}
+Post Action Reports
+
+
+{% endblock title %}
+
+{% block content %}
+
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a></li>
+
+                            </li>
+                            <li class="breadcrumb-item active"><a href="{{case.get_absolute_url}}">Cases Detail </a></li>
+                            <li class="breadcrumb-item active">Post Action / Status Reports</li>
+                        </ol>
+                    </div>
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-body">
+                        <button class="btn btn-gradient-primary px-4 float-right mt-0 mb-3" data-toggle="modal"
+                            data-target=".bd-example-modal-xl"><i class="mdi mdi-plus-circle-outline mr-2"></i>New
+                            Post Action Report</button>
+
+                        <h4 class="mt-0 header-title">Post Action / Status Report</h4>
+
+                        <div class="table-responsive dash-social">
+                            <table id="datatable" class="table">
+                                <thead>
+                                    <tr>
+
+                                        <th>Title</th>
+                                        <th>Cases</th>
+                                        <th>Next Business</th>
+                                        <th>Lead Professional</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+
+
+                                <!-- load -->
+
+
+                                <tbody>
+
+                                    {% for report in  report_list %}
+                                    <tr>
+                                        <td>{{report.title|title}}</td>
+                                        <td> <a href="{% url 'cases:case_detail' report.case.pk %}">{{report.case|title}}</a>
+                                        </td>
+                                        <td> {{report.next_business|date}}
+                                        </td>
+
+
+
+                                         <td>{{report.case.lead_professional|title}}
+                                        </td>
+
+
+
+
+
+
+
+
+
+
+                                        <td>
+
+                                            <a href="{% url 'cases:action_detail' report.pk %}"
+                                                class="btn btn-gradient-secondary waves-effect waves-light"><i
+                                                    class="mdi mdi-eye"></i></a>
+
+
+
+
+
+
+                                        </td>
+
+                                    </tr>
+
+
+
+                                    {% endfor %}
+
+
+
+                                    <!--end tr-->
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- sample modal content -->
+                    <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title mt-0" id="myModalLabel">Post Action / Status  Report</h5>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form action="{% url 'cases:add_action' case.pk %}" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {{form|crispy}}
+                                        {{form.media}}
+
+
+
+
+                                        <center>
+                                            <button type="submit" class="btn btn-secondary">Add Post Action / Status Report</button>
+                                            <button type="button" class="btn btn-danger waves-effect"
+                                                data-dismiss="modal">Close</button>
+
+
+                                        </center>
+
+                                </div>
+                                </form>
+
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}

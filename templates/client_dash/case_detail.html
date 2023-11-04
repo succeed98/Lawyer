@@ -1,0 +1,255 @@
+{% extends 'client_dash/base2.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock title %}
+
+
+
+{% block content %}
+
+                <div class="container-fluid">
+                    <!-- Page-Title -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-title-box">
+                                <div class="float-right">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Lawyer System.</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">My Cases</a></li>
+                                        <li class="breadcrumb-item active">Case Details</li>
+                                    </ol>
+                                </div>
+                                <h4 class="page-title">Case -Detail</h4>
+                            </div><!--end page-title-box-->
+                        </div><!--end col-->
+                    </div>
+                    <!-- end page title end breadcrumb -->
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+
+									<div class="col-lg-3">
+                                            <div class="pro-order-box mb-0">
+                                                <i class="mdi mdi-folder text-purple"></i>
+                                                <h4 class="header-title">{{case|title}}</h4>
+                                                <p class="text-muted mb-0">
+                                                  Title
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+
+
+                                        <div class="col-lg-3">
+                                            <div class="pro-order-box">
+                                                <i class="mdi mdi-bank text-success"></i>
+                                                <h4 class="header-title">{{case.court|title}}</h4>
+                                                <p class="text-muted mb-0">
+                                                 Court
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+
+										      <div class="col-lg-3">
+                                            <div class="pro-order-box">
+                                                <i class="mdi mdi-bank text-success"></i>
+                                                <h4 class="header-title">{{case.court_number|title}}</h4>
+                                                <p class="text-muted mb-0">
+                                                 Court Number
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+                                        <div class="col-lg-3">
+                                            <div class="pro-order-box">
+                                                <i class="mdi mdi-account text-danger"></i>
+                                                <h4 class="header-title">{{case.representative|title}}</h4>
+                                                <p class="text-muted mb-0">
+                                                    Representation
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+                                        <div class="col-lg-3">
+                                            <div class="pro-order-box">
+                                                <i class="mdi mdi-format-list-checkbox text-warning"></i>
+                                                <h4 class="header-title">{{case.category|title}}</h4>
+                                                <p class="text-muted mb-0">
+                                                    Category
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+                                        <div class="col-lg-3">
+                                            <div class="pro-order-box mb-0">
+                                                <i class="mdi mdi-folder-account text-purple"></i>
+                                                <h4 class="header-title">{{case.suit_number}}</h4>
+                                                <p class="text-muted mb-0">
+                                                    Suit Number
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+										<div class="col-lg-3">
+                                            <div class="pro-order-box mb-0">
+                                                <i class="mdi mdi-folder-account text-purple"></i>
+                                                <h4 class="header-title">{{case.case_number}}</h4>
+                                                <p class="text-muted mb-0">
+                                                   Case Number
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+
+										<div class="col-lg-3">
+                                            <div class="pro-order-box mb-0">
+                                                <i class="mdi mdi-wallet text-purple"></i>
+                                                <h4 class="header-title">{{case.suit_number}}</h4>
+                                                <p class="text-muted mb-0">
+                                                    Suit Number
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+
+
+
+                                    </div><!--end row-->
+                                </div><!--end card-body-->
+                            </div><!--end card-->
+                        </div><!--end col-->
+                    </div><!--end row-->
+
+                    <div class="row">
+                        <div class="col-md-9">
+
+                            <div class="card">
+                                <div class="card-body slimscroll" style="min-height:500px;">
+                                    <div class="row">
+
+                                        <div class="col-lg-9">
+                                            <span class="bg-soft-success rounded-pill px-3 py-1 font-weight-bold">Description</span>
+
+                                            <p class="text-muted mb-4">
+											{{case.description|safe}}
+                                            </p>
+                                          <!--   <ul class="list-unstyled mb-4">
+                                                <li class="mb-2 font-13 text-muted"><i class="mdi mdi-checkbox-marked-circle-outline text-success mr-2"></i>It is a long established fact that a reader will be distracted.</li>
+                                                <li class="mb-2 font-13 text-muted"><i class="mdi mdi-checkbox-marked-circle-outline text-success mr-2"></i>Contrary to popular belief, Lorem Ipsum is not text.</li>
+                                                <li class="mb-2 font-13 text-muted"><i class="mdi mdi-checkbox-marked-circle-outline text-success mr-2"></i>There are many variations of passages of Lorem.</li>
+                                                <li class="mb-2 font-13 text-muted"><i class="mdi mdi-checkbox-marked-circle-outline text-success mr-2"></i>It is a long established fact that a reade.</li>
+                                            </ul> -->
+                                           <!--  <div class="row">
+                                                <div class="col-lg-4">
+                                                    <div class="pro-order-box mb-2 mb-lg-0">
+                                                        <i class="mdi mdi-white-balance-sunny text-warning"></i>
+                                                        <h4 class="header-title">Seff from Sunlight</h4>
+                                                        <p class="text-muted mb-0">
+                                                            It is a long established fact that a reader.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="pro-order-box mb-2 mb-lg-0">
+                                                        <i class="mdi mdi-fire text-danger"></i>
+                                                        <h4 class="header-title">Not Seff from Fire </h4>
+                                                        <p class="text-muted mb-0">
+                                                            There are many variations of passages of.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="pro-order-box mb-2 mb-lg-0">
+                                                        <i class="mdi mdi-glass-wine text-success"></i>
+                                                        <h4 class="header-title">Seff from liqvid</h4>
+                                                        <p class="text-muted mb-0">
+                                                            Contrary to popular belief, Lorem Ipsum is .
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+
+											<!--end row-->
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                                </div><!--end card-body-->
+                            </div><!--end card-->
+
+                        </div><!--end col-->
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="review-box text-center align-item-center">
+                                        <h3>Lawyers</h3>
+
+
+                                    </div>
+                                    <ul class="list-unstyled mt-3">
+									{% for lawyer in lawyers %}
+                                            <li class="mb-2">
+                                            <span class="text-info">{{lawyer}}</span>
+
+
+                                        </li>
+											{% endfor %}
+
+                                                                            </ul>
+
+                                </div><!--end card-body-->
+                            </div><!--end card-->
+                        </div><!--end col-->
+                    </div><!--end row-->
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="card card-body">
+
+                            <div class="table-responsive dash-social">
+    <table id="data_table" class="table">
+        <thead>
+            <tr>
+
+                <th>Name</th>
+                <th>Purpose</th>
+
+
+
+                <th>Start Time</th>
+                <th>End Time</th>
+
+
+
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for sch in  session_list %}
+            <tr>
+                <td>{{sch.lawyer.first_name|title}} {{sch.lawyer.last_name|title}}</td>
+
+
+
+                <td>{{sch.purpose|truncatewords:8|title}}</td>
+
+                <td>{{sch.start_time}}</td>
+                <td>{{sch.end_time}}</td>
+
+
+
+
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+
+</div>
+
+
+</div>
+                        </div>
+                    </div>
+                </div><!-- container -->
+{% endblock content %}
+

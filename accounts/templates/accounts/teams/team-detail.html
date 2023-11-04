@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+
+{% block title %}
+Team Detail
+{% endblock title %}
+
+{% block content %}
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Lawyer System. </a></li>
+
+                            <li class="breadcrumb-item"><a href="{% url 'accounts:teams' %}">Teams</a></li>
+
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Team Details</h4>
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+            {% include 'messages/messages.html' %}
+        <br>
+
+
+        <div class="row">
+            <div class="col-md-12 col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="mt-0  text-center">
+                            {{team.name|title}}
+                        </h3>
+                         <div class="align-self-center">
+                                        {% if team.avatar %}
+                                         <img src="{{team.avatar.url}}" alt="" height="150" width="220" align="center" style="border-radius=60%;"
+                                    class="d-block mx-auto">
+                                        {% else %}
+
+ <img src="{% static './assets/images/widgets/education.svg' %}" alt="" height="150"  style="border-radius=60%;"
+                                    class="d-block mx-auto">
+                                     {% endif %}
+                            </div>
+                        <br>
+
+
+
+                        <div class="row">
+                                <div class="col-lg-12">
+
+
+                                <li class="mb-2 font-15 text-muted"><i
+                                        class="mdi mdi-calendar-check-outline text-success mr-3"></i>&nbsp; Date
+                                    Created: &nbsp;
+                                    <strong>{{team.date_created|date}}</strong></li>
+
+
+                                <li class="mb-2 font-15 text-muted"><i class="mdi mdi-account text-success mr-3"></i>
+                                    &nbsp;Team Leader:&nbsp; <strong>{{team.team_leader|title}}</strong></li>
+
+
+
+
+
+                                    </i>
+
+                                <li class="mb-2 font-15 text-muted"><i
+                                        class="mdi mdi-account text-success mr-3">
+                                    </i>&nbsp;Lawyers ({{lawyers.count}}):&nbsp; <strong>
+                                        {% for lawyer in lawyers  %}
+                                        {{lawyer|title}} ,
+
+                                        {% endfor %}
+
+                                    </strong></li>
+
+                                  <li class="mb-2 font-15 text-muted"><i
+                                        class="mdi mdi-account text-success mr-3">
+                                    </i>&nbsp;Support Staff ({{s_staff.count}}):&nbsp; <strong>
+                                        {% for staff in s_staff  %}
+                                        {{staff|title}} ,
+
+                                        {% endfor %}
+
+                                    </strong></li>
+
+                                <div class="container">
+                                    <li class="mb-2 font-18 text-muted">
+                                   <center>
+                                        Description
+                                   </center> <br>
+                                    <p align="justify">
+                                        {{team.description|safe}}
+                                    </p>
+
+                                </li>
+                                </div>
+
+
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+
+
+
+
+
+
+                        <!--end row-->
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <center>
+                            <h3>Actions</h3>
+                        </center>
+
+
+                        <center>
+                            <button class="btn btn-primary" data-toggle="modal" data-animation="bounce"
+                                data-target=".bs-example-modal-lg">Edit</button>
+
+                            {% if user.is_superuser %}
+                            <button class="btn btn-danger" data-toggle="modal" data-animation="bounce"
+                                data-target=".bs-example-modal-center">Delete</button>
+                            {% endif %}
+
+                        </center>
+
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+
+
+
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0 text text-center" id="myLargeModalLabel">Edit Team</h5>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body">
+
+
+
+                            <form action="{{team.get_update_url}}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+
+<div class="form-row">
+                                                <div class="form-group col-md-4 mb-0">
+                                                    {{ form.name|as_crispy_field }}
+                                                </div>
+                                                <div class="form-group col-md-4 mb-0">
+                                                    {{ form.team_leader|as_crispy_field }}
+                                                </div>
+                                                 <div class="form-group col-md-4 mb-0">
+                                                    {{ form.practice_head|as_crispy_field }}
+                                                </div>
+
+                                        </div>
+
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 mb-0">
+                                                {{ form.lawyer|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-6 mb-0">
+                                                {{ form.support_staff|as_crispy_field }}
+                                            </div>
+
+                                        </div>
+
+
+                                                {{form.description|as_crispy_field }}
+
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6 mb-0">
+                                            {{ form.date_created|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-6 mb-0">
+                                            {{ form.avatar }}
+                                     </div>
+
+                                    </div>
+
+                                <center>
+
+                                    <button type="submit" class="btn btn-primary">Update Team</button>
+                                    <button type="button" class="btn btn-danger waves-effect"
+                                        data-dismiss="modal">Close</button>
+
+                                </center>
+
+
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
+
+
+            <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0" id="exampleModalLabel">Delete </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="align-center">AreYou Sure You Want To Delete This {{team.name|title}} ?</p>
+
+
+
+
+                                <center>
+                                    <a href="{{team.get_delete_url}}" class="btn btn-danger">Delete</a>
+                                    <button type="button" class="btn btn-secondary waves-effect"
+                                        data-dismiss="modal">Close</button>
+                                </center>
+
+
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+</div>
+
+    {% endblock content %}

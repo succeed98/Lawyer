@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+Accounting Dashboard
+{% endblock title %}
+
+{% load static %}
+
+{% block content %}
+<div class="page-content">
+<div class="container-fluid">
+    <!-- Page-Title -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <div class="float-right">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'account_dash' %}">Lawyer System.</a></li>
+
+                    </ol><!--end breadcrumb-->
+                </div><!--end /div-->
+                <h4 class="page-title">Dashboard</h4>
+            </div><!--end page-title-box-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <!-- end page title end breadcrumb -->
+
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card report-card">
+                <div class="card-body">
+                    <div class="float-right">
+                        <i class="fas fa-folder text-danger report-main-icon"></i>
+                    </div>
+                    <h4 class="title-text mt-0">Cases ({{case_count}})</h4>
+                    <!-- <h3 class="">{{case_count}}<small>Total Cases</small></h3>
+                    <p class="mb-0 text-muted text-truncate"><i class="mdi mdi-wallet font-15"></i> Room Charge 24 hours / <span class="text-success">$80</span></p> -->
+                </div><!--end card-body-->
+            </div><!--end card-->
+        </div> <!--end col-->
+        <div class="col-md-6">
+            <div class="card report-card">
+                <div class="card-body">
+                    <div class="float-right">
+                        <i class="fas fa-user text-primary report-main-icon"></i>
+                    </div>
+                    <h4 class="title-text mt-0">Clients ({{client_count}})</h4>
+                    <!-- <h3 class="text muted"> <small>Total Clients</small></h3>
+
+                    <p class="mb-0 text-muted text-truncate"><i class="mdi mdi-wallet font-15"></i> Room Charge 24 hours / <span class="text-success">$300</span></p> -->
+                </div><!--end card-body-->
+            </div><!--end card-->
+        </div> <!--end col-->
+
+
+    </div><!--end row-->
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <button type="button" class="btn btn-primary px-4 mt-0 mb-3" data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg2"><i class="mdi mdi-plus-circle-outline mr-2"></i>New Room Allotment</button> -->
+                    <div class="table-responsive">
+                        <table id="datatable" class="table">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Date Filed</th>
+                                <th>Team</th>
+                                <th>Lead Professional</th>
+
+                                <th class="text-right">Action</th>
+                            </tr><!--end tr-->
+                            </thead>
+
+                            <tbody>
+                                {% for case in cases %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{case.name|title}}</td>
+                                    <td>{{case.date_added}}</td>
+                                    <td>{{case.team}}</td>
+                                    <td>{{case.lead_professional|title}}</td>
+
+                                    <td class="text-right">
+                                        <a href="{% url 'accounts:case_detail_acc' case.pk %}" class="mr-2" ><i class="fas fa-edit text-info font-16"></i></a>
+                                         <a href="{% url 'accounts:case_expenses' case.pk %}"><i class="fas fa-wallet text-dark font-16"></i></a>
+                                    </td>
+                                </tr><!--end tr-->
+                                {% endfor %}
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div><!--end card-body-->
+            </div><!--end card-->
+        </div> <!--end col-->
+    </div><!--end row-->
+
+
+
+
+
+
+
+
+
+
+
+</div><!-- container -->
+</div>
+{% endblock content %}

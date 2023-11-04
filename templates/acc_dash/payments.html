@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a></li>
+
+
+                            <li class="breadcrumb-item active">Payments</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">All Payments</h4>
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+        
+                        <!--<button type="button" class="btn btn-primary px-4 mt-0 mb-3" data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg"><i class="mdi mdi-plus-circle-outline mr-2"></i>Add New Payment</button>-->
+        
+                        <button class="btn btn-gradient-primary px-4 float-left mt-0 mb-3" data-toggle="modal"
+                            data-target=".bd-example-modal-lg"><i class="mdi mdi-plus-circle-outline mr-2"></i>Add Payment
+                        </button>
+        
+        
+        
+        
+                        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+        
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <!--<h5 class="modal-title mt-0" id="myModalLabel">Request Files</h5>-->
+                                    </div>
+        
+                                    <div class="modal-body">
+                                                <form action="{% url 'clients:add_payment' %}" method="post">
+                                                    {% csrf_token %}
+                                                    {{form|crispy}}
+        
+        
+                                                    <center>
+                                                        <button type="submit" class="btn btn-secondary   float-center">Click to Add</button>
+                                                        <button type="button" class="btn btn-secondary waves-effect  float-center"
+                                                            data-dismiss="modal">Close</button>
+                                                   </center>
+                                                </form>
+                                    </div><!-- /.modal-body -->
+        
+        
+        
+        
+                                </div><!-- /.modal-content -->
+        
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                        <div class="table-responsive">
+                            <table id="datatable" class="table">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th>Payment ID</th>
+                                    <th>Client</th>
+                                    <th>Date Received</th>
+                                    <th class="text-right">Amount</th>
+                                    <th>Added By</th>
+                                    <th>Full Payment</th>
+                                    <th>Action</th>
+                                </tr><!--end tr-->
+                                </thead>
+        
+                                <tbody>
+                                    {% for payment in payments  %}
+        
+        
+                                <tr>
+        
+                                    <td>
+                                        <a>{{payment.payment_id}}</a>
+                                    </td>
+                                    <td>{{payment.client|title}}</td>
+                                    <!-- <td><i class="mdi mdi-check text-success font-16"></i></td> -->
+                                    <td>{{payment.date_received|date}}</td>
+                                    <td>{{payment.amount}}</td>
+                                    <td>{{payment.added_by|title}}</td>
+        
+                                    {% if payment.full_payment %}
+                                    <td><i class="mdi mdi-check text-success font-16"></i></td>
+                                    {% else %}
+                                    <td> - </td>
+                                    {% endif %}
+        
+        
+                                    <td class="text-right text-dark font-weight-bold"><a href="{% url 'clients:payment_detail' payment.pk %}">View</a></td>
+                                </tr><!--end tr-->
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div> <!--end col-->
+        </div>
+
+
+
+
+
+        
+    </div> 
+</div>
+
+{% endblock content %}
+
+

@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block title %}
+
+{% endblock title %}
+
+
+
+
+
+
+
+
+
+{% block content %}
+<!-- Page Content-->
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Lawyer System</a></li>
+
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Calendar</a></li>
+                            <li class="breadcrumb-item active">Calendar</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Calendar</h4>
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+
+
+
+    <link href="{% static 'calender/jkm/main.css'%}" rel='stylesheet' />
+    <script src="{% static 'calender/jkm/main.js'%}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var calendarEl = document.getElementById('calendar');
+          var today = new Date();
+  
+          var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+            },
+            initialDate: today,
+            navLinks: true, // can click day/week names to navigate views
+            selectable: true,
+            selectMirror: true,
+            displayEventTime: false,
+            select: function(arg) {
+              console.log('clicked')
+              var modal = document.getElementById('eventModal')
+              modal.style.display = 'block'
+              calendar.unselect()
+            },
+            // THIS KEY WON'T WORK IN PRODUCTION!!!
+            // To make your own Google API key, follow the directions here:
+            // http://fullcalendar.io/docs/google_calendar/
+            // googleCalendarApiKey: 'AIzaSyCqCxjjLtjbtkX37aOtWB8OfwBLy_6QuYk',
+  
+            // bangladesh Holidays
+            // events: 'bn.bd#holiday@group.v.calendar.google.com',
+            eventClick: function(arg) {
+              if (arg.event.id) {
+                events = arg.event.id
+                window.location.replace("{% url 'cases:edit_task' pk=456674353465678878754 %}".replace('456674353465678878754', events))
+              }
+            },
+            editable: true,
+            dayMaxEvents: true, // allow "more" link when too many events
+            events: {{ events|safe }},
+            // events: [
+            //   {
+            //     title: 'All Day Event',
+            //     start: '2021-06-26'
+            //   },
+            //   {
+            //     groupId: 999,
+            //     title: 'Repeating Event',
+            //     start: '2020-09-16T16:00:00'
+            //   },
+            //   {
+            //     title: 'Conference',
+            //     start: '2020-09-11',
+            //     end: '2020-09-13'
+            //   },
+            //   {
+            //     title: 'Click for Google',
+            //     url: 'http://google.com/',
+            //     start: '2020-09-28'
+            //   }
+            // ]
+          });
+  
+          calendar.render();
+        });
+        const closeBtn1 = document.getElementById('modalClose1');
+        const closeBtn2 = document.getElementById('modalClose2');
+        closeBtn1.addEventListener('click',()=>{
+          const eventModal = document.getElementById('eventModal')
+          eventModal.style.display = 'none';
+        });
+        closeBtn2.addEventListener('click',()=>{
+          const eventModal = document.getElementById('eventModal')
+          eventModal.style.display = 'none';
+        });
+    </script>
+
+    
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <button class="btn btn-gradient-primary px-4 float-right mt-0 mb-3" data-toggle="modal"
+                            data-animation="bounce" data-target=".bs-example-modal-lg"><i
+                                class="mdi mdi-plus-circle-outline mr-2"></i>Add New Case</button> -->
+
+                                <div id='calendar'></div>
+
+                        
+
+
+
+                        <h4 class="header-title mt-0"> </h4>
+                        <div class="table-responsive dash-social">
+                            
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+
+
+    </div>
+
+</div>
+{% endblock content %}

@@ -1,0 +1,94 @@
+{% load crispy_forms_tags %}
+
+
+
+
+
+
+{% csrf_token %}
+
+
+
+
+
+<div class="form-row">
+    <div class="form-group col-md-12 mb-0">
+        {{ form1.name|as_crispy_field }}
+    </div>
+
+</div>
+{{ form1.description|as_crispy_field }}
+
+
+<div class="form-row">
+<div class="form-group col-md-12 mb-0">
+ {{ form1.lawyer|as_crispy_field }}</div>
+
+
+
+</div>
+
+<div class="form-row">
+<div class="form-group col-md-12 mb-0">
+ {{ form1.staff|as_crispy_field }}</div>
+
+
+
+</div>
+
+<div class="form-row">
+    <div class="form-group col-md-6 mb-0" >
+        {{ form1.client|as_crispy_field }}
+    </div>
+    <div class="form-group col-md-6 mb-0">
+        {{ form1.court|as_crispy_field }}
+    </div>
+
+</div>
+
+<div class="form-row">
+    <div class="form-group col-md-4 mb-0" >
+        {{ form1.team|as_crispy_field }}
+    </div>
+    <div class="form-group col-md-4 mb-0">
+        {{ form1.lead_professional|as_crispy_field }}
+    </div>
+    <div class="form-group col-md-4 mb-0">
+        {{ form1.type|as_crispy_field }}
+    </div>
+
+</div>
+
+
+
+<div class="form-row">
+    <div class="form-group col-md-6 mb-0">
+        {{ form1.category|as_crispy_field }}
+    </div>
+
+</div>
+
+<div class="form-row">
+  <div class="form-group col-md-6 mb-0">
+        {{ form1.date_added|as_crispy_field }}
+    </div>
+    <div class="form-group col-md-6 mb-0">
+        {{ form1.date_received|as_crispy_field }}
+    </div>
+
+</div>
+
+
+<div class="form-row">
+    <div class="form-group col-md-4 mb-0">
+        {{ form1.case_number|as_crispy_field }}
+    </div>
+    <div class="form-group col-md-4 mb-0">
+        {{ form1.court_number|as_crispy_field }}
+    </div>
+
+
+
+</div>
+
+{{ form1.confidential|as_crispy_field }}

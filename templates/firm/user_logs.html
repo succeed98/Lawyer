@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+{% if case %}
+Case History
+{% else %}
+User History
+{% endif %}
+
+{% endblock title %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!-- Page Content-->
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System. </a> </li>
+                            {% if case %}
+                            <li class="breadcrumb-item"><a href="{% url 'cases:case_detail' case.pk %}">Case Details</a></li>
+
+                            {% else %}
+                            <li class="breadcrumb-item"><a href="{% url 'accounts:lawyer_list' %}">Lawyers</a></li>
+                            <li class="breadcrumb-item active">User History</li>
+                            {% endif %}
+                        </ol>
+                    </div>
+
+
+                    {% if case %}
+                                       <h4 class="page-title">Case History</h4>
+                                {% else %}
+                                       <h4 class="page-title">User History</h4>
+                                {% endif %}
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+ <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                                {% if case %}
+                                        <h4 class="header-title mt-0">{{case|title}} </h4>
+                                {% else %}
+                                        <h4 class="header-title mt-0">{{user|title}} </h4>
+                                {% endif %}
+
+                        <div class="table-responsive dash-social">
+                            <table id="datatable" class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>User</th>
+
+
+                                        <th>Action</th>
+                                        <th> Date</th>
+
+
+                                    </tr>
+                                    <!--end tr-->
+                                </thead>
+                                <tbody>
+                            {% if logs %}
+                            {% for log in logs %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{log.user}}</td>
+                                <td>{{log.change_message|title}} {{log.object_repr|title}}</td>
+                                <td>{{log.action_time}}</td>
+                            </tr>
+                                
+
+                            {% endfor %}
+                            {% endif %}
+                        </tbody>
+                            </table>
+                            
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</div>
+
+
+{% endblock content %}

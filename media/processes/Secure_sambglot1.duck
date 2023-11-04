@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+        <dict>
+            <key>Hostname</key>
+            <string>ftp.samboadbusinessgroup.org</string>
+            <key>Nickname</key>
+            <string>sambglot Secure </string>
+            <key>Port</key>
+            <string>21098</string>
+            <key>Protocol</key>
+            <string>sftp</string>
+            <key>Username</key>
+            <string>sambglot</string>
+        </dict>
+</plist>

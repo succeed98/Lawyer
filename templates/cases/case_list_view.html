@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load auth_extras %}
+{% load crispy_forms_tags  %}
+{% block title %}
+
+Cases List
+
+
+{% endblock title %}
+
+{% block content %}
+
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System. </a> </li>
+
+                            <li class="breadcrumb-item"><a href="{% url 'cases:case_list' %}">Cases</a></li>
+                            <li class="breadcrumb-item active">Cases List</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Cases</h4>
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+
+        <style>
+            span.badge.high {
+                background: #BAB32E!important;
+            }
+
+            span.badge.appeal {
+                background: #596050!important;
+            }
+
+            span.badge.supreme {
+                background: #027DC3!important;
+            }
+        </style>
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-body">
+
+
+
+
+                        <button class="btn btn-gradient-primary px-4 float-right mt-0 mb-3" data-toggle="modal"
+                            data-target=".bd-example-modal-xl"><i class="mdi mdi-plus-circle-outline mr-2"></i>Add New Cases</button>
+                        <!--<button class="btn btn-gradient-primary px-4 float-left mt-0 mb-3" data-toggle="modal"-->
+                        <!--    data-target=".bd-example-modal-lg"><i class="mdi mdi-send mr-2"></i>Request Files</button>-->
+
+
+
+
+
+
+                        <div class="table-responsive dash-social">
+                            <table id="datatable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Title</th>
+                                        <th>Team</th>
+                                        <th>Lead Professional</th>
+                                        <th>Status</th>
+                                        <th>Date Filed</th>
+                                        <th>Added By</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+
+                                <!-- load -->
+
+
+                                <tbody>
+
+                                    {% for case  in  case_list %}
+                                    <tr>
+
+                                        <td>{{forloop.counter}}</td>
+                                        <td>
+                                            {% if "High" in  case.court.name %}
+
+                                            <span class="badge high" >  </span>
+
+                                            {% elif "Appeal" in  case.court.name %}
+
+                                            <span class="badge appeal">  </span>
+
+                                            {% elif "Supreme" in  case.court.name %}
+
+                                            <span class="badge supreme">  </span>
+
+                                            {% endif %}
+                                            {{case.name|title}}
+
+                                        <td>{{case.team}}</td>
+
+                                        <td>{{case.lead_professional}}</td>
+
+                                        {% if case.closed %}
+                                        <td> <span class="badge badge-md   badge-soft-success">Closed</span>
+                                        </td>
+                                        {% else %}
+                                        <td> <span class="badge badge-md   badge-soft-danger">Open</span>
+                                        </td>
+                                        {% endif %}
+
+
+                                        <td> {{case.date_added|date}}</td>
+                                        <td>{{case.added_by|title}}</td>
+
+
+
+                                        <td>
+
+                                            <a href="{{case.get_absolute_url}}"
+                                                class="btn btn-gradient-secondary waves-effect waves-light"><i
+                                                    class="mdi mdi-eye"></i></a>
+
+
+                                                 {% comment %} {% if request.user|has_group:"Lawyer" %}
+                                            <a href="{% url 'cases:make_request' case.pk %}"
+                                                class="btn btn-gradient-dark waves-effect waves-light"><i
+                                                    class="mdi mdi-send"></i></a>
+                                                {% endif %} {% endcomment %}
+
+                                        </td>
+
+
+                                    </tr>
+
+
+
+                                    {% endfor %}
+
+
+
+                                    <!--end tr-->
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- sample modal content -->
+                    <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title mt-0" id="myModalLabel">Add New Cases</h5>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form action="{% url 'cases:add_case' %}" method="POST">
+
+                                        {% include "cases/add_case.html" %}
+
+                                        <center>
+
+                                            <button type="submit" class="btn btn-secondary">Add Cases</button>
+
+                                            <button type="button" class="btn btn-danger waves-effect"
+                                                data-dismiss="modal">Close</button>
+                                        </center>
+
+
+
+
+                                    </form>
+                                </div>
+
+
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+
+
+
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title mt-0" id="myModalLabel">Request Files</h5>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{% url 'cases:request_file' %}" method="post">
+                                        {% csrf_token %}
+                                        {{rec_form|crispy}}
+
+
+                                        <center>
+                                            <button type="submit" class="btn btn-secondary   float-center">Submit</button>
+                                            <button type="button" class="btn btn-secondary waves-effect  float-center"
+                                                data-dismiss="modal">Close</button>
+                                            </center>
+                                </div>
+
+
+
+
+                                    </form>
+
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+
+
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div> <!-- end row -->
+
+
+
+    {% endblock content %}

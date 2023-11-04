@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load auth_extras %}
+{% block title %}
+Cases | Client Bill
+{% endblock title %}
+
+
+
+{% block content %}
+
+
+
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Minkah_Premo & CO.</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Cases</a></li>
+                            <li class="breadcrumb-item active">Invoice</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Invoice</h4>
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card">
+                    <div class="card-body invoice-head">
+                        <div class="row">
+                            <div class="col-md-4 align-self-center">
+                                <img src="{% static './assets/images/logo.png' %}" alt="logo-small" class="logo-sm mr-2"
+                                    height="26">
+                                <img src="{% static './assets/images/name.png' %}" alt="logo-large" class="logo-lg"
+                                    height="16">
+                            </div>
+                            <div class="col-md-8">
+
+                                <ul class="list-inline mb-0 contact-detail float-right">
+                                    <li class="list-inline-item">
+                                        <div class="pl-3">
+                                            <i class="mdi mdi-web"></i>
+                                            <p class="text-muted mb-0">www.minkahpremo.com.com</p>
+
+                                        </div>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <div class="pl-3">
+                                            <i class="mdi mdi-phone"></i>
+                                            <p class="text-muted mb-0">+233-302-781-624</p>
+                                            <p class="text-muted mb-0">+233-302-781-625</p>
+                                            <!-- <p class="text-muted mb-0">+233-302-781-627</p> -->
+
+                                        </div>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <div class="pl-3">
+                                            <i class="mdi mdi-map-marker"></i>
+                                            <p class="text-muted mb-0">3 Emmause 2nd Close,</p>
+                                            <p class="text-muted mb-0">Labone - Accra</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="">
+                                    <h6 class="mb-0"><b>Order Date :</b> 11/05/2019</h6>
+                                    <h6><b>Order ID :</b> # 23654789</h6>
+                                </div>
+                            </div>
+                            {% for client in case.client.all   %}
+                            <div class="col-md-3">
+                                <div class="float-left">
+                                    <address class="font-13">
+                                        <strong class="font-14">Billed To :</strong><br>
+
+                                        {{client|title}} <br>
+
+                                        {{client.address|title}}
+
+                                        <br>
+                                        <!-- {{case.client.address|title}}<br> -->
+
+                                        {{client.phone}}
+                                        {{client.email}}
+                                    </address>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Session Dates</th>
+
+                                                <th>Description</th>
+                                                <th>Hours Spent </th>
+                                                <th>Cost</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {% for court in session_qs  %}
+
+                                            <tr>
+                                                <th colspan="2">{{court.start_time}} - {{court.end_time}}</th>
+                                                <td>{{court.purpose}}</td>
+
+                                                <td>{{court.end_time|timeuntil:court.start_time|title}}</td>
+                                                <td>{% total_time court.start_time court.end_time %}</td>
+                                            </tr>
+                                            {% endfor %}
+
+
+
+                                            <tr>
+                                                <td colspan="3" class="border-0"></td>
+                                                <td class="border-0 font-14"><b>Sub Total</b></td>
+                                                <td class="border-0 font-14"><b>GHC {{bill}}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="3" class="border-0"></th>
+                                                <td class="border-0 font-14"><b>Tax Rate</b></td>
+                                                <td class="border-0 font-14"><b>0.00%</b></td>
+                                            </tr>
+                                            <tr class="bg-dark text-white">
+                                                <th colspan="3" class="border-0"></th>
+                                                <td class="border-0 font-14"><b>Total</b></td>
+                                                <td class="border-0 font-14"><b>GHC {{bill}}</b></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <h5 class="mt-4">Terms And Condition :</h5>
+                                <ul class="pl-3">
+                                    <li><small>All accounts are to be paid within 7 days from receipt of invoice.
+                                        </small></li>
+                                    <li><small>To be paid by cheque or credit card or direct payment online.</small>
+                                    </li>
+                                    <li><small> If account is not paid within 7 days the credits details supplied as
+                                            confirmation<br> of work undertaken will be charged the agreed quoted fee
+                                            noted above.</small></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6 align-self-end">
+                                <div class="w-25 float-right">
+                                    <small>Account Manager</small>
+                                    <img src="../assets/images/signature.png" alt="" class="" height="48">
+                                    <p class="border-top">Signature</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-lg-12 col-xl-4 ml-auto align-self-center">
+                                <div class="text-center text-muted"><small>Thank you very much for doing business with
+                                        us. Thanks !</small></div>
+                            </div>
+                            <div class="col-lg-12 col-xl-4">
+                                <div class="float-right d-print-none">
+                                    <a href="javascript:window.print()" class="btn btn-gradient-info"><i
+                                            class="fa fa-print"></i></a>
+                                    <a href="#" class="btn btn-gradient-primary">Submit</a>
+                                    <a href="#" class="btn btn-gradient-danger">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+
+    </div><!-- container -->
+
+
+
+
+
+
+
+    {% endblock content %}

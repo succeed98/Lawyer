@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+
+{% block title %}
+Edit Team
+{% endblock title %}
+
+{% block content %}
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Lawyer System. </a></li>
+
+                            <li class="breadcrumb-item"><a href="{% url 'accounts:teams' %}">Teams</a></li>
+
+                        </ol>
+                    </div>
+                    <h4 class="page-title">{{team.name|title}}</h4>
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+            {% include 'messages/messages.html' %}
+        <br>
+
+          <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <div class="card dr-pro-pic">
+                                <div class="card-body">
+                                    <form method="post"  action="{% url 'accounts:team_update' team.pk %}" class="form-group"  enctype="multipart/form-data">
+
+                                        {% csrf_token %}
+                                        <div class="form-row">
+                                                <div class="form-group col-md-4 mb-0">
+                                                    {{ form.name|as_crispy_field }}
+                                                </div>
+                                                <div class="form-group col-md-4 mb-0">
+                                                    {{ form.team_leader|as_crispy_field }}
+                                                </div>
+                                                <div class="form-group col-md-4 mb-0">
+                                                    {{ form.practice_head|as_crispy_field }}
+                                                </div>
+
+                                        </div>
+
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 mb-0">
+                                                {{ form.lawyer|as_crispy_field }}
+                                            </div>
+                                            <div class="form-group col-md-6 mb-0">
+                                                {{ form.support_staff|as_crispy_field }}
+                                            </div>
+
+                                        </div>
+
+
+                                                {{form.description|as_crispy_field }}
+
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6 mb-0">
+                                            {{ form.date_created|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-md-6 mb-0">
+                                            {{ form.avatar }}
+                                     </div>
+
+                                    </div>
+
+
+
+                                            <div class="form-group">
+
+                                                <center>
+                                                <button  type="submit" class="btn btn-primary btn-sm text-light px-4 mt-3  mb-0">Update Team</button>
+                                                    <a class="btn btn-danger btn-sm text-light px-4 mt-3  mb-0 ml-2" data-toggle="modal" data-animation="bounce"
+                                    data-target=".bs-example-modal-sm">Delete Team</a>
+
+                                                </center>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!--end col-->
+                    </div><!--end row-->
+
+
+
+
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0" id="mySmallModalLabel">Delete Team</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+
+                        <p>Are you sure you want to delete {{team.name|title}}?</p>
+
+                    <center>
+                           <a type="submit" href="{{team.get_delete_url}}" class="btn btn-danger">Delete</a>
+
+                                    <button type="button" class="btn btn-secondary waves-effect"
+                                        data-dismiss="modal">Close</button>
+                    </center>
+
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+
+
+{% endblock content %}

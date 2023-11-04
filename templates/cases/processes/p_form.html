@@ -1,0 +1,36 @@
+{% load crispy_forms_tags %}
+
+
+
+
+
+
+
+{% csrf_token %}
+{{process_form.media}}
+
+
+
+<div class="form-row">
+
+    <div class="form-group col-md-6 mb-0">
+        {{ process_form.process|as_crispy_field }}
+    </div>
+
+      <div class="form1-group col-md-6 mb-0">
+        {{ process_form.date_created|as_crispy_field }}
+    </div>
+
+</div>
+{{process_form.description|crispy}}
+
+<div class="form-row">
+
+    <div class="form-group col-md-12 mb-0">
+        {{ process_form.process_file|as_crispy_field }}
+    </div>
+
+</div>
+
+
+

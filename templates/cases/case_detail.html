@@ -1,0 +1,2103 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}
+Cases Details
+{% endblock title %}
+{% load auth_extras %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<style>
+    .slimScrollDiv{
+        max-height: 322px;
+    }
+</style>
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System. </a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'cases:case_list' %}">Cases</a></li>
+                            <li class="breadcrumb-item active">Cases Details</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Cases</h4>
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+        {% include 'messages/messages.html' %}
+
+
+
+        {% if  not case.confidential and not case.chinese_wall or user in users or request.user.otherstaff.role.title == 'FrontDesk' %}
+
+
+        {% if user in users %}
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+
+
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <button class="btn btn-gradient-primary  " data-toggle="modal"
+                        data-target=".bd-example-modal-xl">
+                        Edit
+                    </button>
+                </div>
+            </div>
+
+            
+
+           {%endif%}
+           <div class="col-md-2">
+            <div class="card crm-data-card">
+                <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal"
+                    data-animation="bounce" data-target=".bs-example-modal-sm">Upload Files</button>
+            </div>
+        </div>
+
+                {% if request.user.otherstaff.role.title == 'FrontDesk' and user not in users%}
+                        <div class="card">
+                <div class="card-body">
+                    <center>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="card crm-data-card">
+                                <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal"
+                                    data-animation="bounce" data-target=".bs-example-modal-sm">Upload Files</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal"
+
+
+                        data-animation="bounce" data-target=".bd-example-modal-xl11"><i class="mdi mdi-plus-circle-outline mr-2"></i> Process</button>
+                </div>
+            </div>
+                        </div>
+                    </center>
+                </div>
+            </div>
+
+
+                        {%endif%}
+
+            {% if user in users%}
+
+
+
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal"
+                        data-animation="bounce" data-target=".bs-example-modal-lg"><i class="mdi mdi-plus-circle-outline mr-2"></i> Task</button>
+                </div>
+            </div>
+
+
+
+        <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal"
+                        data-animation="bounce" data-target=".bd-example-modal-xl11"><i class="mdi mdi-plus-circle-outline mr-2"></i> Process</button>
+                </div>
+            </div>
+
+
+
+            {% comment %} <div class="col-md-4">
+                <div class="card crm-data-card">
+                    <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal"
+                        data-animation="bounce" data-target=".bs-example-modal-lg1"><i class="mdi mdi-plus-circle-outline mr-2"></i>  Status Report</button>
+                </div>
+            </div> {% endcomment %}
+
+            {% comment %} <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <button type="button" class="btn btn-gradient-dark btn-sm" data-toggle="modal"
+                        data-animation="bounce" data-target=".bs-example-modal-lg4"><i class="mdi mdi-plus-circle-outline mr-2"></i>
+                        Correspondence</button>
+                </div>
+            </div> {% endcomment %}
+
+            <!--<div class="col-md-3">-->
+            <!--    <div class="card crm-data-card">-->
+            <!--        <button type="button" class="btn btn-gradient-dark btn-sm" data-toggle="modal"-->
+            <!--            data-animation="bounce" data-target=".bs-example-modal-lg3"><i class="mdi mdi-plus-circle-outline mr-2"></i>-->
+            <!--             Status Report</button>-->
+            <!--    </div>-->
+            <!--</div>-->
+
+            <!--<div class="col-md-3">-->
+            <!--    <div class="card crm-data-card">-->
+
+            <!--            <a class="btn btn-gradient-dark btn-sm" href="{% url 'cases:list_report' case.pk  %}">Post Action/Status Reports</a>-->
+            <!--  </div>-->
+
+            <!--</div>-->
+
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                    {% if case.closed %}
+                    <a href="{% url 'cases:complete_case' case.pk %}"
+                        class="btn btn-sm btn-gradient-dark">Reopen
+                        Cases</a>
+
+                    {% else %}
+
+                    <a href="{% url 'cases:complete_case' case.pk %}"
+                        class="btn btn-sm btn-gradient-dark">Close Cases
+
+                        </a>
+
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <a href="{% url 'cases:all_user_logs_per_case' case.pk %}"
+                        class="btn btn-sm btn-gradient-dark">Case Logs</a>
+
+                </div>
+            </div>
+            
+            
+
+            
+
+
+            
+
+
+
+            {% comment %} <div class="col-md-2">
+                <div class="card crm-data-card">
+
+                    
+                <button type="button" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Extras <i class="mdi mdi-chevron-down"></i></button>
+                <div class="dropdown-menu">
+
+                   
+                    {% if request.user|has_group:'Lawyer' %}
+                    <a class="dropdown-item" href="{% url 'cases:request_renumeration' case.pk %}"><i class="mdi mdi-send mr-2"></i>Request Renumeration</a>
+                    <a class="dropdown-item" href="{% url 'cases:request_payment_info' case.pk %}"><i class="mdi mdi-send mr-2"></i>Request Client Payment Update</a>
+                    {% endif %}
+                    <a class="dropdown-item" href="{% url 'cases:case_history' case.pk  %}"> Case History</a>
+                    <!-- <a class="dropdown-item" href="#">Something else here</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Separated link</a>
+                </div> -->
+
+                </div> 
+                </div>
+            </div> {% endcomment %}
+            
+
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <button class="btn btn-gradient-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Account<i class="mdi mdi-chevron-down"></i>
+               
+                    </button>
+                    <!-- <button class="btn btn-gradient-primary" data-toggle="modal"
+                    data-target=".bd-terms-of-engagement">
+                    Terms of Engagement (TOE)
+               
+                    </button> -->
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" style="cursor: pointer;" data-toggle="modal" data-target=".bd-terms-of-engagement"><i class="mdi mdi-send mr-2"></i>Add Terms of Engagement (TOE)</a>
+                        <a class="dropdown-item" href="{% url 'cases:terms_files_list' case.pk %}"><i class="mdi mdi-send mr-2"></i>View Terms of Engagement (TOE)</a>
+                
+    
+                    </div>
+
+                </div>
+              
+            </div>
+
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Timer <i class="mdi mdi-chevron-down"></i></button>
+                <div class="dropdown-menu">
+                    {% if request.user.lawyer.per_hour_charge or request.user.otherstaff.per_hour_charge %}
+                        <button class="dropdown-item" class="mdi mdi-alarm-multiple mr-2" onclick="myCallTimer({{case.id}})"><i class="mdi mdi-send mr-2"></i>Toggle Timer</button>
+
+                        {% else %}
+                        <button type="button" class="dropdown-item" class="mdi mdi-alarm-multiple mr-2" data-toggle="modal"
+                        data-animation="bounce" data-target=".checkperunitcharge">
+                        Toggle Timer</button>
+
+
+
+                    {% endif %}
+                    <a class="dropdown-item" href="{% url 'cases:case_hours' case.pk %}"><i class="mdi mdi-alarm mr-2"></i>Track Time</a>
+                    {% if request.user|has_group:'Lawyer' %}
+                    {% endif %}
+                    <!-- <a class="dropdown-item" href="#">Something else here</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Separated link</a>
+                </div> -->
+
+        </div>
+                </div>
+            </div>
+            
+            {% if request.user.is_superuser %}
+                
+                
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <a href="{% url 'cases:delete_case' case.pk %}"
+                        class="btn btn-sm btn-danger">Delete</a>
+
+                </div>
+            </div>
+            {% endif %}
+
+
+            <!--<div class="col-md-3">-->
+            <!--    <div class="card crm-data-card">-->
+
+            <!--            <a class="btn btn-gradient-dark btn-sm" href="">start timer</a>-->
+            <!--    </div>-->
+            <!--</div>-->
+
+        </div>
+    </div>
+    <!--end card-body-->
+</div>
+<!--end card-->
+{% endif %}
+
+        <div class="row">
+            <div class="col-lg-9">
+
+
+
+
+
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+
+									<div class="col-lg-3">
+                                            <div class="pro-order-box mb-1">
+
+                                                <h6 class="header-title">{{case|title}}</h6>
+                                                {% if payment %}
+                                            {% if payment.full_payment %}
+                   <span class="badge badge-success">Full Payment</span>
+                    {% else %}
+                    <span class="badge badge-warning">Partial Payment</span>
+                    {% endif %}
+                    {% endif %}
+                    <p class="text-muted mb-0">
+                        Court Title
+                       </p>
+                                            </div>
+                                        </div><!--end col-->
+
+
+                                        <div class="col-lg-3">
+                                            <div class="pro-order-box">
+
+                                                <h4 class="header-title">{{case.court|title}}</h4>
+                                                <p class="text-muted mb-0">
+                                                 Court
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+
+										      <div class="col-lg-3">
+                                            <div class="pro-order-box">
+
+                                                <h4 class="header-title">{{case.court_number|title}}</h4>
+                                                <p class="text-muted mb-1">
+                                                 Court Number
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+                                        {% comment %} <div class="col-lg-3">
+                                            <div class="pro-order-box">
+
+                                                <h4 class="header-title">{{case.representative|title}}</h4>
+                                                <p class="text-muted mb-1">
+                                                    Representation
+                                                </p>
+                                            </div>
+                                        </div><!--end col--> {% endcomment %}
+
+                                       
+										<div class="col-lg-3">
+                                            <div class="pro-order-box mb-0">
+
+                                                <h4 class="header-title">{{case.case_number}}</h4>
+                                                <p class="text-muted mb-0">
+                                                   Case Number
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+
+										
+
+                                         <div class="col-lg-3">
+                                            <div class="pro-order-box">
+
+                                                {% for cat in case.category.all  %}
+
+                                                    <h6 class="header-title">{{cat}}</h6>
+
+                                                {% endfor %}
+                                                <p class="text-muted mb-1">
+                                                    Category
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+
+
+
+                                    </div><!--end row-->
+                                </div><!--end card-body-->
+                            </div><!--end card-->
+                        </div><!--end col-->
+                    </div>
+                <!--end row-->
+
+
+
+                <!--end row-->
+            </div>
+            <!--end col-->
+            <div class="col-lg-3">
+
+                    <!-- <div class="card card-body">
+                    <h5 class="project-title mb-1" >
+                      <p><h5>Lead Professional:{{case.lead_professional}}</h5></p>
+                      <p><h5>Team : {{case.team}}</h5></p>
+                    </div> -->
+<!-- ########################################## LAWYERS ######################################################## -->
+                <div class="card">
+
+                    <div class="card-body dash-info-carousel mb-0">
+                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+
+                                {% for lawyer in lawyers  %}
+
+                                {% if lawyers.count == 1 %}
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-12 align-self-center">
+                                            <div class="text-center">
+                                                <h4 class="mt-0 header-title text-left">Assigned Lawyer</h4>
+                                                <div class="my-3">
+                                                    {% if lawyer.user.avatar %}
+                                                    <img src="{{lawyer.user.avatar.url}}" alt="" height="130" style="border-radius:100%;"
+                                                        class="">
+
+                                                         {% else %}
+                                                        <img src="{% static 'assets/images/jkm.jpeg' %}" alt="" height="100" width="100" style="border-radius:50%; width:120px"
+                                                        class="">
+                                                        {% endif %}
+                                                </div>
+                                                <h2 class="project-title mb-1">{{lawyer|title}}</h2>
+                                                <!-- <p class="mb-1 text-muted"><span class="mr-2 text-secondary font-14"><b>190 Days</b></span> Tuesday, 25 July 2019</p> -->
+                                            </div>
+                                        </div>
+                                        <!--end col-->
+                                    </div>
+                                    <!--end row-->
+                                </div>
+                                {% else %}
+
+                                {% if forloop.first %}
+                                <div class="carousel-item active ">
+                                    <div class="row">
+                                        <div class="col-12 align-self-center">
+                                            <div class="text-center">
+                                                <h4 class="mt-0 header-title text-left">Assigned Lawyer</h4>
+                                                <div class="my-3">
+                                                    {% if lawyer.user.avatar %}
+                                                    <img src="{{lawyer.user.avatar.url}}" alt="" height="130" style="border-radius:50%;"
+                                                        class="">
+                                                         {% else %}
+                                                        <img src="{% static 'assets/images/jkm.jpeg' %}" alt="" height="100" width="100" style="border-radius:50%; width:120px"
+                                                        class="">
+                                                        {% endif %}
+                                                </div>
+                                                <h2 class="project-title mb-1">{{lawyer|title}}</h2>
+                                                <!-- <p class="mb-1 text-muted"><span class="mr-2 text-secondary font-14"><b>190 Days</b></span> Tuesday, 25 July 2019</p> -->
+                                            </div>
+                                        </div>
+                                        <!--end col-->
+                                    </div>
+                                    <!--end row-->
+                                </div>
+
+
+
+                                {% else %}
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        <div class="col-12 align-self-center">
+                                            <div class="text-center">
+                                                <h4 class="mt-0 header-title text-left">Assigned Lawyers</h4>
+                                                <div class="my-3">
+                                                    {% if lawyer.user.avatar %}
+                                                    <img src="{{lawyer.user.avatar.url}}" alt="" height="130" style="border-radius:50%;"
+                                                        class="">
+                                                        {% else %}
+                                                        <img src="{% static 'assets/images/holder.jpg' %}" alt="" height="130" style="border-radius:50%;"
+                                                        class="">
+                                                        {% endif %}
+                                                </div>
+                                                <h2 class="project-title mb-1">{{lawyer|title}}</h2>
+                                                <!-- <p class="mb-1 text-muted"><span class="mr-2 text-secondary font-14"><b>190 Days</b></span> Tuesday, 25 July 2019</p> -->
+                                            </div>
+                                        </div>
+                                        <!--end col-->
+                                    </div>
+                                    <!--end row-->
+                                </div>
+
+                                {% endif %}
+
+
+
+
+
+
+                                {% endif %}
+
+
+                                <!--end carousel-item-->
+                                {% endfor %}
+
+
+
+
+
+
+
+                            </div>
+                            {% comment %} <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                                data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                                data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a> {% endcomment %}
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+
+                <!-- ################################### END LAWYERS ################################################ -->
+
+            </div>
+            <!--end col-->
+
+        </div>
+        <!--end row-->
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body slimscroll project-dash-activity" style="max-height: 100px!important;">
+                        <h4 class="header-title mt-0 mb-3"> Description</h4>
+
+
+
+                        {{case.description|safe}}
+
+
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="card">
+                    <div class="card-body dash-info-carousel mb-0">
+                        <div id="carouselExampleControl" class="carousel slide" data-ride="carousel">
+                            <!-- START CLIENTS HERE -->
+
+                            <div class="carousel-inner">
+
+
+                                {% for client in case.client.all  %}
+
+                                {% if case.client.count == 1 %}
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-12 align-self-center">
+                                            <div class="text-center">
+                                                <h4 class="mt-0 header-title text-left">Client</h4>
+                                                <div class="my-3">
+                                                    <img src="{% static  'assets/images/jkm101.jpeg' %} " alt=""
+                                                       height="190" >
+                                                </div>
+                                                <h2 class="project-title mb-1">{{client|title}}</h2>
+
+                                            </div>
+                                        </div>
+                                        <!--end col-->
+                                    </div>
+                                    <!--end row-->
+                                </div>
+                                {% else %}
+
+
+
+
+                                {% if forloop.first %}
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-12 align-self-center">
+                                            <div class="text-center">
+                                                <h4 class="mt-0 header-title text-left">Clients </h4>
+                                                <div class="my-3">
+                                                   <img src="{% static  'assets/images/jkm101.jpeg' %} " alt=""
+                                                       height="190" class="">
+                                                </div>
+                                                <h2 class="project-title mb-1"> <a>{{client|title}}</a></h2>
+                                                <!-- <p class="mb-1 text-muted"><span
+                                                        class="mr-2 text-secondary font-14"><b>190 Days</b></span>
+                                                    Tuesday, 25 July 2019</p> -->
+                                            </div>
+                                        </div>
+                                        <!--end col-->
+                                    </div>
+                                    <!--end row-->
+                                </div>
+                                <!--end carousel-item-->
+                                {% else %}
+
+                                <div class="carousel-item ">
+                                    <div class="row">
+                                        <div class="col-12 align-self-center">
+                                            <div class="text-center">
+                                                <h4 class="mt-0 header-title text-left">Client</h4>
+                                                <div class="my-3">
+                                                    <img src="{% static  'assets/images/jkm101.jpeg' %} " alt=""
+                                                       height="190" class="">
+                                                </div>
+                                                <h2 class="project-title mb-1">{{client|title}}</h2>
+
+                                            </div>
+                                        </div>
+                                        <!--end col-->
+                                    </div>
+                                    <!--end row-->
+                                </div>
+                                <!--end carousel-item-->
+                                {% endif %}
+                                {% endif %}
+                                <!-- END CLIENTS HERE -->
+                                {% endfor %}
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+            </div>
+            <!--end col-->
+
+        </div>
+        <!--end row-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card" style="min-height: 350px;">
+                    <div class="card-body">
+                        <h4 class="header-title mt-0 mb-3"> <a href="{% url 'cases:file_list' case.pk %}">Cases Files</a>
+                        </h4>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <img src="{% static './assets/images/folder.png' %}" alt="" class="thumb" height="110">
+
+                            </div>
+                            <!--end col-->
+                            <div class="col-lg-8">
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+
+                                        <tbody>
+                                            {% if case_files %}
+
+
+                                            {% for file in case_files  %}
+
+                                            <tr>
+                                                <td class="border-top-0">
+                                                    <img src="{% static './assets/images/doc1.png' %}" alt=""
+                                                        class="thumb-sm rounded-circle mr-1">
+                                                    <span class="text-info">{{file.title|title}}</span> <a
+                                                        href="{{file.file.url}}" class="download-icon-link">
+                                                        <i class="dripicons-download file-download-icon"></i>
+                                                    </a>
+                                                </td>
+
+                                            </tr>
+                                            {% endfor %}
+
+
+                                            {% endif %}
+
+
+
+
+
+                                        </tbody>
+                                    </table>
+                                    <!--end row-->
+                                </div>
+                                <!--end table-responsive-->
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+
+      
+        </div>
+        <!--end row-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        {% if user in users %}
+                        <button type="button" class="btn btn-gradient-secondary btn-sm px-4 float-right"
+                            data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg1">Add  Status Report</button>
+
+                            {% endif %}
+
+                            <!--Changed from Court Sessions to  Status Report by Dartisan-->
+                        <h4 class="mt-0 mb-3 header-title"> Status Report</h4>
+
+
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {% include "cases/snippets/session_list.html" with session_object=session_object %}
+                                <!--end table-responsive-->
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+
+
+        </div>
+        <!--end row-->
+<!--############################################################################################ COMMENTS AND PROCESSES ####################################################################################-->
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="card card-body">
+                                    <h4 class="mt-0 mb-3 header-title">Case Stages</h4>
+
+
+
+
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {% include "cases/snippets/process_list.html" with processes=processes %}
+                                <!--end table-responsive-->
+                            </div>
+                            <!--end col-->
+                        </div>
+
+        </div>
+    </div>
+
+
+
+
+
+</div>
+
+<!--######################################################################### END COMMENTS AND PROCESSES###########################################################################################-->
+{% elif  case.confidential and case.chinese_wall or user in chinese_wall_users%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% if user in chinese_wall_users %}
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+
+
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <button class="btn btn-gradient-primary  " data-toggle="modal"
+                        data-target=".bd-example-modal-xl">
+                        Edit
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal"
+                        data-animation="bounce" data-target=".bs-example-modal-sm">Upload Files</button>
+                </div>
+            </div>
+
+           {%endif%}
+
+                        {% if request.user.otherstaff.role.title == 'FrontDesk'%}
+                        <div class="card">
+                <div class="card-body">
+                    <center>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="card crm-data-card">
+                                <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal"
+                                    data-animation="bounce" data-target=".bs-example-modal-sm">Upload Files</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal"
+                        data-animation="bounce" data-target=".bd-example-modal-xl11"><i class="mdi mdi-plus-circle-outline mr-2"></i> Process</button>
+                </div>
+            </div>
+                        </div>
+                    </center>
+                </div>
+            </div>
+
+
+
+                        {%endif%}
+
+            {% if user in chinese_wall_users%}
+
+
+
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal"
+                        data-animation="bounce" data-target=".bs-example-modal-lg"><i class="mdi mdi-plus-circle-outline mr-2"></i> Task</button>
+                </div>
+            </div>
+
+
+
+        <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal"
+                        data-animation="bounce" data-target=".bd-example-modal-xl11"><i class="mdi mdi-plus-circle-outline mr-2"></i> Process</button>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-4">
+                <div class="card crm-data-card">
+                    <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal"
+                        data-animation="bounce" data-target=".bs-example-modal-lg1"><i class="mdi mdi-plus-circle-outline mr-2"></i> Status Report</button>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <button type="button" class="btn btn-gradient-dark btn-sm" data-toggle="modal"
+                        data-animation="bounce" data-target=".bs-example-modal-lg4"><i class="mdi mdi-plus-circle-outline mr-2"></i>
+                        Correspondence</button>
+                </div>
+            </div>
+
+            <!--<div class="col-md-3">-->
+            <!--    <div class="card crm-data-card">-->
+            <!--        <button type="button" class="btn btn-gradient-dark btn-sm" data-toggle="modal"-->
+            <!--            data-animation="bounce" data-target=".bs-example-modal-lg3"><i class="mdi mdi-plus-circle-outline mr-2"></i>-->
+            <!--             Status Report</button>-->
+            <!--    </div>-->
+            <!--</div>-->
+
+            <!--<div class="col-md-3">-->
+            <!--    <div class="card crm-data-card">-->
+
+            <!--            <a class="btn btn-gradient-dark btn-sm" href="{% url 'cases:list_report' case.pk  %}">Post Action/Status Reports</a>-->
+            <!--  </div>-->
+
+            <!--</div>-->
+
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                    {% if case.closed %}
+                    <a href="{% url 'cases:complete_case' case.pk %}"
+                        class="btn btn-sm btn-gradient-dark">Reopen
+                        Cases</a>
+
+                    {% else %}
+
+                    <a href="{% url 'cases:complete_case' case.pk %}"
+                        class="btn btn-sm btn-gradient-dark">Close Cases
+
+                        </a>
+
+                    {% endif %}
+                </div>
+            </div>
+
+            
+
+
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <a href="{% url 'cases:all_user_logs_per_case' case.pk %}"
+                        class="btn btn-sm btn-gradient-dark">Case Logs</a>
+
+                </div>
+            </div>
+
+
+
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+
+                    
+                <button type="button" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Extras <i class="mdi mdi-chevron-down"></i></button>
+                <div class="dropdown-menu">
+
+                   
+                    {% if request.user|has_group:'Lawyer' %}
+                    <a class="dropdown-item" href="{% url 'cases:request_renumeration' case.pk %}"><i class="mdi mdi-send mr-2"></i>Request Renumeration</a>
+                    <a class="dropdown-item" href="{% url 'cases:request_payment_info' case.pk %}"><i class="mdi mdi-send mr-2"></i>Request Client Payment Update</a>
+                    {% endif %}
+                    <a class="dropdown-item" href="{% url 'cases:case_history' case.pk  %}"> Case History</a>
+                    <!-- <a class="dropdown-item" href="#">Something else here</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Separated link</a>
+                </div> -->
+
+                </div>
+                </div>
+            </div>
+            
+
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <button class="btn btn-gradient-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Account<i class="mdi mdi-chevron-down"></i>
+               
+                    </button>
+                    <!-- <button class="btn btn-gradient-primary" data-toggle="modal"
+                    data-target=".bd-terms-of-engagement">
+                    Terms of Engagement (TOE)
+               
+                    </button> -->
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" style="cursor: pointer;" data-toggle="modal" data-target=".bd-terms-of-engagement"><i class="mdi mdi-send mr-2"></i>Add Terms of Engagement (TOE)</a>
+                        <a class="dropdown-item" href="{% url 'cases:terms_files_list' case.pk %}"><i class="mdi mdi-send mr-2"></i>View Terms of Engagement (TOE)</a>
+                
+    
+                    </div>
+
+                </div>
+              
+            </div>
+
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Timer <i class="mdi mdi-chevron-down"></i></button>
+                <div class="dropdown-menu">
+                    {% if request.user.lawyer.per_hour_charge or request.user.otherstaff.per_hour_charge %}
+                        <button class="dropdown-item" class="mdi mdi-alarm-multiple mr-2" onclick="myCallTimer({{case.id}})"><i class="mdi mdi-send mr-2"></i>Toggle Timer</button>
+
+                        {% else %}
+                        <button type="button" class="dropdown-item" class="mdi mdi-alarm-multiple mr-2" data-toggle="modal"
+                        data-animation="bounce" data-target=".checkperunitcharge">
+                        Toggle Timer</button>
+
+
+
+                    {% endif %}
+                    <a class="dropdown-item" href="{% url 'cases:case_hours' case.pk %}"><i class="mdi mdi-alarm mr-2"></i>Track Time</a>
+                    {% if request.user|has_group:'Lawyer' %}
+                    {% endif %}
+                    <!-- <a class="dropdown-item" href="#">Something else here</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Separated link</a>
+                </div> -->
+
+        </div>
+                </div>
+            </div>
+
+
+            {% if request.user.is_superuser %}
+                
+                
+            <div class="col-md-2">
+                <div class="card crm-data-card">
+                    <a href="{% url 'cases:delete_case' case.pk %}"
+                        class="btn btn-sm btn-danger">Delete</a>
+
+                </div>
+            </div>
+            {% endif %}
+
+            <!--<div class="col-md-3">-->
+            <!--    <div class="card crm-data-card">-->
+
+            <!--            <a class="btn btn-gradient-dark btn-sm" href="">start timer</a>-->
+            <!--    </div>-->
+            <!--</div>-->
+
+        </div>
+    </div>
+    <!--end card-body-->
+</div>
+<!--end card-->
+{% endif %}
+
+        <div class="row">
+            <div class="col-lg-9">
+
+
+
+
+
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+
+									<div class="col-lg-3">
+                                            <div class="pro-order-box mb-1">
+
+                                                <h6 class="header-title">{{case|title}}</h6>
+                                                {% if payment %}
+                                            {% if payment.full_payment %}
+                   <span class="badge badge-success">Full Payment</span>
+                    {% else %}
+                    <span class="badge badge-warning">Partial Payment</span>
+                    {% endif %}
+                    {% endif %}
+
+                                            </div>
+                                        </div><!--end col-->
+
+
+                                        <div class="col-lg-3">
+                                            <div class="pro-order-box">
+
+                                                <h4 class="header-title">{{case.court|title}}</h4>
+                                                <p class="text-muted mb-0">
+                                                 Court
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+
+										      <div class="col-lg-3">
+                                            <div class="pro-order-box">
+
+                                                <h4 class="header-title">{{case.court_number|title}}</h4>
+                                                <p class="text-muted mb-1">
+                                                 Court Number
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+                                        {% comment %} <div class="col-lg-3">
+                                            <div class="pro-order-box">
+
+                                                <h4 class="header-title">{{case.representative|title}}</h4>
+                                                <p class="text-muted mb-1">
+                                                    Representation
+                                                </p>
+                                            </div>
+                                        </div><!--end col--> {% endcomment %}
+
+                                        <div class="col-lg-3">
+                                            <div class="pro-order-box mb-0">
+
+                                                <h4 class="header-title">{{case.suit_number}}</h4>
+                                                <p class="text-muted mb-0">
+                                                    Suit Number
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+										<div class="col-lg-3">
+                                            <div class="pro-order-box mb-0">
+
+                                                <h4 class="header-title">{{case.case_number}}</h4>
+                                                <p class="text-muted mb-0">
+                                                   Case Number
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+
+										<div class="col-lg-3">
+                                            <div class="pro-order-box mb-0">
+
+                                                <h4 class="header-title">{{case.suit_number}}</h4>
+                                                <p class="text-muted mb-0">
+                                                    Suit Number
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+
+                                         <div class="col-lg-3">
+                                            <div class="pro-order-box">
+
+                                                {% for cat in case.category.all  %}
+
+                                                    <h6 class="header-title">{{cat}}</h6>
+
+                                                {% endfor %}
+                                                <p class="text-muted mb-1">
+                                                    Category
+                                                </p>
+                                            </div>
+                                        </div><!--end col-->
+
+
+
+                                    </div><!--end row-->
+                                </div><!--end card-body-->
+                            </div><!--end card-->
+                        </div><!--end col-->
+                    </div>
+                <!--end row-->
+
+
+
+                <!--end row-->
+            </div>
+            <!--end col-->
+            <div class="col-lg-3">
+
+                    <!-- <div class="card card-body">
+                    <h5 class="project-title mb-1" >
+                      <p><h5>Lead Professional:{{case.lead_professional}}</h5></p>
+                      <p><h5>Team : {{case.team}}</h5></p>
+                    </div> -->
+<!-- ########################################## LAWYERS ######################################################## -->
+                <div class="card">
+
+                    <div class="card-body dash-info-carousel mb-0">
+                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+
+                                {% for lawyer in lawyers  %}
+
+                                {% if lawyers.count == 1 %}
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-12 align-self-center">
+                                            <div class="text-center">
+                                                <h4 class="mt-0 header-title text-left">Assigned Lawyers</h4>
+                                                <div class="my-3">
+                                                    {% if lawyer.user.avatar %}
+                                                    <img src="{{lawyer.user.avatar.url}}" alt="" height="130" style="border-radius:50%;"
+                                                        class="">
+
+                                                         {% else %}
+                                                        <img src="{% static 'assets/images/holder.jpg' %}" alt="" height="130" style="border-radius:50%;"
+                                                        class="">
+                                                        {% endif %}
+                                                </div>
+                                                <h2 class="project-title mb-1">{{lawyer|title}}</h2>
+                                                <!-- <p class="mb-1 text-muted"><span class="mr-2 text-secondary font-14"><b>190 Days</b></span> Tuesday, 25 July 2019</p> -->
+                                            </div>
+                                        </div>
+                                        <!--end col-->
+                                    </div>
+                                    <!--end row-->
+                                </div>
+                                {% else %}
+
+                                {% if forloop.first %}
+                                <div class="carousel-item active ">
+                                    <div class="row">
+                                        <div class="col-12 align-self-center">
+                                            <div class="text-center">
+                                                <h4 class="mt-0 header-title text-left">Assigned Lawyers</h4>
+                                                <div class="my-3">
+                                                    {% if lawyer.user.avatar %}
+                                                    <img src="{{lawyer.user.avatar.url}}" alt="" height="130" style="border-radius:50%;"
+                                                        class="">
+                                                         {% else %}
+                                                        <img src="{% static 'assets/images/holder.jpg' %}" alt="" height="130" style="border-radius:50%;"
+                                                        class="">
+                                                        {% endif %}
+                                                </div>
+                                                <h2 class="project-title mb-1">{{lawyer|title}}</h2>
+                                                <!-- <p class="mb-1 text-muted"><span class="mr-2 text-secondary font-14"><b>190 Days</b></span> Tuesday, 25 July 2019</p> -->
+                                            </div>
+                                        </div>
+                                        <!--end col-->
+                                    </div>
+                                    <!--end row-->
+                                </div>
+
+
+
+                                {% else %}
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        <div class="col-12 align-self-center">
+                                            <div class="text-center">
+                                                <h4 class="mt-0 header-title text-left">Assigned Lawyers</h4>
+                                                <div class="my-3">
+                                                    {% if lawyer.user.avatar %}
+                                                    <img src="{{lawyer.user.avatar.url}}" alt="" height="130" style="border-radius:50%;"
+                                                        class="">
+                                                        {% else %}
+                                                        <img src="{% static 'assets/images/holder.jpg' %}" alt="" height="130" style="border-radius:50%;"
+                                                        class="">
+                                                        {% endif %}
+                                                </div>
+                                                <h2 class="project-title mb-1">{{lawyer|title}}</h2>
+                                                <!-- <p class="mb-1 text-muted"><span class="mr-2 text-secondary font-14"><b>190 Days</b></span> Tuesday, 25 July 2019</p> -->
+                                            </div>
+                                        </div>
+                                        <!--end col-->
+                                    </div>
+                                    <!--end row-->
+                                </div>
+
+                                {% endif %}
+
+
+
+
+
+
+                                {% endif %}
+
+
+                                <!--end carousel-item-->
+                                {% endfor %}
+
+
+
+
+
+
+
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                                data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                                data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+
+                <!-- ################################### END LAWYERS ################################################ -->
+
+            </div>
+            <!--end col-->
+
+        </div>
+        <!--end row-->
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body slimscroll project-dash-activity" style="max-height: 100px!important;">
+                        <h4 class="header-title mt-0 mb-3"> Description</h4>
+
+
+
+                        {{case.description|safe}}
+
+
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="card">
+                    <div class="card-body dash-info-carousel mb-0">
+                        <div id="carouselExampleControl" class="carousel slide" data-ride="carousel">
+                            <!-- START CLIENTS HERE -->
+
+                            <div class="carousel-inner">
+
+
+                                {% for client in case.client.all  %}
+
+                                {% if case.client.count == 1 %}
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-12 align-self-center">
+                                            <div class="text-center">
+                                                <h4 class="mt-0 header-title text-left">Client</h4>
+                                                <div class="my-3">
+                                                    <img src="{% static 'assets/images/jkm101.jpeg' %} " alt=""
+                                                       height="190" >
+                                                </div>
+                                                <h2 class="project-title mb-1">{{client|title}}</h2>
+
+                                            </div>
+                                        </div>
+                                        <!--end col-->
+                                    </div>
+                                    <!--end row-->
+                                </div>
+                                {% else %}
+
+
+
+
+                                {% if forloop.first %}
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-12 align-self-center">
+                                            <div class="text-center">
+                                                <h4 class="mt-0 header-title text-left">Clients </h4>
+                                                <div class="my-3">
+                                                   <img src="{% static  'assets/images/jkm101.jpeg' %} " alt=""
+                                                       height="190" class="">
+                                                </div>
+                                                <h2 class="project-title mb-1"> <a>{{client|title}}</a></h2>
+                                                <!-- <p class="mb-1 text-muted"><span
+                                                        class="mr-2 text-secondary font-14"><b>190 Days</b></span>
+                                                    Tuesday, 25 July 2019</p> -->
+                                            </div>
+                                        </div>
+                                        <!--end col-->
+                                    </div>
+                                    <!--end row-->
+                                </div>
+                                <!--end carousel-item-->
+                                {% else %}
+
+                                <div class="carousel-item ">
+                                    <div class="row">
+                                        <div class="col-12 align-self-center">
+                                            <div class="text-center">
+                                                <h4 class="mt-0 header-title text-left">Client</h4>
+                                                <div class="my-3">
+                                                    <img src="{% static  'assets/images/jkm101.jpeg' %} " alt=""
+                                                       height="190" class="">
+                                                </div>
+                                                <h2 class="project-title mb-1">{{client|title}}</h2>
+
+                                            </div>
+                                        </div>
+                                        <!--end col-->
+                                    </div>
+                                    <!--end row-->
+                                </div>
+                                <!--end carousel-item-->
+                                {% endif %}
+                                {% endif %}
+                                <!-- END CLIENTS HERE -->
+                                {% endfor %}
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+            </div>
+            <!--end col-->
+
+        </div>
+        <!--end row-->
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card" style="min-height: 350px;">
+                    <div class="card-body">
+                        <h4 class="header-title mt-0 mb-3"> <a href="{% url 'cases:file_list' case.pk %}">Cases Files</a>
+                        </h4>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <img src="{% static './assets/images/folder.png' %}" alt="" class="thumb" height="110">
+
+                            </div>
+                            <!--end col-->
+                            <div class="col-lg-8">
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+
+                                        <tbody>
+                                            {% if case_files %}
+
+
+                                            {% for file in case_files  %}
+
+                                            <tr>
+                                                <td class="border-top-0">
+                                                    <img src="{% static './assets/images/doc1.png' %}" alt=""
+                                                        class="thumb-sm rounded-circle mr-1">
+                                                    <span class="text-info">{{file.title|title}}</span> <a
+                                                        href="{{file.file.url}}" class="download-icon-link">
+                                                        <i class="dripicons-download file-download-icon"></i>
+                                                    </a>
+                                                </td>
+
+                                            </tr>
+                                            {% endfor %}
+
+
+                                            {% endif %}
+
+
+
+
+
+                                        </tbody>
+                                    </table>
+                                    <!--end row-->
+                                </div>
+                                <!--end table-responsive-->
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body" style="min-height: 350px;">
+                        {% if user in chinese_wall_users %}
+                        <button type="button" class="btn btn-gradient-dark btn-sm px-4 float-right" data-toggle="modal"
+                            {% comment %} data-animation="bounce" data-target=".bs-example-modal-lg4">Add Correspondence</button> {% endcomment %}
+                            {% endif %}
+                        <h4 class="header-title mt-0 mb-3">Correspondents</h4>
+                        <div class="todo-list">
+                            <br>
+                            <ul class="list-inline">
+                                {% if corrs_object %}
+                                {% for corrs in corrs_object  %}
+
+                                <!-- <i class="remove far fa-trash-alt"></i> -->
+                                <div class="todo-task">
+
+                                    <li class="list-inline-item"><i
+                                            class="mdi mdi-circle-outline font-13 text-success mr-1"></i><a
+                                            href="{% url 'correspondents:detail' corrs.pk %}">{{corrs.correspondent|title}}</a>
+                                    </li>
+
+
+                                    <!-- </div> -->
+                                </div>
+
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                            <div class="todo-box">
+
+                                <div class="todo-task">
+                                    <label class="ckbox">
+                                        <h3>No Correspondents</h3>
+                                    </label>
+                                </div>
+                            </div>
+                            {% endif %}
+
+
+
+
+
+                        </div>
+
+                        <div class="input-group custom-input">
+
+
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-body">
+                        {% if user in chinese_wall_users %}
+                        <button type="button" class="btn btn-gradient-secondary btn-sm px-4 float-right"
+                            data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg1">Add  Status Report</button>
+
+                            {% endif %}
+
+                            <!--Changed from Court Sessions to  Status Report by Dartisan-->
+                        <h4 class="mt-0 mb-3 header-title"> Status Report</h4>
+
+
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {% include "cases/snippets/session_list.html" with session_object=session_object %}
+                                <!--end table-responsive-->
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+            <div class="col-lg-3">
+                <div class="card">
+    
+                        <div class="card-body">
+                            {% if user in chinese_wall_users or request.user.otherstaff.role.title == 'Intern' %}
+                            <button type="button" class="btn btn-gradient-info btn-sm px-4 float-right" data-toggle="modal"
+                                data-animation="bounce" data-target=".bs-example-modal-lg">Add Task</button>
+                                {% endif %}
+                            <h5 class="mt-0 mb-3"> <a href="{% url 'cases:list_tasks' case.pk %}">Next Action</a> </h5>
+                            <div class="slimscroll project-dash-activity" style="max-height:100px!important;">
+                                <div class="activity">
+
+                                    {% for task in task_list  %}
+                                    {% if forloop.first or forloop.last %}
+                                    <a href="{% url 'cases:edit_task' task.pk %}"><i
+                                            class="mdi mdi-check icon-success"></i></a>
+                                    <div class="time-item">
+                                        <div class="item-info">
+                                            <div class="text-muted text-right font-10">{{task.deadline|date:"d M, Y"}}</div>
+                                            <h5 class="mt-0"> <a
+                                                    href="{% url 'cases:edit_task' task.pk %}">{{task.task|title}}</a> </h5>
+                                            <p class="text-muted font-13">{{task.description|safe}}
+                                                <a href="#" class="text-info">{{task.date_modefied}}</a>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {% endif %}
+
+                                    {% if not forloop.first and not forloop.last %}
+                                    <a href="{% url 'cases:edit_task' task.pk %}"><i
+                                            class="mdi mdi-clock-start icon-secondary"></i></a>
+                                    <div class="time-item">
+                                        <div class="item-info">
+                                            <div class="text-muted text-right font-10">{{task.deadline|date:"d M, Y"}}</div>
+                                            <h5 class="my-0"> <a
+                                                    href="{% url 'cases:edit_task' task.pk %}">{{task.task|title}}</a></h5>
+                                            <p class="text-muted font-13">{{task.description|safe}}
+                                                <a href="#" class="text-info">{{task.date_modefied}}</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <!--end activity-->
+                            </div>
+                            <!--end project-dash-activity-->
+                        </div>
+                        <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+<!--############################################################################################ COMMENTS AND PROCESSES ####################################################################################-->
+
+<div class="row">
+    <div class="col-lg-7">
+
+        <div class="card card-body">
+                                    <h4 class="mt-0 mb-3 header-title">Processes</h4>
+
+
+
+
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {% include "cases/snippets/process_list.html" with processes=processes %}
+                                <!--end table-responsive-->
+                            </div>
+                            <!--end col-->
+                        </div>
+
+        </div>
+    </div>
+
+
+
+
+<!--    ################################   COMMENTS ###################################### -->
+     <div class="col-lg-5">
+        <div class="card card-body">
+
+            {% load comment_tags %}
+                            {% render_comments case request comments_per_page=10 %}
+                            <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+                            {% include_static_jquery %}
+                            <!-- Include mini jQuery 3.2.1 and required js file -->
+                            <!-- {% include_bootstrap %}  -->
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {%else%}
+
+        <div class="alert alert-secondary mb-0" role="alert">
+            <h4 class="alert-heading font-18">You Have Not Been Assigned To This Cases</h4>
+            <p>You are seeing this because you have not been assigned to this Cases. Kindly contact
+                admin for <strong>Further Assistance</strong></p>
+
+        </div>
+
+        {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="mySmallModalLabel">Add Files</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        {% include 'cases/snippets/upload_files.html' %}
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+
+
+        <div class="modal fade bd-terms-of-engagement" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-l">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="mySmallModalLabel">Add Terms of Engagement (TOE)</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        {% include 'cases/snippets/upload_files_terms.html' %}
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+
+
+
+
+        <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="myModalLabel">Edit Cases </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{case.get_update_url}}" method="POST" enctype="multipart/form-data">
+
+                            {% include 'cases/update_case.html' with case=case %}
+
+
+                            <center> <button class="btn btn-success">Update Case</button>
+                                <button type="button" class="btn btn-danger waves-effect"
+                                    data-dismiss="modal">Close</button>
+                            </center>
+
+
+                        </form>
+
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="exampleModalLabel">Delete Cases</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>AreYou Sure You Want To Delete {{case.name|title}}</p>
+
+
+                        <form action="{{case.get_delete_url}}" method="POST">
+                            {% csrf_token %}
+
+                            <center>
+
+                                <button class="btn btn-secondary" data-dismiss="modal"
+                                    aria-label="Close">Cancel</button>
+
+                                <input type="submit" value="Delete" class="btn btn-danger">
+
+                            </center>
+
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="modal fade bd-example-modal-xl11" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="myModalLabel">Add Process</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- <div id="dropzone">
+                            <form id="dropZoneForm" class="dropzone needsclick dz-clickable" action="#" method="post"
+                                  enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="hidden" name="abc" value="i am hidden value">
+                                <div class="fallback">
+                                    <input name="file" type="file" multiple/>
+                                </div>
+                            </form>
+                            <input type="submit" id="submit-all" value="Upload" class="custom-button" style="float: right">
+                        </div> -->
+                        <form class="dropzone" id="my_dropzone" accept=".pdf,.txt,.doc,.docx,.rtf"  enctype="multipart/form-data">
+                                <div class="fallback">
+                                    <input type="file" name="file" multiple />
+                                </div>
+
+                        </form>
+                       
+
+                        <center class="mt-5">
+                            <button id="dropsubmit" class="btn btn-secondary">Add Process</button>
+
+                            <button type="button" class="btn btn-danger waves-effect "
+                                data-dismiss="modal">Close</button>
+
+                        </center>
+
+                    </div>
+
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <!-- <form action="{% url 'cases:generate_process' case.pk %}" class="dropzone" id="my-awesome-dropzone" method="POST" enctype="multipart/form-data">
+
+            <input type="file" name="file" />
+           <center>
+               <button type="submit" class="btn btn-secondary">Add Process</button>
+               <button type="button" class="btn btn-danger waves-effect"
+                   data-dismiss="modal">Close</button>
+
+           </center>
+      </form> -->
+
+    <!--    <div class="modal fade bs-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"-->
+    <!--    aria-hidden="true">-->
+    <!--    <div class="modal-dialog modal-lg">-->
+    <!--        <div class="modal-content">-->
+    <!--            <div class="modal-header">-->
+    <!--                <h5 class="modal-title mt-0" id="myLargeModalLabel"> Status Report</h5>-->
+    <!--                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
+    <!--            </div>-->
+    <!--            <div class="modal-body">-->
+    <!--                <form action="{% url 'cases:add_action' case.pk %}" method="post">-->
+    <!--                    {% csrf_token %}-->
+    <!--                    {{action_form|crispy}}-->
+
+    <!--                    <center>-->
+    <!--                        <button type="submit" class="btn btn-secondary">Send Post Action Report</button>-->
+    <!--                        <button type="button" class="btn btn-danger waves-effect"-->
+    <!--                            data-dismiss="modal">Close</button>-->
+
+    <!--                    </center>-->
+    <!--                </form>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</div>-->
+
+
+
+
+        <div class="modal fade bs-example-modal-lg1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="myLargeModalLabel">Add  Status Report</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'cases:session_add' case.pk %}" method="post">
+
+                            {% csrf_token %}
+
+                            {{session_form|crispy}}
+                            {{session_form.media}}
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="my-3">Start Date</label>
+                                        <input type="datetime-local" class="form-control" name="start_time"
+                                            placeholder="Start date" id="date-start" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="my-3">End Date</label>
+                                        <input type="datetime-local" class="form-control" name="end_time"
+                                            placeholder="End date" id="date-end" required>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                            <center>
+                                <button type="submit" class="btn btn-secondary">Add  Status Report</button>
+                                <button type="button" class="btn btn-danger waves-effect"
+                                    data-dismiss="modal">Close</button>
+
+                            </center>
+                        </form>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+
+
+
+
+
+
+        <div class="modal fade bs-example-modal-lg4" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="myLargeModalLabel">Add New Correspondence</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'correspondents:case_add' case.pk %}" method="post">
+
+                            {% csrf_token %}
+                            {{corrs_form|crispy}}
+
+                            <center>
+                                <button type="submit" class="btn btn-secondary">Add Correspondence</button>
+                                <button type="button" class="btn btn-danger waves-effect"
+                                    data-dismiss="modal">Close</button>
+
+                            </center>
+
+
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+         <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="max-width:1000px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="myLargeModalLabel">Add Task</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        {% include 'cases/tasks/task_form.html' with task_form=task_form case=case %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="modal fade checkperunitcharge" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl-6">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="myModalLabel">Note!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            To toggle the timer you have to enter your per unit charge.
+                            <form action="{% url 'cases:addpercharge' %}" method="post">
+
+                                {% csrf_token %}
+                                <div class="">
+                                    <label for="percharge"> Per Unit Charge</label>
+                                    <input type="number" name="percharge" maxlength="25000" class="textinput textInput form-control form-control" required="" id="id_title">
+                                </div>
+                            <button type="submit" class="btn btn-secondary">Submit</button>
+
+                            </form>
+
+                        </div>
+
+
+                    </div>
+
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+
+    </div><!-- container -->
+    {% endblock content %}

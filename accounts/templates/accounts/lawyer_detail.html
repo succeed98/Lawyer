@@ -1,0 +1,482 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+
+
+{% block content %}
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a></li>
+
+                            <li class="breadcrumb-item"><a href="{% url 'accounts:lawyer_list' %}">Lawyer List</a></li>
+                            <li class="breadcrumb-item active">Lawyer Details</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Lawyer Details</h4>
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+
+
+        {% include 'messages/messages.html' %}
+
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body profile-card">
+                        <div class="media align-items-center">
+                            {% if lawyer.user.avatar %}
+                            <img src="{{lawyer.user.avatar.url}}" alt="user" class="rounded-circle thumb-lg">
+                            {% else %}
+                            <img src="{% static './assets/images/users/user-4.jpg' %}" alt="user"
+                                class="rounded-circle thumb-lg">
+                            {% endif %}
+                            <div class="media-body ml-3 align-self-center">
+                                <h5 class="pro-title">{{lawyer.user.first_name|title}} {{lawyer.user.last_name|title}}
+                                </h5>
+                                <p class="mb-1 text-muted">Role: {{lawyer.lawyer_status}} Lawyer | Email:
+                                    {{lawyer.user.email}}</p>
+
+
+                            </div>
+                            <div class="action-btn">
+
+                                {% if request.user.is_superuser %}
+                                <button class="mr-1 btn btn-sm btn-info" data-toggle="modal" data-animation="bounce"
+                                    data-target=".bs-example-modal-lg"><i class="fas fa-pen"></i></button>
+                                <button class="btn btn-sm btn-danger" data-toggle="modal" data-animation="bounce"
+                                    data-target=".bs-example-modal-sm"><i class="far fa-trash-alt"></i></button>
+                                <a href="{% url 'user-logs' lawyer.user.pk %}" class="btn btn-sm btn-secondary"><i class="far fa-clock"></i></a>
+                                {% endif %}
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div><!-- end col-->
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-4 align-self-center">
+                                        <div class="icon-info">
+                                            <i class="mdi mdi-account-group text-warning"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-8 align-self-center text-right">
+                                        <div class="ml-2">
+                                            <p class="mb-1 text-muted">Total Cases</p>
+                                            <h4 class="mt-0 mb-1 text-warning font-22">{{cases.count}}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="progress mt-2" style="height:3px;">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 55%;"
+                                        aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <!--end card-body-->
+                        </div>
+                        <!--end card-->
+                    </div>
+                    <!--end col-->
+
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-4 align-self-center">
+                                        <div class="icon-info">
+                                            <i class="mdi mdi-folder-open text-purple"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-8 align-self-center text-right">
+                                        <div class="ml-2">
+                                            <div class="ml-2">
+                                                <p class="mb-0 text-muted">Pending Cases</p>
+                                                <h4 class="mt-0 mb-1 d-inline-block text-purple font-22">
+                                                    {{completed.count}}</h4>
+                                                <span class="badge badge-soft-success mt-1 shadow-none">Active</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="progress mt-2" style="height:3px;">
+                                    <div class="progress-bar bg-purple" role="progressbar" style="width: 39%;"
+                                        aria-valuenow="39" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <!--end card-body-->
+                        </div>
+                        <!--end card-->
+                    </div>
+                    <!--end col-->
+
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-4 align-self-center">
+                                        <div class="icon-info">
+                                            <i class="mdi mdi-folder text-pink"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-8 align-self-center text-right">
+                                        <div class="ml-2">
+                                            <p class="mb-0 text-muted">Closed Cases</p>
+                                            <h4 class="mt-0 mb-1 d-inline-block text-pink font-22">{{pending.count}}
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="progress mt-2" style="height:3px;">
+                                    <div class="progress-bar bg-pink" role="progressbar" style="width: 48%;"
+                                        aria-valuenow="48" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <!--end card-body-->
+                        </div>
+                        <!--end card-->
+                    </div>
+                    <!--end col-->
+                </div>
+                <!--end row-->
+            </div>
+            <!--end col-->
+
+        </div>
+        <!--end row-->
+
+      
+        <!--end row-->
+
+
+
+        <div class="row">
+            <div class="col-12">
+
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <div class="accordion" id="accordionExample-faq">
+                            <div class="card shadow-none border mb-1">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="my-0">
+                                        <button class="btn btn-link ml-4 shadow-none" type="button"
+                                            data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                            aria-controls="collapseOne">
+                                            Activities Performed By {{lawyer.user.first_name}}
+                                            {{lawyer.user.last_name}}
+                                        </button>
+                                    </h5>
+                                </div>
+
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                    data-parent="#accordionExample-faq">
+                                    <div class="card-body">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <!-- <button class="btn btn-gradient-primary px-4 float-right mt-0 mb-3"
+                                                    data-toggle="modal" data-animation="bounce"
+                                                    data-target=".bs-example-modal-lg"><i
+                                                        class="mdi mdi-plus-circle-outline mr-2"></i>Add New Request</button> -->
+
+
+
+
+
+
+
+
+
+
+                                                <div class="table-responsive dash-social">
+                                                    <table id="datatable" class="table">
+                                                        <thead class="thead-light">
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>User</th>
+                        
+                        
+                                                                <th>Action</th>
+                                                                <th> Date</th>
+                        
+                        
+                                                            </tr>
+                                                            <!--end tr-->
+                                                        </thead>
+                                                        <tbody>
+                                                    {% if logs %}
+                                                    {% for log in logs %}
+                                                    <tr>
+                                                        <td>{{forloop.counter}}</td>
+                                                        <td>{{log.user}}</td>
+                                                        <td>{{log.change_message|title}} {{log.object_repr|title}}</td>
+                                                        <td>{{log.action_time}}</td>
+                                                    </tr>
+                                                        
+                        
+                                                    {% endfor %}
+                                                    {% endif %}
+                                                </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <!--end card-body-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card shadow-none border mb-1">
+                                <div class="card-header" id="headingTwo">
+                                    <h5 class="my-0">
+                                        <button class="btn btn-link collapsed ml-4 align-self-center shadow-none"
+                                            type="button" data-toggle="collapse" data-target="#collapseTwo"
+                                            aria-expanded="false" aria-controls="collapseTwo">
+                                            {{lawyer.user.first_name|title}}
+                                            {{lawyer.user.last_name|title}}  Cases
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                    data-parent="#accordionExample-faq">
+                                    <div class="card-body">
+                                        <div class="table-responsive dash-social">
+                                            <table id="datatable" class="table">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>Case Title</th>
+                                                        <th>Team</th>
+                                                        <th>Lead Professional</th>
+                                                        <th>Status</th>
+                                                        <th>Date Added</th>
+                                                        <th>Added By</th>
+
+
+                                                        <th>Action</th>
+                                                    </tr>
+                                                    <!--end tr-->
+                                                </thead>
+
+                                                {% include 'cases/snippets/list.html' with cases=cases %}
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--end accordion-->
+                    </div>
+                    <!--end card-body-->
+                </div>
+
+
+
+
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+
+    </div><!-- container -->
+    <!--  Modal content for the above example -->
+
+
+
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0" id="myLargeModalLabel">Update Lawyer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    
+                    <form action="{% url 'accounts:lawyers_profile' lawyer.pk %}" method="POST"
+                        enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6 mb-0">
+                                {{ user_form.first_name|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-6 mb-0">
+                                {{ user_form.last_name|as_crispy_field }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6 mb-0">
+                                {{ user_form.username|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-6 mb-0">
+                                {{ user_form.email|as_crispy_field }}
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12 mb-0">
+                                {{ user_form.password|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-12 mb-0">
+                                {{ user_form.phone|as_crispy_field }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4 mb-0">
+                                {{ user_form.is_superuser|as_crispy_field }}
+                            </div>
+
+                            <div class="form-group col-md-4 mb-0">
+                                {{ user_form.is_active|as_crispy_field }}
+                            </div>
+
+
+                            <div class="form-group col-md-4 mb-0">
+                                {{ user_form.is_staff|as_crispy_field }}
+                            </div>
+
+
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12 mb-0">
+                                {{ user_form.avatar|as_crispy_field }}
+                            </div>
+
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6 mb-0">
+                                {{ user_form.date_joined|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-6 mb-0">
+                                {{ user_form.last_login|as_crispy_field }}
+                            </div>
+
+                        </div>
+
+
+
+
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6 mb-0">
+                                {{ user_form.groups|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-6 mb-0">
+                                {{ user_form.user_permissions|as_crispy_field }}
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6 mb-0">
+                                {{ user_form.team|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-6 mb-0">
+                                {{ lawyer_form.bar_number|as_crispy_field }}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6 mb-0">
+                                {{ lawyer_form.lawyer_status|as_crispy_field }}
+
+                            </div>
+                            <div class="form-group col-md-6 mb-0">
+                                {{ lawyer_form.per_hour_charge|as_crispy_field }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6 mb-0">
+                                {{ user_form.is_lawyer|as_crispy_field }}
+
+                            </div>
+                            
+
+                        </div>
+
+                        
+
+
+
+                        <center>
+
+                            <button type="submit" class="btn btn-secondary">Update Lawyer</button>
+                            <button type="button" class="btn btn-danger waves-effect"
+                                data-dismiss="modal">Close</button>
+                        </center>
+
+
+
+
+
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+
+
+
+    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0" id="mySmallModalLabel">Delete User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'accounts:delete_lawyer' lawyer.pk %}" method="POST">
+                        {% csrf_token %}
+                        <p>Are you sure you want to delete {{lawyer.user.first_name}} {{lawyer.user.last_name}} ?</p>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    {% endblock content %}

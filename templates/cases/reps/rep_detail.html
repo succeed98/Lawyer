@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+{% load auth_extras %}
+{% block title %}
+Representation Details
+{% endblock title %}
+
+
+
+{% block content %}
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'cases:rep_list' %}">Representation List</a>
+                            </li>
+                            <li class="breadcrumb-item active">Representation Details</li>
+                        </ol>
+                    </div>
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="mt-0 header-title text-center">
+                            {{rep.title|title}}
+                        </h2>
+                        <p class="text-muted text-center">{{rep.date_added}}</p>
+
+
+
+
+
+
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+
+
+                 <div class="card">
+
+                    <div class="card-body">
+
+
+
+
+                        <!-- <button class="btn btn-gradient-primary px-4 float-right mt-0 mb-3" data-toggle="modal"
+                            data-target=".bd-example-modal-xl"><i class="mdi mdi-plus-circle-outline mr-2"></i>Add New
+                            Case</button>
+                        <button class="btn btn-gradient-primary px-4 float-left mt-0 mb-3" data-toggle="modal"
+                            data-target=".bd-example-modal-lg"><i class="mdi mdi-send mr-2"></i>Request Files</button> -->
+
+
+
+
+
+
+                        <div class="table-responsive dash-social">
+                            <table id="datatable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Cases</th>
+                                        <th>Team</th>
+                                        <th>Status</th>
+                                        <th>Date Added</th>
+                                        <th>Added By</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+
+                                <!-- load -->
+
+
+                                <tbody>
+
+                                    {% for case  in  case_list %}
+                                    <tr>
+
+                                        <td>{{forloop.counter}}</td>
+                                        <td>
+                                            {{case.name|title}}
+
+                                        <td>{{case.team}}</td>
+
+
+                                        {% if case.closed %}
+                                        <td> <span class="badge badge-md   badge-soft-success">Closed</span>
+                                        </td>
+                                        {% else %}
+                                        <td> <span class="badge badge-md   badge-soft-danger">Open</span>
+                                        </td>
+                                        {% endif %}
+
+
+                                        <td> {{case.date_added|date}} | {{case.date_added|timesince}} Ago</td>
+                                        <td>{{case.added_by|title}}</td>
+
+
+
+                                        <td>
+
+                                            <a href="{{case.get_absolute_url}}"
+                                                class="btn btn-gradient-secondary waves-effect waves-light"><i
+                                                    class="mdi mdi-eye"></i></a>
+
+
+ {% comment %} {% if request.user|has_group:"Lawyer" %}
+                                            <a href="{% url 'cases:make_request' case.pk %}"
+                                                class="btn btn-gradient-dark waves-effect waves-light"><i
+                                                    class="mdi mdi-send"></i></a>
+{% endif %} {% endcomment %}
+
+                                        </td>
+
+
+                                    </tr>
+
+
+
+                                    {% endfor %}
+
+
+
+                                    <!--end tr-->
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+            </div>
+            <!--end col-->
+
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+
+
+
+                        <center>
+                            <h3>Actions</h3>
+                        </center>
+                        <center>
+                            <button class="btn btn-primary" data-toggle="modal" data-animation="bounce"
+                            data-target=".bs-example-modal-lg">Edit</button>
+
+                        {% if user.is_superuser or user.is_staff %}
+
+                        <button class="btn btn-danger" data-toggle="modal" data-animation="bounce"
+                            data-target=".bs-example-modal-center">Delete</button>
+                        </center>
+
+                        {% endif %}
+
+
+
+
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+
+
+
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0 text text-center" id="myLargeModalLabel">Edit
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body">
+
+
+
+                            <form action="{% url 'cases:update_rep' rep.pk %}" method="post">
+                                {% csrf_token %}
+                                {{form|crispy}}
+                                {{form.erorrs}}
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
+
+
+            <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0" id="exampleModalLabel">Delete </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>AreYou Sure You Want To Delete {{rep.title|title}}</p>
+
+
+                           <center>
+                                <a href="{% url 'cases:delete_rep' rep.pk %}" type="submit" class="btn btn-danger">Delete</a>
+                                 <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                               Close
+                            </button>
+                          </center>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+        </div>
+    </div>
+    {% endblock content %}

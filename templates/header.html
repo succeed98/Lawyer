@@ -1,0 +1,477 @@
+{% load static %}
+{% load auth_extras %}
+{% load notification_tags %}
+{% include_notify_js_variables %}
+<body id='body'>
+
+    <!-- Top Bar Start -->
+    <div class="topbar">
+
+        <!-- LOGO -->
+        <div class="topbar-left">
+
+            {% if request.user|has_group:"Accounts" %}
+            <a href="{% url 'account_dash' %}" class="logo">
+                <span>
+                    <img src="{% static './assets/images/logo.png' %}" alt="logo-small"
+                        style="width: 56px;height:45px;">
+                </span>
+
+            </a>
+
+            {% else %}
+            <a href="/" class="logo">
+                <span>
+                    <img src="{% static './assets/images/logo.png' %}" alt="logo-small"
+                        style="width: 56px;height:45px;">
+                </span>
+
+            </a>
+
+            {% endif %}
+        </div>
+        <!--end logo-->
+        <!-- Navbar -->
+        <nav class="navbar-custom">
+            <ul class="list-unstyled topbar-nav float-right mb-0">
+
+                <!--<li class="dropdown notification-list">-->
+                <!--    <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown"-->
+                <!--        href="#" role="button" aria-haspopup="false" aria-expanded="false">-->
+                <!--        <i class="dripicons-bell noti-icon"></i>-->
+                <!--        {% if new_comments %}-->
+                <!--        <span class="badge badge-danger badge-pill noti-icon-badge">-->
+                <!--            {{new_comments.count}}-->
+                <!--        </span>-->
+                <!--        {% endif %}-->
+                <!--    </a>-->
+                <!--    <div class="dropdown-menu dropdown-menu-right dropdown-lg">-->
+
+                <!--        <h6 class="dropdown-item-text">-->
+                <!--        </h6>-->
+                <!--        <div class="slimscroll notification-list">-->
+                <!--            {% if comm %}-->
+                <!--            {% for com in new_comments  %}-->
+                <!--            <a href="{% url 'cases:case_detail' com.object_id %}" class="dropdown-item notify-item">-->
+                <!--                <div class="notify-icon bg-warning"><i class="mdi mdi-message"></i></div>-->
+                <!--                <p class="notify-details">{{com}}</p>-->
+                <!--            </a>{% endfor %}-->
+                <!--            {% else %}-->
+                <!--            <a class="dropdown-item notify-item">-->
+                <!--                <div class="notify-icon bg-warning"><i class="mdi mdi-message"></i></div>-->
+                <!--                <p class="notify-details"> <i>No New Notifications</i></p>-->
+                <!--            </a>-->
+
+                <!--            {% endif %}-->
+
+
+
+
+                <!--        </div>-->
+
+
+                <!--    </div>-->
+                <!--</li>-->
+
+                <li class="dropdown notification-list">
+                    <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect"
+                        href="{% url 'cases:calendar'%}">
+                        <i class="dripicons-calendar noti-icon"></i>
+                    </a>
+                   
+                </li>
+
+
+                <li class="dropdown notification-list">
+                    <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown"
+                        href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                        <i class="dripicons-message noti-icon"></i>
+                        {% if notifications_ %}
+                        <span class="badge badge-danger badge-pill noti-icon-badge">
+                            {{notifications_.count}}
+                        </span>
+                        {% endif %}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-lg">
+
+                        <h6 class="dropdown-item-text">
+                        </h6>
+                        <div class="slimscroll notification-list">
+                            {% if notifications_ %}
+                            {% for note in notifications_ %}
+                            <!-- <a href="{{note.target.get_absolute_url}}" class="dropdown-item notify-item">
+                                <div class="notify-icon bg-warning"><i class="mdi mdi-message"></i></div>
+                                <p class="notify-details">{{note}}</p>
+                            </a> -->
+                            <a href="{% url 'go_to_target' note.id %}" class="dropdown-item notify-item">
+                                <div class="notify-icon bg-warning"><i class="mdi mdi-message"></i></div>
+                                <p class="notify-details">{{note}}</p>
+                            </a>
+                            {% endfor %}
+                             </div>
+                          <a href="{% url 'user_notifications' %}" class="dropdown-item text-center text-primary">
+                            View all <i class="fi-arrow-right"></i>
+                        </a>
+                            {% else %}
+                            <a class="dropdown-item notify-item">
+                                <div class="notify-icon bg-warning"><i class="mdi mdi-message"></i></div>
+                                <p class="notify-details"> <i>No New Notifications</i></p>
+                            </a>
+                            </div>
+                            {% endif %}
+
+
+
+
+                    </div>
+                </li>
+                
+                
+
+
+
+
+
+
+
+
+                <li class="dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown"
+                        href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                        {% if user.avatar %}
+                            <img src="{{user.avatar.url}}" alt="profile-user" class="rounded-circle" />
+                        {% else %}
+                        <img src="{% static './assets/images/user.png' %}" alt="profile-user" class="rounded-circle" />
+                        {% endif %}
+                        <span class="ml-1 nav-user-name hidden-sm">
+                            {% if user.is_authenticated %}
+                            {{user.first_name|title}} {{user.last_name|title}}
+                            {% endif %}
+                            <i class=" mdi mdi-chevron-down"></i> </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+
+                        {% if user.is_authenticated %}
+
+                        {% if request.user|has_group:"Lawyer" %}
+
+                        <a class="dropdown-item" href="{% url 'accounts:lawyer_profile' user.pk %}"><i
+                                class="dripicons-user text-muted mr-2"></i> Profile</a>
+
+                        {% elif request.user|has_group:"Staff" %}
+
+
+   <a class="dropdown-item" href="{% url 'accounts:staff_profile' user.pk %}"><i
+                            class="dripicons-user text-muted mr-2"></i> Profile</a>
+
+
+                        {% endif %}
+
+                        <!-- <a class="dropdown-item" href="#"><i class="dripicons-wallet text-muted mr-2"></i> My Wallet</a>
+                        <a class="dropdown-item" href="#"><i class="dripicons-gear text-muted mr-2"></i> Settings</a> -->
+                        <a class="dropdown-item" href="{% url 'accounts:change_password' %}"><i
+                        class="dripicons-lock text-muted mr-2"></i> Change Password</a>
+                        <!-- <a class="dropdown-item" href="{%url 'cases:all_user_logs'%}"><i
+                            class=" dripicons-blog text-muted mr-2"></i> User Activities</a> -->
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'logout' %}"><i
+                                class="dripicons-exit text-muted mr-2"></i> Logout</a>
+                    </div>
+                    {% endif %}
+                </li>
+            </ul>
+            <!--end topbar-nav-->
+
+            <ul class="list-unstyled topbar-nav mb-0">
+                <li>
+                    <button class="button-menu-mobile nav-link waves-effect waves-light">
+                        <i class="dripicons-menu nav-icon"></i>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+        <!-- end navbar-->
+    </div>
+    <!-- Top Bar End -->
+
+
+
+
+
+    <div class="page-wrapper">
+        <!-- Left Sidenav -->
+        <div class="left-sidenav">
+            <ul class="metismenu left-sidenav-menu">
+
+                     {% if request.user|has_group:'Accounts' %}
+
+                <li>
+                    <a href="javascript: void(0);"><i class="ti-wallet"></i><span>Accounts</span><span class="menu-arrow"><i
+                                class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="nav-second-level" aria-expanded="false">
+
+                        <li class="nav-item"><a class="nav-link" href="{% url 'account_dash' %}"><i
+                                    class="ti-control-record"></i>Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'cases:renumerations' %}"><i
+                                    class="ti-control-record"></i>Requests</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'clients:payment_list' %}"><i
+                                    class="ti-control-record"></i>Payments</a></li>
+                         <li class="nav-item"><a class="nav-link" href="{% url 'cases:client_payment_list' %}"><i
+                                    class="ti-control-record"></i>Payment Requests</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:expenses' %}"><i
+                                    class="ti-control-record"></i>All Expenses</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:invoice_list' %}"><i
+                            class="ti-control-record"></i>Invoice</a></li>
+
+
+
+
+                    </ul>
+                </li>
+
+
+{% else %}
+
+                {% if request.user|has_group:'Lawyer' or request.user|has_group:'Staff' or request.user.is_superuser %}
+                <li>
+                    <a href="javascript: void(0);"><i class="ti-link"></i><span>Clients</span><span
+                            class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'clients:client_list' %}"><i
+                                    class="ti-control-record"></i>Client List</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'clients:cat_list' %}"><i
+                                    class="ti-control-record"></i>Client Categories</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'clients:type_list' %}"><i
+                            class="ti-control-record"></i>Client Type</a></li>
+
+
+                    </ul>
+                </li>
+
+
+                <li>
+                    <a href="javascript: void(0);"><i class="ti-briefcase"></i><span>Cases</span><span
+                            class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'cases:case_list' %}"><i
+                                    class="ti-control-record"></i>Cases List</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'cases:cat_list' %}"><i
+                                    class="ti-control-record"></i>Categories</a></li>
+                        {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'cases:court_list' %}"><i
+                               class="ti-control-record"></i>Courts</a></li> {% endcomment %}
+                        {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'cases:list_process' %}"><i
+                                    class="ti-control-record"></i>Processes</a></li>
+                         <li class="nav-item"><a class="nav-link" href="{% url 'cases:rep_list' %}"><i
+                                    class="ti-control-record"></i>Representation</a></li> {% endcomment %}
+
+
+
+                        {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'cases:completed_list' %}"><i
+                                    class="ti-control-record"></i>Archives {% endcomment %}
+                                <!--{% if completed %}-->
+                                <!--<span class="badge badge-success float-right mr-2">{{completed.count}}</span>-->
+                                <!--{% endif %}-->
+                            </a></li>
+                        {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'cases:pending_list' %}"><i
+                                    class="ti-control-record"></i>Active {% endcomment %}
+                                <!--    {% if pending %}-->
+                                <!--<span class="badge badge-pink float-right mr-2">{{pending.count}}</span>-->
+                                <!--{% endif %}-->
+                                {% comment %} </a></li> {% endcomment %}
+                        {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'cases:request_list' %}"><i
+                                    class="ti-control-record"></i>Requests
+
+                             </a></li> {% endcomment %}
+
+
+                        <!--
+                        <li class="nav-item"><a class="nav-link" href="../ecommerce/ecommerce-product-detail.html"><i
+                                    class="ti-control-record"></i>Product Detail</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../ecommerce/ecommerce-cart.html"><i
+                                    class="ti-control-record"></i>Cart</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../ecommerce/ecommerce-checkout.html"><i
+                                    class="ti-control-record"></i>Checkout</a></li> -->
+
+                    </ul>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'cases:calendar' %}"><i class="ti-calendar"></i><span>Calendar</span><span
+                            class="menu-arrow"></span></a>
+               
+                </li>
+
+               
+
+
+
+
+                {% if request.user.is_superuser %}
+                <li>
+                    <a href="javascript: void(0);"><i class="ti-user"></i><span>User Management</span><span
+                            class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:lawyer_list' %}"><i
+                                    class="ti-control-record"></i>Lawyers</a></li>
+                         <li class="nav-item"><a class="nav-link" href="{% url 'accounts:status_list' %}"><i
+                                    class="ti-control-record"></i>Lawyer Status</a></li>
+
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:staff_list' %}"><i
+                                    class="ti-control-record"></i>Staff</a></li>
+
+                         <li class="nav-item"><a class="nav-link" href="{% url 'accounts:role_list' %}"><i
+                                    class="ti-control-record"></i>Staff Roles</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:teams' %}"><i
+                                    class="ti-control-record"></i>Teams</a></li>
+
+
+                    </ul>
+                </li>
+                {% endif %}
+
+
+
+                {% if request.user|has_group:'Lawyer' or request.user|has_group:"Staff" or request.user.is_superuser %}
+                {% comment %} <li>
+                    <a href="javascript: void(0);"><i class="ti-user"></i><span>Visitors</span><span
+                            class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'visitors:visitor_list' %}"><i
+                                    class="ti-control-record"></i>Visitor List</a></li>
+
+                    </ul>
+                </li> {% endcomment %}
+                <!-- <li>
+                    <a href="{%url 'cases:all_user_logs'%}"><i class="ti-plus"></i><span>User Logs</span></a>
+                </li> -->
+
+
+                <li>
+                    <a href="javascript: void(0);"><i class="ti-plus"></i><span>Expenses</span><span class="menu-arrow"><i
+                                class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="nav-second-level" aria-expanded="false">
+
+                        <li class="nav-item"><a class="nav-link" href="{% url 'cases:expenses' %}"><i
+                                    class="ti-control-record"></i>MyExpenses</a></li>
+                {% if request.user|has_group:'Lawyer' %}
+
+                        <li class="nav-item"><a class="nav-link" href="{% url 'cases:pending_expenses' %}"><i
+                            class="ti-control-record"></i>Pending Expenses</a></li>
+                        {%endif %}
+
+                        
+
+
+
+                    </ul>
+                </li>
+
+                {% endif %}
+
+
+                {% endif %}
+
+
+                {% endif %}
+
+
+
+
+
+
+
+
+                {% comment %} <li>
+                    <a href="javascript: void(0);"><i class="ti-files"></i><span>Resources</span><span
+                            class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <!-- <li class="nav-item"><a class="nav-link" href="{% url 'schedules:list' %}"><i
+                                    class="ti-control-record"></i>Use Conference Room</a></li> -->
+                        <li class="nav-item"><a class="nav-link" href="{% url 'resources:book_list' %}"><i
+                                    class="ti-control-record"></i>Books</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'documents:doc_list' %}"><i
+                                    class="ti-control-record"></i>Documents</a></li>
+
+
+                    </ul>
+                </li> {% endcomment %}
+
+
+
+
+                {% comment %}
+                {% if request.user.is_superuser or request.user|has_group:"Staff" %}
+
+
+                <li>
+                    <a href="javascript: void(0);"><i class="ti-harddrives"></i><span>Records</span><span
+                            class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li>
+                            <a href="javascript: void(0);"><i class="ti-control-record"></i>Books <span
+                                    class="menu-arrow left-has-menu"><i class="mdi mdi-chevron-right"></i></span></a>
+                            <ul class="nav-second-level" aria-expanded="false">
+
+                                <li><a href="{% url  'resources:request_list' %}">Requests
+
+
+                                        {% if book_request %}
+                                        <span class="badge badge-pink float-right mr-2">{{book_request}}</span>
+                                        {% endif %}
+
+
+                                    </a></li>
+                                <li><a href="{% url 'resources:approve_list' %}">Approvals
+
+
+
+                                        {% if approved_request %}
+                                        <span class="badge badge-pink float-right mr-2">{{approved_request}}</span>
+                                        {% endif %}
+
+
+                                    </a></li>
+                                <li><a href="{% url 'resources:history' %}">Book History</a></li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);"><i class="ti-control-record"></i>Documents <span
+                                    class="menu-arrow left-has-menu"><i class="mdi mdi-chevron-right"></i></span></a>
+                            <ul class="nav-second-level" aria-expanded="false">
+                                <li><a href="{% url 'documents:record_list' %}"> Requests
+                                        {% if document_request %}
+                                        <span class="badge badge-pink float-right mr-2">{{document_request}}</span>
+
+                                        {% endif %}</a></li>
+                                <li><a href="{% url 'documents:approved-list' %}">Approvals
+
+
+                                        {% if doc_approved %}
+                                        <span class="badge badge-pink float-right mr-2">{{doc_approved}}</span>
+                                    {% endif %}
+
+                                </a></li>
+                                <li><a href="{% url 'documents:history' %}">History</a></li>
+
+                            </ul>
+                        </li>
+
+
+                </li>
+
+                {% endif %} {% endcomment %}
+
+
+
+                </li>
+
+            </ul>
+            </li>
+
+
+
+
+        </div>
+        <!-- end left-sidenav-->

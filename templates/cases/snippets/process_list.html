@@ -1,0 +1,48 @@
+<div class="table-responsive dash-social">
+    <table id="datatable" class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Process</th>
+
+
+
+                <th>Date Created</th>
+
+                <th>Action</th>
+
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for pr in processes %}
+
+
+
+                <td>{{forloop.counter}}</td>
+                <td>{{pr.process.title}}</td>
+
+                <td>{{pr.date_added}}</td>
+
+
+
+
+                <td>
+                    <a href="{{pr.process_file.url}}" class="btn btn-dark">Download Stage</a>
+
+
+
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+
+
+
+
+</div>

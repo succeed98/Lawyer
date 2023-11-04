@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load auth_extras %}
+{% block title %}
+Case Files
+
+
+{% endblock title %}
+
+{% block content %}
+
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a></li>
+
+                            <li class="breadcrumb-item">Cases Files
+                            </li>
+                            <li class="breadcrumb-item active">Cases Files</li>
+                        </ol>
+                    </div>
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-body">
+                        <!--<button class="btn btn-gradient-primary px-4 float-right mt-0 mb-3" data-toggle="modal"-->
+                        <!--    data-target=".bd-example-modal-xl"><i class="mdi mdi-plus-circle-outline mr-2"></i>Add-->
+                        <!--    Files</button>-->
+
+                        <h4 class="mt-0 header-title">File List</h4>
+
+
+                        <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>File Name</th>
+                                    <th>Cases</th>
+                                    <th>Date Aded</th>
+                                    <th>Action</th>
+
+                                    </tr>
+                            </thead>
+
+
+                            <!-- load -->
+
+
+                            <tbody>
+
+                                {% for file in  case_files %}
+                                <tr>
+                                    <td>
+                                        {{forloop.counter}}
+
+                                    <td>{{file.title|title}}</td>
+                                    <td><a href="{{file.case.get_absolute_url}}">{{file.case|title}}</a></td>
+
+
+
+
+                                    <td> {{file.date_added}} | {{file.date_added|timesince}} Ago</td>
+
+
+
+                                    {% if request.user|has_group:"Lawyer" or request.user|has_group:"Staff" %}
+                                    <td>
+
+                                        <a href="{{file.file.url}}"
+                                            class="btn btn-gradient-secondary waves-effect waves-light"><i
+                                                class="dripicons-download file-download-icon"></i>Download</a>
+
+
+                                    </td>
+                                    {% endif %}
+
+
+                                </tr>
+
+
+
+                                {% endfor %}
+
+
+
+                                <!--end tr-->
+
+
+
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- sample modal content -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+        {% endblock content %}

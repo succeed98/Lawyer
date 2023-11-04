@@ -1,0 +1,104 @@
+~ $ dir 
+accounts	db.sqlite3  manage.py	requirements.txt  static       visitors
+cases		documents   media_root	resources	  staticfiles  wills
+clients		firm	    principles	runtime.txt	  static_root
+correspondents	lawyers     Procfile	schedules	  templates
+~ $ python mamange.anage.py collect stattstatic
+Traceback (most recent call last):
+  File "/app/.heroku/python/lib/python3.7/site-packages/django/core/management/__init__.py", line 204, in fetch_command
+    app_name = commands[subcommand]
+KeyError: 'collectstatic'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "manage.py", line 21, in <module>
+    main()
+  File "manage.py", line 17, in main
+    execute_from_command_line(sys.argv)
+  File "/app/.heroku/python/lib/python3.7/site-packages/django/core/management/__init__.py", line 381, in execute_from_command_line
+    utility.execute()
+  File "/app/.heroku/python/lib/python3.7/site-packages/django/core/management/__init__.py", line 375, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "/app/.heroku/python/lib/python3.7/site-packages/django/core/management/__init__.py", line 211, in fetch_command
+    settings.INSTALLED_APPS
+  File "/app/.heroku/python/lib/python3.7/site-packages/django/conf/__init__.py", line 79, in __getattr__
+    self._setup(name)
+  File "/app/.heroku/python/lib/python3.7/site-packages/django/conf/__init__.py", line 66, in _setup
+    self._wrapped = Settings(settings_module)
+  File "/app/.heroku/python/lib/python3.7/site-packages/django/conf/__init__.py", line 157, in __init__
+    mod = importlib.import_module(self.SETTINGS_MODULE)
+  File "/app/.heroku/python/lib/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/app/firm/settings.py", line 14, in <module>
+    from decouple import config
+ModuleNotFoundError: No module named 'decouple'
+~ $ pip install pythonpipn-decouple
+Collecting python-decouple
+  Downloading python-decouple-3.3.tar.gz (10 kB)
+Building wheels for collected packages: python-decouple
+  Building wheel for python-decouple (setup.py) ... - \ done
+  Created wheel for python-decouple: filename=python_decouple-3.3-py3-none-any.whl size=9024 sha256=76d9feaa8519717e9093275cb89a78e72ace3d66ce0455e3fa7eb575def99d80
+  Stored in directory: /app/.cache/pip/wheels/8a/01/7f/f40899a3f94a9e2307b6bda65b9a513a3cffaa6d3c3b6cf739
+Successfully built python-decouple
+Installing collected packages: python-decouple
+Successfully installed python-decouple-3.3
+WARNING: You are using pip version 20.0.2; however, version 20.1.1 is available.
+You should consider upgrading via the '/app/.heroku/python/bin/python -m pip install --upgrade pip' command.
+~ $ python maanage.py collectstatic
+Traceback (most recent call last):
+  File "/app/.heroku/python/lib/python3.7/site-packages/django/core/management/__init__.py", line 204, in fetch_command
+    app_name = commands[subcommand]
+KeyError: 'collectstatic'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "manage.py", line 21, in <module>
+    main()
+  File "manage.py", line 17, in main
+    execute_from_command_line(sys.argv)
+  File "/app/.heroku/python/lib/python3.7/site-packages/django/core/management/__init__.py", line 381, in execute_from_command_line
+    utility.execute()
+  File "/app/.heroku/python/lib/python3.7/site-packages/django/core/management/__init__.py", line 375, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "/app/.heroku/python/lib/python3.7/site-packages/django/core/management/__init__.py", line 211, in fetch_command
+    settings.INSTALLED_APPS
+  File "/app/.heroku/python/lib/python3.7/site-packages/django/conf/__init__.py", line 79, in __getattr__
+    self._setup(name)
+  File "/app/.heroku/python/lib/python3.7/site-packages/django/conf/__init__.py", line 66, in _setup
+    self._wrapped = Settings(settings_module)
+  File "/app/.heroku/python/lib/python3.7/site-packages/django/conf/__init__.py", line 157, in __init__
+    mod = importlib.import_module(self.SETTINGS_MODULE)
+  File "/app/.heroku/python/lib/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/app/firm/settings.py", line 16, in <module>
+    import django_heroku
+ModuleNotFoundError: No module named 'django_heroku'
+~ $ python manage.py collectstaticpip install dkjango -heroku
+Collecting django-heroku
+  Downloading django_heroku-0.3.1-py2.py3-none-any.whl (6.2 kB)
+Requirement already satisfied: psycopg2 in ./.heroku/python/lib/python3.7/site-packages (from django-heroku) (2.8.4)
+Collecting whitenoise
+  Downloading whitenoise-5.1.0-py2.py3-none-any.whl (19 kB)
+Requirement already satisfied: dj-database-url>=0.5.0 in ./.heroku/python/lib/python3.7/site-packages (from django-heroku) (0.5.0)
+Requirement already satisfied: django in ./.heroku/python/lib/python3.7/site-packages (from django-heroku) (2.2.6)
+Requirement already satisfied: pytz in ./.heroku/python/lib/python3.7/site-packages (from django->django-heroku) (2019.3)
+Requirement already satisfied: sqlparse in ./.heroku/python/lib/python3.7/site-packages (from django->django-heroku) (0.3.0)
+Installing collected packages: whitenoise, django-heroku
+Successfully installed django-heroku-0.3.1 whitenoise-5.1.0
+WARNING: You are using pip version 20.0.2; however, version 20.1.1 is available.
+You should consider upgrading via the '/app/.heroku/python/bin/python -m pip install --upgrade pip' command.
+~ $ 

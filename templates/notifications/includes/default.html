@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load notification_tags %}
+{% include_notify_js_variables %}
+{% block title %}
+User Notifications
+{% endblock title %}
+
+
+
+
+{% load auth_extras %}
+
+{% block content %}
+
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System. >
+
+                            <li class="breadcrumb-item"><a href="">Notifications</a></li>
+
+                        </ol>
+                    </div>
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+
+            {% include 'messages/messages.html' %}
+
+
+
+            <div class="card card-body">
+
+
+
+
+
+                  <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="nav flex-column nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                                <a class="nav-link waves-effect waves-light active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">All({{notifications.count}})</a>
+                                                <a class="nav-link waves-effect waves-light" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Read({{read_list.count}})</a>
+                                                <a class="nav-link waves-effect waves-light" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Unread({{unread_list.count}})</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="tab-content mo-mt-2" id="v-pills-tabContent">
+                                                <div class="tab-pane fade active show" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+
+                                                    <div class="row">
+                                                          {% for notification in notifications %}
+                                                        <div class="col-sm-9">
+                                                           <li data-nf-id="{{ notification.id }}"  class="notification list-group-item {{ notification.read|yesno:'read,unread' }}">
+                                                                <a href="">{{ notification.actor }}</a> {{ notification.verb }} (<a href="{{notification.target.get_absolute_url}}"> {{notification.target}}), </a>
+                                                                <span class="timesince">{{ notification.created|timesince }} ago</span>
+                                                                    </li>
+                                                        </div>
+                                                                  <div class="col-sm-3">
+<!--                                                                <button data-id="{{ notification.id }}" class="btn btn-primary mark-notification"-->
+<!--                                                                    data-mark-action="{{ notification.read|yesno:'unread,read' }}"-->
+<!--                                                                    data-toggle-text="Mark as {{ notification.read|yesno:_('read,unread') }}">-->
+
+<!--                                                                    Mark as {{ notification.read|yesno:'unread,read' }}-->
+<!--                                                                </button>-->
+<!--                                                                <button class="delete-notification btn btn-danger" data-id="{{ notification.id }}">X</button>-->
+<!--                                                                  -->
+                                                                      </div>
+                                                        {% endfor %}
+                                                           </div>
+                                                </div>
+
+                                                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+
+
+                                                <a href="{% url 'all_unread' %}" class="btn btn-secondary mb-2">Mark all as unread</a>
+
+{% if read_list %}
+
+                                                                          <div class="row">
+                                                          {% for read in read_list %}
+                                                        <div class="col-sm-9">
+                                                           <li data-nf-id="{{ notification.id }}"  class="notification list-group-item {{ notification.read|yesno:'read,unread' }}">
+                                                                <a href="">{{ read.actor }}</a> {{ read.verb }} (<a href="{{notification.target.get_absolute_url}}"> {{read.target}}), </a>
+                                                                <span class="timesince">{{ read.created|timesince }} ago</span>
+                                                                    </li>
+                                                        </div>
+                                                                  <div class="col-sm-3">
+                                                                <a href="{% url 'unread' read.pk %}" data-id="{{ notification.id }}" class="btn btn-primary mark-notification"
+                                                                    data-mark-action="{{ notification.read|yesno:'unread,read' }}"
+                                                                    data-toggle-text="Mark as {{ notification.read|yesno:_('read,unread') }}">
+
+                                                                    Mark as {{ read.read|yesno:'unread,read' }}
+                                                                </a>
+                                                                  </div>
+                                                        {% endfor %}
+                                                           </div>
+                                                    {% else %}
+
+                                                    <p class="text text-muted " align="center">No read notifications </p>
+                                                    {% endif %}
+
+
+                                                </div>
+                                                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                                                <a href="{% url 'all_read' %}" class="btn btn-secondary mb-2">Mark all as read</a>
+                                                                      <div class="row">
+                                                                          {% if unread_list %}
+                                                          {% for unread in unread_list %}
+                                                        <div class="col-sm-9">
+                                                           <li data-nf-id="{{ unread.id }}"  class="notification list-group-item {{ unread.read|yesno:'read,unread' }}">
+                                                                <a href="">{{unread.actor }}</a> {{ unread.verb }} (<a href="{{notification.target.get_absolute_url}}"> {{unread.target}}), </a>
+                                                                <span class="timesince">{{ unread.created|timesince }} ago</span>
+                                                                    </li>
+                                                        </div>
+                                                                  <div class="col-sm-3">
+                                                                <a href="{% url 'read' unread.pk %}" data-id="{{ notification.id }}" class="btn btn-primary mark-notification"
+                                                                    data-mark-action="{{ notification.read|yesno:'unread,read' }}"
+                                                                    data-toggle-text="Mark as {{ notification.read|yesno:_('read,unread') }}">
+
+                                                                    Mark as {{ unread.read|yesno:'unread,read' }}
+                                                                </a>
+                                                                  </div>
+                                                                             {% endfor %}
+                                                        {% else %}
+                                                                          <p class="text text-muted " align="center">No new notifications</p>
+
+                                                        {% endif %}
+                                                           </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+            </div>
+
+
+
+        </div>
+        <!-- end page title end breadcrumb -->
+
+
+
+
+
+</div>
+
+
+
+{% endblock content %}
+

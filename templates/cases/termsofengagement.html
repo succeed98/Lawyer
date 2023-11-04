@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+{% if case %}
+Case History
+{% else %}
+User History
+{% endif %}
+
+{% endblock title %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!-- Page Content-->
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System. </a> </li>
+                    
+                            <li class="breadcrumb-item"><a href="{% url 'cases:case_list' %}">Case List</a></li>
+                            <li class="breadcrumb-item active">Terms Of Engagement (TOE)</li>
+                     
+                        </ol>
+                    </div>
+
+
+            
+                                       <h4 class="page-title">Terms Of Engagement (TOE)</h4>
+                            
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+ <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                               
+
+                        <div class="table-responsive dash-social">
+                            <table id="datatable" class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Added By</th>
+                                        <th>Title</th>
+
+                                        <th> Date</th>
+
+                                        <th>Action</th>
+
+
+                                    </tr>
+                                    <!--end tr-->
+                                </thead>
+                                <tbody>
+                            {% for terms in termsofengagement %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{terms.added_by}}</td>
+                                <td>{{terms.title}} </td>
+                                <td>{{terms.date_add}}</td>
+                                <td><a href="{{terms.upload_file.url}}" class="btn btn-gradient-primary">Download</a>
+                                <a href="{{terms.upload_file.url}}" class="btn btn-gradient-primary"
+                                data-toggle="modal"
+                                    data-animation="bounce" data-target=".terms{{terms.id}}"
+                                >
+                                    Edit</a> </td>                   
+                            
+                            
+                                    
+                            </tr>
+
+                            <div class="modal fade terms{{terms.id}}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-l">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title mt-0" id="mySmallModalLabel">Edit Terms of Engagement (TOE)</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        </div>
+                                        <div class="modal-body">
+
+
+                                            {% load crispy_forms_tags %}
+                                            <form action="{% url 'cases:terms_edit'%}" method="post" enctype="multipart/form-data"accept = "application/pdf">
+
+
+                                                <label for=""> File:</label><br>
+                                                current file : <a href="{{terms.upload_file.url}}">{{terms.title}}</a>
+                                                <input type="file" class="form-control" name="upload_file">
+                                                <input type="text" class="form-control" value="{{terms.id}}" name="terms_id" hidden>
+                                                <center>
+                                                    <button type="submit" class="btn btn-secondary">Add Files</button>
+                                                    <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Close</button>
+
+                                                </center>
+                                            </form>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div>
+                                
+
+                            {% endfor %}
+                        </tbody>
+                            </table>
+                            
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</div>
+
+
+{% endblock content %}

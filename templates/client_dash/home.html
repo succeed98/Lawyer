@@ -1,0 +1,145 @@
+{% extends 'client_dash/base2.html' %}
+
+{% load static %}
+
+
+{% block title %}
+Client Dashboard
+{% endblock title %}
+
+
+{% block content %}
+
+
+
+
+                <div class="container-fluid">
+                    <!-- Page-Title -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-title-box">
+                                <div class="float-right">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Lawyer System.</a></li>
+
+                                        <li class="breadcrumb-item active">Dashboard</li>
+                                    </ol><!--end breadcrumb-->
+                                </div><!--end /div-->
+                                <h4 class="page-title">Starter</h4>
+                            </div><!--end page-title-box-->
+                        </div><!--end col-->
+                    </div><!--end row-->
+                    <!-- end page title end breadcrumb -->
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="card card-eco">
+                                <div class="card-body">
+                                    <h4 class="title-text mt-0">My Cases</h4>
+                                    <div class="d-flex justify-content-between">
+                                        <h3 class="text-purple">{{case_list.count}}</h3>
+                                        <i class="dripicons-folder card-eco-icon bg-icon-purple align-self-center"></i>
+                                    </div>
+                                </div><!--end card-body-->
+                            </div><!--end card-->
+                        </div><!--end col-->
+                        <div class="col-lg-3">
+                            <div class="card card-eco">
+                                <div class="card-body">
+                                    <h4 class="title-text mt-0">Active Cases</h4>
+                                    <div class="d-flex justify-content-between">
+                                        <h3 class="text-pink">{{active_list.count}}</h3>
+                                        <i class="dripicons-folder-open card-eco-icon bg-icon-pink align-self-center"></i>
+                                    </div>
+                                </div><!--end card-body-->
+                            </div><!--end card-->
+                        </div><!--end col-->
+                        <div class="col-lg-3">
+                            <div class="card card-eco">
+                                <div class="card-body">
+                                    <h4 class="title-text mt-0">Closed Cases</h4>
+                                    <div class="d-flex justify-content-between">
+                                        <h3 class="text-secondary">{{closed_list.count}}</h3>
+                                        <i class="dripicons-archive card-eco-icon bg-icon-secondary align-self-center"></i>
+                                    </div>
+                                </div><!--end card-body-->
+                            </div><!--end card-->
+                        </div><!--end col-->
+                        <div class="col-lg-3">
+                            <div class="card card-eco">
+                                <div class="card-body">
+                                    <h4 class="title-text mt-0">Bills</h4>
+                                    <div class="d-flex justify-content-between">
+                                        <h3 class="text-warning">{{bill_list.count}}</h3>
+                                        <i class="dripicons-wallet card-eco-icon bg-icon-warning  align-self-center"></i>
+                                    </div>
+                                </div><!--end card-body-->
+                            </div><!--end card-->
+                        </div><!--end col-->
+                    </div><!--end row-->
+
+                    <div class="row">
+
+
+
+                    </div><!--end row-->
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body order-list">
+                                    <h4 class="header-title mt-0 mb-3">My Cases</h4>
+                                   <div class="table-responsive dash-social">
+              <table id="datatable" class="table">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th class="border-top-0">Title</th>
+                                                    <th class="border-top-0">Category</th>
+                                                    <th class="border-top-0">Date Added</th>
+                                                    <th class="border-top-0">Representation</th>
+                                                    <th class="border-top-0">Court</th>
+
+                                                    <th class="border-top-0">Action</th>
+                                                </tr><!--end tr-->
+                                            </thead>
+                                            <tbody>
+                                            {% for case in case_list %}
+                                                <tr>
+                                                    <td>
+                                                        {{case}} </td>
+                                                    <td>
+                                                        {{case.category|title}}
+                                                    </td>
+                                                    <td>
+                                                       {{case.date_added|date}}
+                                                    </td>
+                                                    <td>{{case.representative|title}}</td>
+                                                    <td>{{case.court|title}}</td>
+
+                                                    <td>
+                                                        <a href="{% url 'accounts:case_details' case.pk %}" class="btn btn-secondary">View Case</a>
+                                                    </td>
+                                                </tr><!--end tr-->
+{% endfor %}
+                                            </tbody>
+                                        </table> <!--end table-->
+                                    </div><!--end /div-->
+                                </div><!--end card-body-->
+                            </div><!--end card-->
+                        </div><!--end col-->
+                    </div><!--end row-->
+
+                </div><!-- container -->
+
+{% endblock content %}
+
+
+
+
+
+
+

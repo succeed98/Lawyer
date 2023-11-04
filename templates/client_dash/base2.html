@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+    <head>
+        <meta charset="utf-8" />
+     {% block title %}
+
+     {% endblock title %}
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="" name="description" />
+        <meta content="Integris" name="author" />
+
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="../assets/images/favicon.ico">
+
+        <!-- App css -->
+         <link href="{% static './assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static './assets/css/icons.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static './assets/css/metisMenu.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static './assets/css/style.css' %}" rel="stylesheet" type="text/css" />
+
+
+    <link href="{% static './assets/plugins/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="
+        text/css" />
+    <link href="{% static './assets/plugins/datatables/buttons.bootstrap4.min.css' %}" rel="stylesheet"
+        type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="{% static './assets/plugins/datatables/responsive.bootstrap4.min.css' %}" rel="stylesheet"
+        type="text/css" />
+
+
+
+    <link href="{% static './assets/plugins/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="
+        text/css" />
+    <link href="{% static './assets/plugins/datatables/buttons.bootstrap4.min.css' %}" rel="stylesheet"
+        type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="{% static './assets/plugins/datatables/responsive.bootstrap4.min.css' %}" rel="stylesheet"
+        type="text/css" />
+
+    </head>
+
+    <body>
+
+        <!-- Top Bar Start -->
+        <div class="topbar">
+
+            <!-- LOGO -->
+            <div class="topbar-left">
+                <a href="{% url 'accounts:client_dashboard' client.pk %}" class="logo">
+                     <span>
+                    <img src="{% static './assets/images/logo.png' %}" alt="logo-small"
+                        style="width: 65px;height: 65px;">
+                </span>
+
+                </a>
+            </div>
+            <!--end logo-->
+            <!-- Navbar -->
+            <nav class="navbar-custom">
+                <ul class="list-unstyled topbar-nav float-right mb-0">
+
+                    <!--<li class="dropdown notification-list">-->
+                    <!--    <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown" href="#" role="button"-->
+                    <!--        aria-haspopup="false" aria-expanded="false">-->
+                    <!--        <i class="ti-bell noti-icon"></i>-->
+                    <!--        <span class="badge badge-danger badge-pill noti-icon-badge">2</span>-->
+                    <!--    </a>-->
+                    <!--    <div class="dropdown-menu dropdown-menu-right dropdown-lg">-->
+                            <!-- item-->
+                    <!--        <h6 class="dropdown-item-text">-->
+                    <!--            Notifications (18)-->
+                    <!--        </h6>-->
+                    <!--        <div class="slimscroll notification-list">-->
+                                <!-- item-->
+                    <!--            <a href="javascript:void(0);" class="dropdown-item notify-item active">-->
+                    <!--                <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>-->
+                    <!--                <p class="notify-details">Your order is placed<small class="text-muted">Dummy text of the printing and typesetting industry.</small></p>-->
+                    <!--            </a>-->
+
+                    <!--        </div>-->
+                            <!-- All-->
+                    <!--        <a href="javascript:void(0);" class="dropdown-item text-center text-primary">-->
+                    <!--            View all <i class="fi-arrow-right"></i>-->
+                    <!--        </a>-->
+                    <!--    </div>-->
+                    <!--</li>-->
+
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="false" aria-expanded="false">
+                            <img src="{% static './assets/images/user.png' %}" alt="profile-user" class="rounded-circle" />
+                            <span class="ml-1 nav-user-name hidden-sm">{{request.user}} <i class="mdi mdi-chevron-down"></i> </span>
+                        </a>
+                        <!--<div class="dropdown-menu dropdown-menu-right">-->
+                        <!--    <a class="dropdown-item" href="#"><i class="ti-user text-muted mr-2"></i> Profile</a>-->
+
+                        <!--    <a class="dropdown-item" href="#"><i class="ti-settings text-muted mr-2"></i> Settings</a>-->
+
+                        <!--    <div class="dropdown-divider"></div>-->
+                        <!--    <a class="dropdown-item" href="#"><i class="ti-power-off text-muted mr-2"></i> Logout</a>-->
+                        <!--</div>-->
+                    </li>
+                </ul><!--end topbar-nav-->
+
+                <ul class="list-unstyled topbar-nav mb-0">
+                    <li>
+                        <button class="button-menu-mobile nav-link waves-effect waves-light">
+                            <i class="ti-menu nav-icon"></i>
+                        </button>
+                    </li>
+
+                </ul>
+            </nav>
+            <!-- end navbar-->
+        </div>
+        <!-- Top Bar End -->
+
+        <div class="page-wrapper">
+            <!-- Left Sidenav -->
+            <div class="left-sidenav">
+                <ul class="metismenu left-sidenav-menu">
+
+                    <li>
+                        <a href="{% url 'accounts:client_dashboard' client.pk %}"><i class="ti-bar-chart"></i><span>Dashboard</span><span class="menu-arrow"></span></a>
+
+                    </li>
+
+                    <!--<li>-->
+                    <!--    <a href="javascript: void(0);"><i class="ti-server"></i><span>My Cases</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>-->
+                    <!--    <ul class="nav-second-level" aria-expanded="false">-->
+                    <!--        <li class="nav-item"><a class="nav-link" href="../crypto/crypto-index.html"><i class="ti-control-record"></i>All Cases</a></li>-->
+                    <!--        <li class="nav-item"><a class="nav-link" href="../crypto/crypto-exchange.html"><i class="ti-control-record"></i>Active Cases</a></li>-->
+                    <!--        <li class="nav-item"><a class="nav-link" href="../crypto/crypto-wallet.html"><i class="ti-control-record"></i>Closed Cases</a></li>-->
+
+                    <!--    </ul>-->
+                    <!--</li>-->
+
+                    <li>
+                        <a href="javascript: void(0);"><i class="ti-briefcase"></i>
+                            <span>Billing</span>
+                            <span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span>
+                            <span class="badge badge-pink float-right mr-2">New</span>
+                        </a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li class="nav-item"><a class="nav-link" href="{% url 'accounts:client_dashboard' client.pk %}"><i class="ti-control-record"></i>My Bills</a></li>
+
+                        </ul>
+                    </li>
+
+
+
+                    <li>
+                        <a href="javascript: void(0);"><i class="ti-lock"></i><span>Accounts</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"></i>Logout</a></li>
+
+                            <li class="nav-item"><a class="nav-link" href="{% url 'accounts:change_password' %}"><i class="ti-control-record"></i>Change Password</a></li>
+
+
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- end left-sidenav-->
+
+            <!-- Page Content-->
+            <div class="page-content">
+     {% block content %}
+
+     {% endblock content %}
+
+                <footer class="footer text-center text-sm-left">
+
+
+                    &copy; {% now "Y"%} Lawyer System.<span class="text-muted d-none d-sm-inline-block float-right"></span>
+
+                </footer><!--end footer-->
+            </div>
+            <!-- end page content -->
+        </div>
+        <!-- end page-wrapper -->
+
+
+        <!-- App js -->
+        <script src="../assets/js/app.js"></script> <script src="{% static './assets/js/jquery.min.js' %}"></script>
+        <script src="{% static './assets/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static './assets/js/metisMenu.min.js' %}"></script>
+        <script src="{% static './assets/js/waves.min.js' %}"></script>
+        <script src="{% static './assets/js/jquery.slimscroll.min.js' %}"></script>
+        <script src="{% static './assets/js/tab-init.js' %}"></script>
+
+        <script src="{% static './assets/plugins/datatables/jquery.dataTables.min.js' %} "></script>
+<script src="{% static './assets/plugins/datatables/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static './assets/plugins/peity-chart/jquery.peity.min.js' %} "></script>
+<script src="{% static './assets/pages/jquery.ana_customers.inity.js' %} "></script>
+
+        <!-- App js -->
+        <script src="{% static './assets/js/app.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#e1").select2({
+        placeholder:' ',
+        dropdownAutoWidth : true,
+        width: '100%',
+        height: '100%',
+        });
+        });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+    $('#data_table').DataTable();
+} );
+</script>
+
+    </body>
+</html>

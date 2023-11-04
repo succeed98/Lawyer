@@ -1,0 +1,46 @@
+
+{% load auth_extras %}
+<tbody>
+
+    {% for case  in  cases %}
+    <tr>
+    <td>{{forloop.counter}}</td>
+        <td>{{case.case.name|title}}</td>
+
+        <td>{{case.case.category|title}}</td>
+        <td>{{case.case.date_added|date}}</td>
+        <td>{{case.case.case_number|title}}</td>
+        <td>{{case.box_number|title}}</td>
+        <td>{{case.aisle_number|title}}</td>
+        <td>{{case.shelf|title}}</td>
+
+
+
+
+
+
+
+
+
+        {% if request.user|has_group:"Lawyer" or request.user|has_group:"Staff" %}
+        <td>
+
+            <a href="{% url 'cases:archive_detail' case.pk %}" class="btn btn-gradient-secondary waves-effect waves-light"><i
+                    class="mdi mdi-eye"></i></a>
+
+
+        </td>
+
+        {% endif %}
+
+    </tr>
+
+
+
+    {% endfor %}
+
+
+    <!--end tr-->
+
+
+

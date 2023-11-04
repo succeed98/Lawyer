@@ -1,0 +1,140 @@
+{% load static %}
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == 'success'%}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true"><i class="mdi mdi-close"></i></span>
+    </button>
+    <strong>{{message|title}}</strong>
+</div>
+{% elif message.tags == 'info'%}
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true"><i class="mdi mdi-close"></i></span>
+    </button>
+    <strong>{{message|title}}</strong>
+</div>
+{% elif message.tags == 'warning'%}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true"><i class="mdi mdi-close"></i></span>
+    </button>
+    <strong>{{message|title}}</strong>
+</div>
+{% elif message.tags == 'error'%}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true"><i class="mdi mdi-close"></i></span>
+    </button>
+    <strong>{{message|title}}</strong>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+
+{% if request.user.is_authenticated %}
+    
+    
+<section class="ourstopwatch shadow" id="ourstopwatch">
+    <table>
+        <tr>
+
+            <td>
+                <div id="chrono2">0
+                </div>
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                <div id="chrono1">0
+                </div>
+            </td>
+            <td>
+                :
+
+            </td>
+            <td>
+                <div id="chrono">0</div>
+            </td>
+
+            <td></td>
+            <td></td>
+            <td></td>
+
+            <td>
+                <button name="button-reset" id="reset" ><img src="{% static 'icons/reset.png' %}" alt="" width="20"></button>
+            </td>
+            <td>
+                <button name="button-stop" id="start" class=""><img src="{% static 'icons/pause.png' %}" alt="" width="20"></button>
+
+            </td>
+            <td>
+                <button data-toggle="modal" name="button-end" onclick="myCallingAll()" data-animation="bounce" data-target=".bd-example-modal-xl1" id="end" class=""><img src="{% static 'icons/end.png' %}" alt="" width="20"></button>
+
+            </td>
+        </tr>
+
+
+    </table>
+
+
+    <br>
+</section>
+
+{% endif %}
+
+
+<div class="modal fade bd-example-modal-xl1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myModalLabel">Time Ended</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="dropzone">
+                    <form action="{%url 'cases:start_timers' %}" method="post">
+                        {% csrf_token %}
+                        <label for="purpose">Name of Task</label>
+                        <input type="text" name="name_task" class="form-control" id="">
+                        <label for="purpose">Purpose of Task</label>
+                        <textarea class="form-control" name="purpose" id="" cols="30" rows="10"></textarea>
+                        <input type="number" name="case_id" hidden class="form-control" id="case_id">
+
+                        <p>{{request.user.lawyer.per_hour_charge}} cedis per hour charges </p>
+                        <div class = "row">
+                            <div class="col-1">
+                                <label for="brief_hour">Hour:</label>
+                                <label id="the_hour">Hour</label>
+                                <input type="number" name="hour" hidden id ="brief_hour" class="form-control" id="">
+                            </div>
+                            <div class="col-1">
+                                <label for="brief_minutes">Minutes:</label>
+                                <label id="the_min">Minutes</label>
+                                <input type="number" name="minutes" hidden id ="brief_minutes" class="form-control" id="">
+                            </div>
+                            <div class="col-3">
+                                <label for="brief_seconds">Seconds:</label>
+                                <label id="the_sec">Seconds</label>
+                                <input type="number" name="seconds_payment" hidden id ="brief_seconds" class="form-control" id="">
+                            </div>
+                        </div>
+
+
+                    <div class="text-center">
+                    <button type="submit" onclick="ClearAll()" class="btn btn-success waves-effect" >Submit</button>
+
+                    </div>
+                </form>
+
+                </div>
+               
+                
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

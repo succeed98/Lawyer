@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Muli:300,400,700,900');
+
+        .ourstopwatch {
+            background-color: #5d73a4;
+            height: 38px;
+            padding-left: 5px;
+            padding-right: 5px;
+            display: inline-block;
+            border-radius: 5px;
+        }
+
+        .shadow {
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.164);
+            transition: all 0.3s ease 0s;
+            outline: none;
+            font-family: 'Roboto'sans-serif;
+        }
+
+        .shadow:hover {
+            background-color: #5d73a4;
+            box-shadow: 0px 10px 10px #5d73a485;
+            color: #fff !important;
+            transform: translateY(-4px);
+        }
+
+        .ourstopwatch td {
+            color: white;
+            font-weight: 500;
+            font-size: 25px;
+            font-family: 'Muli', Arial, sans-serif;
+        }
+
+        #reset,
+        #start,
+        #end {
+            background-color: #fff;
+            border: none;
+            border-radius: 2.5px;
+            padding: 1px;
+        }
+
+        #reset,
+        #start,
+        #end {
+            box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.123);
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            outline: none;
+            font-family: 'Roboto'sans-serif;
+        }
+
+        #reset:hover {
+            background-color: #fff;
+            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.123);
+            transform: translateY(-4px);
+        }
+
+        #start:hover {
+            background-color: #fff;
+            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.123);
+            transform: translateY(-4px);
+        }
+
+        #end:hover {
+            background-color: #fff;
+            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.123);
+            transform: translateY(-4px);
+        }
+
+        
+    </style>
+</head>
+
+<body>
+
+    <br><br><br>
+
+    <section class="ourstopwatch shadow">
+        <table>
+            <tr>
+
+                <td>
+                    <div id="chrono2">
+                        0
+                    </div>
+                </td>
+                <td>
+                    :
+                </td>
+                <td>
+                    <div id="chrono1">
+                        0
+                    </div>
+                </td>
+                <td>
+                    :
+
+                </td>
+                <td>
+                    <div id="chrono">00</div>
+                </td>
+
+                <td></td>
+                <td></td>
+                <td></td>
+
+                <td>
+                    <button name="button-reset" id="reset" class=""><img src="icons/reset.png" width="22"
+                            alt=""></button>
+                </td>
+                <td>
+                    <button name="button-stop" id="start" class=""><img src="icons/start.png" width="22"
+                            alt=""></button>
+
+                </td>
+                <td>
+                    <button name="button-end" id="end" class=""><img src="icons/end.png" width="22" alt=""></button>
+
+                </td>
+            </tr>
+
+
+        </table>
+
+
+        <br>
+    </section>
+
+
+
+
+
+
+    <script>
+
+
+        function myEndFunction() {
+          document.getElementById("demo").innerHTML = "Hello World";
+        }
+        
+            window.onload = function jkm(){
+                i = setInterval(function() {
+                localStorage.timer = +localStorage.timer + 0.1;
+                chronoDiv.innerHTML = (+localStorage.timer).toFixed(1);
+            
+                if (localStorage.timer >59) {
+                localStorage.timer = 0;
+                localStorage.timer1 = +localStorage.timer1 + 1;
+                chronoDiv1.innerHTML = (+localStorage.timer1).toFixed(0);
+        
+                
+                }
+        
+                if (localStorage.timer1 >59) {
+                localStorage.timer1 = 0;
+                localStorage.timer2 = +localStorage.timer2 + 1;
+                chronoDiv2.innerHTML = (+localStorage.timer2).toFixed(0);
+        
+                
+                }
+            
+            }, 100);
+            }
+        
+                if (window.localStorage) {
+            
+            // Initialize timer or get previous value
+            localStorage.timer = (localStorage.timer || 0);
+            localStorage.timer1 = (localStorage.timer1 || 0);
+            localStorage.timer2 = (localStorage.timer2 || 0);
+            
+            // Variable declaration
+            var chronoDiv = document.getElementById("chrono"),
+            chronoDiv1 = document.getElementById("chrono1"),
+            chronoDiv2 = document.getElementById("chrono2"),
+            playStopButton = document.getElementsByTagName("button")[1],
+            i = undefined;
+            j = undefined;
+            k = undefined;
+            
+            // Show current chrono value
+            chronoDiv.innerHTML = (+localStorage.timer).toFixed(1);
+            chronoDiv1.innerHTML = (+localStorage.timer1).toFixed(0);
+            chronoDiv2.innerHTML = (+localStorage.timer2).toFixed(0);
+            
+            // Start chrono and update each 0.1 seconds
+            function start() {
+                i = setInterval(function() {
+                localStorage.timer = +localStorage.timer + 0.1;
+                chronoDiv.innerHTML = (+localStorage.timer).toFixed(1);
+            
+                if (localStorage.timer >59) {
+                localStorage.timer = 0;
+                localStorage.timer1 = +localStorage.timer1 + 1;
+                chronoDiv1.innerHTML = (+localStorage.timer1).toFixed(0);
+        
+                
+                }
+        
+                if (localStorage.timer1 >59) {
+                localStorage.timer1 = 0;
+                localStorage.timer2 = +localStorage.timer2 + 1;
+                chronoDiv2.innerHTML = (+localStorage.timer2).toFixed(0);
+        
+                
+                }
+            
+            }, 100);
+            
+            
+            }
+            
+            function changeToStart() {
+            playStopButton.className = "start";
+            }
+            
+            function changeToNumber(jkm, jkm1, jkm2) {
+            playStopButton.className = "start";
+            playStopButton.innerHTML = jkm + ' ' + jkm1 + ' ' + jkm2;
+            }
+            
+            function changeToStop() {
+            playStopButton.className = "stop";
+            }
+            
+            // Reset event
+            document.getElementsByName("button-reset")[0].addEventListener("click", function() {
+            window.clearInterval(i);
+            i = undefined;
+            localStorage.timer = 0.0;
+            chronoDiv.innerHTML = (+localStorage.timer).toFixed(0);
+            
+            
+            window.clearInterval(j);
+            j = undefined;
+            localStorage.timer1 = 0;
+            chronoDiv1.innerHTML = (+localStorage.timer1).toFixed(0);
+        
+        
+            window.clearInterval(k);
+            k = undefined;
+            localStorage.timer2 = 0;
+            chronoDiv2.innerHTML = (+localStorage.timer2).toFixed(0);
+        
+        
+            changeToStart();
+            });
+            
+            
+            // End event
+            document.getElementsByName("button-end")[0].addEventListener("click", function() {
+            window.clearInterval(i);
+            changeToStart();
+            i = undefined;
+            var jkm = Math.floor(localStorage.timer);
+            var jkm1 = localStorage.timer1;
+            var jkm2 = localStorage.timer2;
+            
+            
+            changeToNumber(jkm2 , jkm1 , jkm);
+            
+            
+            });
+            
+            
+            
+            // Start/stop event
+            document.getElementsByName("button-stop")[0].addEventListener("click", function() {
+            // Stop chrono
+            if (i) {
+                window.clearInterval(i);
+                changeToStart();
+                i = undefined;
+            
+                window.clearInterval(j);
+                j = undefined;
+            }
+            // Start chrono
+            else {
+                changeToStop();
+                start();
+            }
+            });
+            
+            } else {
+            // Error message
+            document.getElementsByTagName("header")[0].innerHTML += "<h3 style=\"color:red\">Sorry, your browser doesn't suppot LocalStorage</h3>";
+            }
+    </script>
+</body>
+
+</html>

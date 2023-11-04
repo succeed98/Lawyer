@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+Case List
+{% endblock title %}
+
+{% load auth_extras %}
+
+
+
+
+
+
+
+
+{% block content %}
+<!-- Page Content-->
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a> </li>
+
+                            <li class="breadcrumb-item"><a href="{% url 'cases:case_list' %}">Casess</a></li>
+                            <li class="breadcrumb-item active">Archives</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Archives({{completed.count}})</h4>
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <button class="btn btn-gradient-primary px-4 float-right mt-0 mb-3" btn-lg btn-block"
+                            data-toggle="modal" data-target=".bd-example-modal-xl"></i>Add To Archives</button>
+
+
+
+
+
+
+
+
+                        <div class="table-responsive dash-social">
+                            <table id="datatable" class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                    <th>#</th>
+                                        <th>Case Title</th>
+                                        <th>Category</th>
+
+                                        <th>Date Added</th>
+                                        <th>Case Number</th>
+                                        <th>Case Box Number</th>
+                                        <th>Aisle Number</th>
+                                        <th>Shelf</th>
+
+
+
+
+                                        <th>Action</th>
+                                    </tr>
+
+                                </thead>
+
+{% include 'cases/snippets/archive_list.html' with cases=completed %}
+                            </table>
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+
+
+        <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="myModalLabel">Add To Archives </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'cases:add_archive' %}" method="POST"  enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{form|crispy}}
+                            <fieldset>
+                                <legend align="center">
+                                    Scanned Files
+                                </legend>
+
+                                {{file_form|crispy}}
+                            </fieldset>
+
+
+
+                            <center >
+                                <button class="btn btn-secondary">Add To Archives</button>
+                                <button  class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Close</button>
+                            </center>
+                        </form>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+
+
+    </div>
+
+</div>
+{% endblock content %}

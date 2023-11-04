@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+ Expesses
+{% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+
+{% block content %}
+
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a></li>
+
+
+                            <li class="breadcrumb-item active">Expenses</li>
+                        </ol>
+                    </div>
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class='card-body'>
+
+
+                        <h4 class="mt-0 header-title">Expense List</h4>
+
+                        <div class="table-responsive dash-social">
+                            <table id="datatable" class="table">
+                                <thead>
+                                    <tr>
+
+                                        <th>#</th>
+                                        <th>Case</th>
+
+                                        <th>Time</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+
+
+                                <!-- load -->
+
+
+                                <tbody>
+
+                                    {% for invoice in  invoice_list %}
+                                    <tr>
+
+                                        <td>{{forloop.counter}}</td>
+                                        <td> {{invoice.case}}
+                                        </td>
+
+
+
+
+
+                                        <td> {{invoice.timestamp}}</td>
+                                        <td>{{invoice.amount}}</td>
+                                        <td><a href="{%url 'accounts:invoice_detail' invoice.id %}" class="btn btn-gradient-secondary dropdown-toggle"><i
+                                            class="mdi mdi-eye"></i></a></td>
+                                        
+                                            
+                                            {% if invoice.Paid %}
+                                            <td><button disabled class="btn btn-success dropdown-toggle">
+                                                Paid
+                                            </button></td>
+                                                {% else %}
+
+                                            <td><a href="{%url 'accounts:approve_invoice' invoice.id %}" class="btn btn-gradient-secondary dropdown-toggle">
+                                                Approve Payment
+                                            </a></td>
+                                            {% endif %}
+                                            
+                                        
+
+
+
+
+
+                                    </tr>
+
+
+
+                                    {% endfor %}
+
+
+
+                                    <!--end tr-->
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+</div>
+</div>
+
+{% endblock content %}

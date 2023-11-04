@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>
+        {% block title %}
+
+        {% endblock title %}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A premium admin dashboard template by Mannatthemes" name="description" />
+    <meta content="Mannatthemes" name="author" />
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Muli:300,400,700,900');
+
+        .ourstopwatch {
+            background-color: #5d73a4;
+            height: 41px;
+            padding-left: 5px;
+            padding-right: 5px;
+            display: none;
+            border-radius: 5px;
+        }
+
+        .shadow {
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.164);
+            transition: all 0.3s ease 0s;
+            outline: none;
+            font-family: 'Roboto'sans-serif;
+        }
+
+        .shadow:hover {
+            background-color: #5d73a4;
+            box-shadow: 0px 10px 10px #5d73a485;
+            color: #fff !important;
+            transform: translateY(-4px);
+        }
+
+        .ourstopwatch td {
+            color: white;
+            font-weight: 500;
+            font-size: 23px;
+            font-family: 'Muli', Arial, sans-serif;
+        }
+
+        #reset,
+        #start,
+        #end {
+            background: transparent;
+            border: none;
+            border-radius: 2.5px;
+            /* padding: 1px; */
+        }
+
+        #reset,
+        #start,
+        #end {
+            box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.123);
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            outline: none;
+            font-family: 'Roboto'sans-serif;
+        }
+
+        
+        #reset:hover {
+            background-color: #5389ff;
+            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.123);
+            transform: translateY(-4px);
+        }
+
+        
+
+        #start:hover {
+            background-color: #5389ff;
+            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.123);
+            transform: translateY(-4px);
+        }
+
+        #end:hover {
+            background-color: #5389ff;
+            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.123);
+            transform: translateY(-4px);
+        }
+        
+        
+    </style>
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static './assets/images/logo.png' %} ">
+
+    {% block extra_head %}
+
+    {% endblock extra_head %}
+
+    <!-- DataTables -->
+
+
+
+    <link href="{% static './assets/plugins/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="
+        text/css" />
+    <link href="{% static './assets/plugins/datatables/buttons.bootstrap4.min.css' %}" rel="stylesheet"
+        type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="{% static './assets/plugins/datatables/responsive.bootstrap4.min.css' %}" rel="stylesheet"
+        type="text/css" />
+
+    <link href="{% static './assets/css/bootstrap.min.css' %} " rel="stylesheet" type="text/css" />
+
+    <!--
+
+    <script src="{% static './assets/js/jquery.min.js' %}"></script>
+    <script src="{% static './assets/js/bootstrap.bundle.min.js' %}"></script> -->
+    <link rel="stylesheet" href="{% static 'chat/style.css' %}" />
+
+
+
+    <link href="{% static './assets/plugins/daterangepicker/daterangepicker.css' %}" rel="stylesheet" />
+
+    <link href="{% static './assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css' %}" rel="stylesheet"
+        type="text/css" />
+    <!-- <link href="{% static './assets/plugins/timepicker/bootstrap-material-datetimepicker.css' %}" rel=" stylesheet"> -->
+    <link href="{% static './assets/plugins/bootstrap-touchspin/css/jquery.bootstrap-touchspin.min.css' %}"
+        rel="stylesheet" />
+
+
+    <!--      <link href="{% static './assets/plugins/select2/select2.min.css' %} " rel="stylesheet" type="text/css" />-->
+
+
+    <!-- App css -->
+    <link href="{% static './assets/css/bootstrap.min.css' %} " rel="stylesheet" type="text/css" />
+    <!-- <link href="{% static './assets/css/bootstrap-datetimepicker.min.css' %} " rel="stylesheet" type="text/css" /> -->
+
+    <link href="{% static './assets/css/icons.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static './assets/css/metisMenu.min.css' %} " rel="stylesheet" type="text/css" />
+    <link href="{% static './assets/css/style.css' %} " rel="stylesheet" type="text/css" />
+    <link href="{% static './assets/select2/select2.min.css' %} " rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{% static 'dropzone.min.css' %}" type="text/css" />
+
+
+</head>
+{% include 'header.html' %}
+
+
+
+
+
+{% block content %}
+
+{% endblock content %}
+
+
+
+
+
+{% include 'footer.html' %}

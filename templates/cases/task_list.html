@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+
+
+{% block title %}
+Case Tasks
+{% endblock title %}
+
+
+{% block content %}
+
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'cases:case_detail' case.pk %}">Cases Detail</a>
+                            <li class="breadcrumb-item active">Timeline</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Timeline</h4>
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title mt-0 mb-3">Completed Tasks</h4>
+                        <div class="slimscroll activity-scroll">
+                            <div class="activity">
+
+                                {% for task in tasks  %}
+
+                                {% if task.complete %}
+                                <i class="mdi mdi-checkbox-marked-circle-outline icon-success"></i>
+                                <div class="time-item">
+                                    <div class="item-info">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="m-0">{{task.task|title}}</h6>
+                                            <span class="text-muted">Completed :{{task.date_modefied|timesince}}
+                                                Ago</span>
+                                        </div>
+                                        <p class="text-muted mt-3">{{task.description|title}}
+                                            <!-- <a href="#" class="text-info">[more info]</a> -->
+                                        </p>
+                                        <div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+
+                                {% endfor %}
+
+                                <!-- <i class="mdi mdi-timer-off icon-pink"></i>
+                                <div class="time-item">
+                                    <div class="item-info">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="m-0">Task Overdue</h6>
+                                            <span class="text-muted">30 minutes ago</span>
+                                        </div>
+                                        <p class="text-muted mt-3">There are many variations of passages of Lorem Ipsum
+                                            available, but the majority have suffered alteration.
+                                            <a href="#" class="text-info">[more info]</a>
+                                        </p>
+                                        <div>
+                                            <span class="badge badge-soft-secondary">Python</span>
+                                            <span class="badge badge-soft-secondary">Django</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <i class="mdi mdi-alert-decagram icon-purple"></i>
+                                <div class="time-item">
+                                    <div class="item-info">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="m-0">New Task</h6>
+                                            <span class="text-muted">50 minutes ago</span>
+                                        </div>
+                                        <p class="text-muted mt-3">There are many variations of passages of Lorem Ipsum
+                                            available, but the majority have suffered alteration.
+                                            <a href="#" class="text-info">[more info]</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <i class="mdi mdi-clipboard-alert icon-warning"></i>
+                                <div class="time-item">
+                                    <div class="item-info">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="m-0">New Comment</h6>
+                                            <span class="text-muted">1 Day ago</span>
+                                        </div>
+                                        <p class="text-muted mt-3">There are many variations of passages of Lorem Ipsum
+                                            available, but the majority have suffered alteration.
+                                            <a href="#" class="text-info">[more info]</a>
+                                        </p>
+                                    </div>
+                                </div> -->
+
+                                <!-- <i class="mdi mdi-thumb-up icon-info"></i>
+                                <div class="time-item">
+                                    <div class="item-info">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="m-0">Project Done</h6>
+                                            <span class="text-muted">2 Day ago</span>
+                                        </div>
+                                        <p class="text-muted mt-3">There are many variations of passages of Lorem Ipsum
+                                            available, but the majority have suffered alteration.
+                                            <a href="#" class="text-info">[more info]</a>
+                                        </p>
+                                        <div>
+                                            <span class="badge badge-soft-secondary">Python</span>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <!--end activity-->
+                        </div>
+                        <!--end activity-scroll-->
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+            <div class="col-lg-8">
+
+
+                <div class="card">
+                    <button class="btn btn-gradient-primary px-4 float-right mt-0 mb-3" data-toggle="modal"
+                        data-animation="bounce" data-target=".bs-example-modal-lg"><i
+                            class="mdi mdi-plus-circle-outline mr-2"></i>Add New Task</button>
+
+
+
+                    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
+                        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title mt-0 text text-center" id="myLargeModalLabel">Add New
+                                        Task</h5>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+
+
+                                    <form action="{% url 'cases:add_task' case.pk %}" method="post">
+
+                                        {% csrf_token %}
+                                        {{ task_form|crispy }}
+
+                                        <button type="submit" class="btn btn-secondary">Add Task</button>
+
+
+                                    </form>
+
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div>
+
+
+                    <div class="card-body">
+
+
+                        <h4 class="header-title mt-0 mb-3">Timeline</h4>
+                        <div class="main-timeline mt-3">
+
+
+
+
+                            {% for task in page_obj  %}
+
+
+                            {% if forloop.first or forloop.last %}
+                            <div class="timeline">
+                                <span class="timeline-icon"></span>
+                                <span class="year">{{task.deadline|date:"d M, Y"}}</span>
+                                <div class="timeline-content">
+                                    <h5 class="title">{{task.task|title}}</h5>
+                                    <span class="post">{{task.date_modefied}}</span>
+                                    <hr>
+                                    <p class="">
+                                        {{task.description|safe}}
+                                    </p>
+                                </div>
+                            </div>
+                            {% endif %}
+
+
+
+                            {% if not forloop.first and not forloop.last %}
+                            <div class="timeline">
+                                <span class="timeline-icon"></span>
+                                <span class="year">{{task.deadline|date:"d M, Y"}}</span>
+
+
+                                <div class="timeline-content">
+                                    <h5 class="title">{{task.task|title}}</h5>
+                                    <span class="post">{{task.date_modefied|date:"d M, Y"}}</span>
+                                    <hr>
+
+                                    <p class="">
+                                        {{task.description|safe}}
+                                    </p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+
+
+                            <hr>
+                            <center>
+                                <div class="pagination">
+                                    <span class="step-links">
+                                        {% if page_obj.has_previous %}
+                                        <a href="?page=1" class="btn btn-info">&laquo; first</a>
+                                        <a href="?page={{ page_obj.previous_page_number }}"
+                                            class="btn btn-info">previous</a>
+                                        {% endif %}
+
+                                        <span class="current">
+                                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                        </span>
+
+                                        {% if page_obj.has_next %}
+                                        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-info">next</a>
+                                        <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-info">last
+                                            &raquo;</a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </center>
+
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+
+        </div>
+        <!--end row-->
+
+    </div><!-- container -->
+
+
+
+</div>
+
+{% endblock content %}

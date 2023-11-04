@@ -1,0 +1,512 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+
+{% block title %}
+Client Details
+{% endblock title %}
+
+{% block content %}
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Lawyer System.</a></li>
+
+                            <li class="breadcrumb-item"><a href="{% url 'clients:client_list' %}">Client List</a></li>
+                            <li class="breadcrumb-item active">Client Details</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Client Details</h4>
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+
+
+        {% include 'messages/messages.html' %}
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body  met-pro-bg">
+                        <div class="met-profile">
+                            <div class="row">
+                                <div class="col-lg-4 align-self-center mb-3 mb-lg-0">
+                                    <div class="met-profile-main">
+
+                                        <div class="met-profile_user-detail">
+                                            <h5 class="met-user-name">{{client.name|title}}</h5>
+                                            <p class="mb-0 met-user-name-post">Client Category : {{client.category.title|title}}</p>
+                                            <p class="mb-0 met-user-name-post">Client Type : {{client.client_type|title}}</p>
+
+                                            <p><button class="mr-1 btn btn-sm btn-info" data-toggle="modal"
+                                                    data-animation="bounce" data-target=".bs-example-modal-lg"><i
+                                                        class="fas fa-pen"></i></button>
+
+
+
+                                                        <button class="mr-1 btn btn-sm btn-dark" data-toggle="modal"
+                                                        data-animation="bounce" data-target=".terms-of-engagement"><i
+                                                            class="fas fa-file">Retainer Terms of Engagement</i></button>
+
+
+                                                {% if user.is_superuser %}
+                                                <button class="btn btn-sm btn-danger" data-toggle="modal"
+                                                    data-animation="bounce" data-target=".bs-example-modal-sm"><i
+                                                        class="far fa-trash-alt"></i></button> {% endif %}
+
+
+
+                                                    </p>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-lg-4 ml-auto">
+                                    <ul class="list-unstyled personal-detail">
+                                        <li class=""><i class="dripicons-phone mr-2 text-info font-18"></i> <b> Business Phone
+                                            </b> : {{client.phone}}</li>
+
+                                        <li class="mt-2"><i class="dripicons-mail text-info font-18 mt-2 mr-2"></i> <b>
+                                                Email </b> :{{client.client_email}}</li>
+
+
+                                            <!--Added by Dartisan-->
+                                        <li class="mt-2"><i class="dripicons-user text-info font-18 mt-2 mr-2"></i> <b> Contact Person
+                                            </b> : {{client.contact_person}}</li>
+
+                                        <li class="mt-2"><i class="dripicons-phone mr-2 text-info font-18"></i> <b> Contact Number
+                                            </b> : {{client.contact_number}}</li>
+
+                                            <!--End: Added by Dartisan-->
+
+
+
+                                        <li class="mt-2"><i class="dripicons-map text-info font-18 mt-2 mr-2"></i> <b>
+                                                Address </b> :{{client.address|title}}</li>
+                                        <!-- <li class="mt-2"><i class="dripicons-location text-info font-18 mt-2 mr-2"></i> <b>Location</b> : USA</li> -->
+                                        <li class="mt-2"><i class="dripicons-user text-info font-18 mt-2 mr-2"></i>
+                                            <b>
+                                                Added By</b> :{{client.added_by.first_name|title}}
+                                            {{client.added_by.last_name|title}}</li>
+
+                                        <li class="mt-2"><i class="dripicons-user text-info font-18 mt-2 mr-2"></i>
+                                            <b>
+                                                Lead Professional</b> :{{client.lead_professional|title}}
+                                            </li>
+                                    </ul>
+
+                                </div>
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <!--end f_profile-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+
+
+                        <div class="accordion" id="accordionExample-faq">
+                            <div class="card shadow-none border mb-1">
+                                <div class="card-header" id="headingOne">
+                                <h5 class="my-0">
+                                    <button class="btn btn-link ml-4 shadow-none" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                       CASES
+                                    </button>
+                                </h5>
+                                </div>
+
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample-faq">
+                                <div class="card-body">
+                                    <div class="table-responsive dash-social">
+                                        <table id="datatable" class="table">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>Case Title</th>
+                                                    <th>Category</th>
+
+                                                    <th>Status</th>
+                                                    <th>Date Added</th>
+                                                    <th>Added By</th>
+                                                    <th>client</th>
+
+
+
+                                                    <th>Action</th>
+                                                </tr>
+                                                <!--end tr-->
+                                            </thead>
+
+
+                                            {% load auth_extras %}
+                                            <tbody>
+
+                                                {% for case  in  client_cases %}
+                                                <tr>
+                                                    <td>
+                                                        
+                                                      <a href="{{case.get_absolute_url}}" class="btn btn-gradient-secondary waves-effect waves-light">{{case.name|title}}</a>
+                                                    <td>{{case.team|title}}</td>
+
+
+                                                    {% if case.closed %}
+                                                    <td> <span class="badge badge-md   badge-soft-successr">Closed</span> </td>
+                                                    {% else %}
+                                                    <td> <span class="badge badge-md   badge-soft-danger">Open</span> </td>
+                                                    {% endif %}
+
+
+                                                    <td> {{case.date_added}} | {{case.date_added|timesince}} Ago</td>
+                                                    <td>{{case.added_by|title}}</td>
+                                                    <td>{{case.client.name|title}}</td>
+
+
+                                                    {% if request.user|has_group:"Lawyer" %}
+                                                    <td>
+
+                                                        <a href="{{case.get_absolute_url}}"
+                                                            class="btn btn-gradient-secondary waves-effect waves-light"><i
+                                                                class="mdi mdi-eye"></i></a>
+
+
+                                                    </td>
+
+                                                    {% endif %}
+
+                                                </tr>
+
+
+
+                                                {% endfor %}
+
+
+                                                <!--end tr-->
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="card shadow-none border mb-1">
+                                <div class="card-header" id="headingTwo">
+                                <h5 class="my-0">
+                                    <button class="btn btn-link collapsed ml-4 align-self-center shadow-none" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                       Terms of Engagement
+                                    </button>
+                                </h5>
+                                </div>
+                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample-faq">
+                                <div class="card-body">
+
+                                    <div class="table-responsive dash-social">
+                                        <table id="data_table" class="table">
+                                            <thead>
+                                                <tr>
+
+                                                    <th>#</th>
+                                                    <th>Case</th>
+
+
+                                                    <th>Date Added</th>
+                                                    <th>Added By</th>
+                                                    <th>Action</th>
+
+
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                {% for term in terms %}
+
+                                                <tr>
+                                                    <td>{{forloop.counter}}</td>
+                                                    <td>{{term.case}}</td>
+                                                    <td>{{term.date_add|date}}</td>
+                                                    <td>{{term.added_by|title}}</td>
+
+                                                    <td>
+                                                        <button class="btn btn-secondary" data-toggle="modal"
+                                                        data-animation="bounce" data-target=".terms-of-engagement{{term.id}}">Edit</button>
+                                                        <!-- <a href="{% url 'clients:terms_detail' term.pk %}" class="btn btn-secondary">View</a> -->
+                                                    <a href="{{term.file.url}}" class="btn btn-secondary">Download</a></td>
+
+
+
+                                                </tr>
+
+
+
+
+                                                
+
+                                                {% endfor %}
+                                                </tbody>
+                                                </table>
+
+
+
+
+
+
+                                </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+
+    </div><!-- container -->
+    <!--  Modal content for the above example -->
+
+
+
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0" id="myLargeModalLabel">Update Client</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{client.get_update_url}}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% include "clients/snippets/update_client.html" %}
+
+
+                        <center><button type="submit" class="btn btn-secondary">Update Client</button>
+                            <button type="button" class="btn btn-danger waves-effect"
+                                data-dismiss="modal">Close</button></center>
+
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+
+
+
+    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0" id="mySmallModalLabel">Delete Client</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{client.get_delete_url}}" method="POST">
+                        {% csrf_token %}
+                        <p>Are you sure you want to delete {{client.name|title}} ?</p>
+
+
+
+                        <center> <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="button" class="btn btn-secondary waves-effect"
+                                data-dismiss="modal">Close</button></center>
+
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- sample modal content -->
+    <div class="modal fade bd-example-modal-xls" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0" id="myModalLabel">Add New Case</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+
+                    <form action="{% url 'clients:add-case' client.pk %}" method="POST">
+
+                        {% include "clients/snippets/case_form.html" %}
+
+                        <center>
+
+                            <button type="submit" class="btn btn-secondary">Save changes</button>
+
+                            <button type="button" class="btn btn-danger waves-effect"
+                                data-dismiss="modal">Close</button>
+                        </center>
+
+                    </form>
+                </div>
+
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+
+    {% for term in terms %}
+<div class="modal fade terms-of-engagement{{term.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myModalLabel">Edit Terms of Engagement</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+               <form action="{% url 'clients:update_terms' term.pk %}" method="post" enctype="multipart/form-data"accept = "application/pdf">
+
+
+                    {% csrf_token %}
+                        <label for="case">Case</label>
+                        <select name="case" id="e4" class="form-control">
+                            {% for case in  client_cases %}
+                            
+                            {% if case == term.case %}
+                            <option value="{{case.id}}" selected>{{case|title}}</option>
+                                {% else %}
+                            <option value="{{case.id}}">{{case|title}}</option>
+
+                            {% endif %}
+                                
+
+                            {% endfor %}
+
+                        </select>
+                        <div class="mt-4">
+                        current file : <a href="{{terms.file.url}}">Click here to download</a>
+                    </div>
+                        <input type="file" class="form-control" name="upload_file">
+                        <input type="text" class="form-control" value="{{terms.id}}" name="terms_id" hidden>
+
+
+
+                                <center>
+
+                                    <button class="btn btn-secondary" type="submit">Submit</button>
+                                     <button type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Close</button>
+
+                                </center>
+
+               </form>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+{% endfor %}
+
+
+
+
+    <div class="modal fade terms-of-engagement" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-l">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0" id="myModalLabel">Terms of Engagement</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                   <form action="{% url 'clients:add_terms' client.pk %}" method="post" enctype="multipart/form-data">
+
+
+                        {% csrf_token %}
+                            {{term_form.media}}
+                            <label for="case">Case</label>
+                            <select name="case" id="e4" class="form-control">
+                                {% for case in  client_cases %}
+                                <option value="{{case.pk}}">{{case|title}}</option>
+
+                                {% endfor %}
+
+                            </select>
+                            <div class="form-control mt-4">
+                            {{term_form}}
+                        </div>
+
+
+
+                                    <center>
+
+                                        <button class="btn btn-secondary" type="submit">Submit</button>
+                                         <button type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Close</button>
+
+                                    </center>
+
+                   </form>
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+
+
+    {% endblock content %}

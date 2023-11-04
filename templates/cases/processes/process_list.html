@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load auth_extras %}
+{% load crispy_forms_tags %}
+{% block title %}
+Processes | Process List
+
+
+{% endblock title %}
+
+{% block content %}
+
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a></li>
+
+                            </li>
+                            <li class="breadcrumb-item active">Process List</li>
+                        </ol>
+                    </div>
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-body">
+
+                        <button class="btn btn-gradient-primary px-4 float-right mt-0 mb-3" data-toggle="modal"
+                            data-target=".bd-example-modal-xl"><i class="mdi mdi-plus-circle-outline mr-2"></i>Add New
+                            Process</button>
+
+
+                        <h4 class="mt-0 header-title">Process List</h4>
+
+                        <div class="table-responsive dash-social">
+                            <table id="datatable" class="table">
+                                <thead>
+                                    <tr><th>#</th>
+                                        <th>Process</th>
+                                        <th>Case</th>
+                                        <th>Date Created</th>
+                                        <th>Box Number</th>
+                                        <th>Aisle Number</th>
+                                        <th>Shelf</th>
+                                        <th>Case Number</th>
+
+
+
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+
+
+                                <!-- load -->
+
+
+                                <tbody>
+
+                                    {% for proc in  procs %}
+                                    <tr>
+                                            <td>{{forloop.counter}}</td>
+                                         <td> <a href="{% url 'cases:process_detail' proc.pk %}">{{proc.process|title}}</a>
+                                        </td>
+                                        <td> <a href="{% url 'cases:case_detail' proc.case.pk %}">{{proc.case|title}}</a>
+                                        </td>
+
+
+
+
+
+                                        <td> {{proc.date_added|timesince}} Ago</td>
+                                        <td> {{proc.box_number|title}}</td>
+                                        <td> {{proc.aisle_number|title}}</td>
+                                        <td> {{proc.shelf|title}}</td>
+                                        <td> {{proc.case.case_number}}</td>
+
+
+
+
+                                        <td>
+
+                                            <a href="{% url 'cases:process_detail' proc.pk %}"
+                                                class="btn btn-gradient-secondary waves-effect waves-light"><i
+                                                    class="mdi mdi-eye"></i></a>
+
+
+
+
+
+
+                                        </td>
+
+                                    </tr>
+
+
+
+                                    {% endfor %}
+
+
+
+                                    <!--end tr-->
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- sample modal content -->
+                    <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title mt-0" id="myModalLabel">New Process</h5>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form action="{% url 'cases:process_add' %}" method="post" enctype="multipart/form-data">
+                                        {% include 'cases/processes/process_form.html' %}
+
+
+
+                                        <center>
+                                            <button type="submit" class="btn btn-secondary">Add Process</button>
+                                            <button type="button" class="btn btn-danger waves-effect"
+                                                data-dismiss="modal">Close</button>
+
+
+                                        </center>
+
+                                </div>
+                                </form>
+
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}

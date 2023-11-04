@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block title %}
+Process Details
+{% endblock title %}
+
+
+
+{% block content %}
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'cases:list_process' %}">Process List</a>
+                            </li>
+                            <li class="breadcrumb-item active">Process Details</li>
+                        </ol>
+                    </div>
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="mt-0 header-title text-center">
+                            {{process.process|title}}
+                        </h2>
+                        <p class="text-muted text-center">{{process.date_created}}
+
+                        </p>
+                        <p class="text-muted text-center">Date
+                                    Modified: 
+                                    <strong>{{process.date_added|date}}</strong>
+
+                        </p>
+
+                             <div class="row">
+                          
+                            <br>
+                            <div class="col-lg-12">
+
+
+                                
+
+
+                                <div class="container">
+
+                                  
+
+
+                                    <br>
+                                    <p align="justify">
+                                        {{process.description|safe}}
+                                    </p>
+
+                                </li>
+                                </div>
+
+
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+
+
+
+
+
+
+
+
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+            </div>
+
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+<center>
+                                <h3>Actions</h3>
+
+</center>
+
+                    {% if wall == False %}
+                        
+                        
+                        {% if user.is_superuser or user.is_staff or user.id in users%}
+
+
+                        <center>
+                            <button class="btn btn-primary" data-toggle="modal"
+                            data-target=".bd-example-modal-xl">Edit</button>
+
+
+
+                        <button class="btn btn-danger" data-toggle="modal" data-animation="bounce"
+                            data-target=".bs-example-modal-center">Delete</button>
+                        
+                        <a href="{{process.process_file.url}}" class="btn btn-dark">Download Process</a>
+                            
+
+
+                        {% elif user.is_active%}
+                        <a href="{{process.process_file.url}}" class="btn btn-dark">Download Process</a>
+                    </center>
+                        
+
+                        {% endif %}
+                    
+                {% elif wall == True %}
+                    {% if request.user in chinese_wall_users%}
+                        <center>
+                            <button class="btn btn-primary" data-toggle="modal"
+                            data-target=".bd-example-modal-xl">Edit</button>
+
+
+
+                        <button class="btn btn-danger" data-toggle="modal" data-animation="bounce"
+                            data-target=".bs-example-modal-center">Delete</button>
+                        
+                        <a href="{{process.process_file.url}}" class="btn btn-dark">Download Process</a>
+                        {% else %}
+                            You have no access to this file
+                        {% endif %}
+                
+                {% endif %}
+                        
+
+
+
+
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+
+
+
+            <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0 text text-center" id="myLargeModalLabel">Edit
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body">
+
+
+
+                            <form action="{% url 'cases:process_update' process.pk %}" method="post">
+                               {% include 'cases/processes/process_form.html' %}
+                                <center>
+                                     <button type="submit" class="btn btn-primary">Update</button>
+                                <button  class="btn btn-danger" data-dismiss="modal">Delete</button>
+                                </center>
+
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
+
+
+            <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0" id="exampleModalLabel">Delete </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>AreYou Sure You Want To Delete {{process.process|title}}</p>
+
+
+                            <form action="{% url 'cases:process_delete' process.pk %}" method="POST">
+                                {% csrf_token %}
+
+                                <center>
+                                     <button type="submit" class="btn btn-danger">Delete</button>
+                                                                <button  class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                </center>
+
+
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+        </div>
+    </div>
+    {% endblock content %}

@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load auth_extras %}
+{% load crispy_forms_tags  %}
+{% block title %}
+
+Cases List
+
+
+{% endblock title %}
+
+{% block content %}
+
+
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System. </a> </li>
+
+                            <li class="breadcrumb-item"><a href="">Logs</a></li>
+                            <li class="breadcrumb-item active">Log List</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Logs</h4>
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-body">
+
+
+
+
+                        
+
+
+
+
+
+
+                        <div class="table-responsive dash-social">
+                            <table id="datatable" class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>User</th>
+
+
+                                        <th>Action</th>
+                                        <th> Date</th>
+
+
+                                    </tr>
+                                    <!--end tr-->
+                                </thead>
+                                <tbody>
+                            {% for log in all_user_logs %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{log.user}}</td>
+                                <td>{{log.change_message|title}} {{log.object_repr|title}}</td>
+                                <td>{{log.action_time}}</td>
+                            </tr>
+                                
+
+                            {% endfor %}
+                        </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div> <!-- end row -->
+
+
+
+    {% endblock content %}

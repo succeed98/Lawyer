@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load auth_extras %}
+{% load static %}
+
+{% block title %}
+Expense Details
+{% endblock title %}
+
+
+
+{% block content %}
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'cases:expenses' %}">Expenses</a>
+                            </li>
+                            <li class="breadcrumb-item active">{{case|title}}</li>
+                        </ol>
+                    </div>
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+              
+
+                <div class="card">
+
+                    <div class="card-body">
+
+
+
+
+                        <!-- <button class="btn btn-gradient-primary px-4 float-right mt-0 mb-3" data-toggle="modal"
+                            data-target=".bd-example-modal-xl"><i class="mdi mdi-plus-circle-outline mr-2"></i>Add New
+                            Case</button>
+                        <button class="btn btn-gradient-primary px-4 float-left mt-0 mb-3" data-toggle="modal"
+                            data-target=".bd-example-modal-lg"><i class="mdi mdi-send mr-2"></i>Request Files</button> -->
+
+
+
+
+
+
+                        <div class="table-responsive dash-social">
+                            <p class="text text-muted">Total Expenses : GH&#8373; {{expense_sum}}</p>
+                            <table id="datatable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Case</th>
+                                        <th>Description</th>
+                                        <th>Amount (GH&#8373;)</th>
+                                        <th>Category</th>
+                                        <th>Date Added</th>
+                                        <th>Added By</th>
+                                       
+                                    </tr>
+                                </thead>
+
+
+                                <!-- load -->
+
+
+                                <tbody>
+
+                                    {% for exp in  expense_list %}
+                                    <tr>
+
+                                        <td>{{forloop.counter}}</td>
+                                        <td>
+                                            {{exp.case.name|title}}</td>
+
+                                        <td>{{exp.description|title}}</td>
+
+
+                                        
+                                        <td> <span class="badge badge-md   badge-soft-success">{{exp.amount}}</span>
+                                        </td>
+
+                                        {% if exp.categories == "Exists" or exp.categories == "Approved" %}
+                                        <td class="text-success">Approved</td>
+                                        {% elif exp.categories == "Denied" %}
+                                        <td class="text-danger">Denied</td>
+                                        {% elif exp.categories == "Pending" %}
+                                        <td class="text-warning">Pending</td>
+                                        {% endif %}
+                                       
+                                       
+                                        
+
+
+                                        <td> {{exp.timestamp|date}}</td>
+                                        <td>{{exp.user|title}}</td>
+
+
+
+
+                                    </tr>
+
+
+
+                                    {% endfor %}
+
+
+
+                                    <!--end tr-->
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   
+
+                    </div>
+            </div>
+            <!--end col-->
+
+
+          
+
+
+
+            
+
+
+
+
+         
+
+        </div>
+    </div>
+    {% endblock content %}

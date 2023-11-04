@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block title %}
+Post Action Report Details
+{% endblock title %}
+
+
+
+{% block content %}
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'cases:list_report' action.case.pk %}">Post Action Reports</a>
+                            </li>
+                            <li class="breadcrumb-item active">Post Action Report Detail</li>
+                        </ol>
+                    </div>
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="mt-0 header-title text-center">
+                            {{action.title|title}}
+                        </h2>
+                        <p class="text-muted text-center">{{action.case|title}}
+
+                        </p>
+
+                             <div class="row">
+
+                            <div class="col-lg-12">
+
+
+                                <li class="mb-2 font-15 text-muted"><i
+                                        class="mdi mdi-calendar-check-outline text-success mr-3"></i>&nbsp;Next Business:
+
+                                    <strong>{{action.next_business|date}}</strong></li>
+                                <li class="mb-2 font-15 text-muted"><i
+                                        class="mdi mdi-account text-success mr-3"></i>&nbsp;Lead Professional:
+
+                                    <strong>{{action.case.lead_professional|title}}</strong></li>
+
+
+
+                                <div class="container">
+
+                                   <center>
+
+                                     <p class="mb-2 font-18 text-muted">Business of the Day</p>
+                                   </center>
+
+
+                                    <br>
+                                    <p align="justify">
+                                        {{action.bod|safe}}
+                                    </p>
+
+                                </li>
+                                </div>
+
+
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+
+
+
+
+
+
+
+
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+            </div>
+
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+<center>
+                                <h3>Actions</h3>
+
+</center>
+
+
+
+
+                        <center>
+                            <button class="btn btn-primary" data-toggle="modal"
+                            data-target=".bd-example-modal-xl">Edit</button>
+
+                        {% if user.is_superuser or user.is_staff %}
+
+                        <button class="btn btn-danger" data-toggle="modal" data-animation="bounce"
+                            data-target=".bs-example-modal-center">Delete</button>
+                        </center>
+
+                        {% endif %}
+
+
+
+
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+
+
+
+            <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0 text text-center" id="myLargeModalLabel">Edit
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body">
+
+
+
+                            <form action="{% url 'cases:action_update' action.pk %}" method="post">
+                               {% csrf_token %}
+                                {{form|crispy}}
+                                <center>
+                                     <button type="submit" class="btn btn-primary">Update</button>
+                                <button  class="btn btn-danger" data-dismiss="modal">Delete</button>
+                                </center>
+
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
+
+
+            <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0" id="exampleModalLabel">Delete </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>AreYou Sure You Want To Delete {{action.title|title}}</p>
+
+
+                            <form action="{% url 'cases:action_delete' action.pk %}" method="POST">
+                                {% csrf_token %}
+
+                                <center>
+                                     <button type="submit" class="btn btn-danger">Delete</button>
+                                                                <button  class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                </center>
+
+
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+        </div>
+    </div>
+    {% endblock content %}

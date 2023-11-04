@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block title %}
+Wills Details
+{% endblock title %}
+
+
+
+{% block content %}
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System. >
+                            <li class="breadcrumb-item"><a href="{% url 'wills:will_list' %}">Will List</a>
+                            </li>
+                            <li class="breadcrumb-item active">Will Details</li>
+                        </ol>
+                    </div>
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="mt-0  text-center">
+                            {{will.client|title}}
+                        </h3>
+
+
+
+                        <div class="row">
+                            <div class="col-lg-3 align-self-center">
+                                <img src="{% static './assets/images/doc.png' %}" alt="" height="250"
+                                    class="d-block mx-auto">
+                            </div>
+                            <br>
+                            <div class="col-lg-9">
+                                <br>
+                                <li class="mb-2 font-15 text-muted"><i
+                                        class="mdi mdi-calendar-check-outline text-success mr-3"></i> &nbsp;Date of
+                                    Execution: &nbsp; <strong>{{will.date_of_execution|date}}</strong></i>
+                                </li>
+                                <!-- <p class="text-lead text-left">
+    
+                            </p> -->
+
+                                <li class="mb-2 font-15 text-muted"><i
+                                        class="mdi mdi-calendar-check-outline text-success mr-3"></i>&nbsp; Date
+                                    Deposited: &nbsp;
+                                    <strong>{{will.date_deposited|date}}</strong></li>
+
+
+                                <li class="mb-2 font-15 text-muted"><i class="mdi mdi-receipt text-success mr-3"></i>
+                                    &nbsp;Receipt Number:&nbsp; <strong>{{will.receipt_number}}</strong></li>
+
+
+                                <li class="mb-2 font-15 text-muted"><i
+                                        class="mdi mdi-bank text-success mr-3"></i>&nbsp;Court:
+                                    &nbsp; <strong>{{will.court|title}}</strong>
+
+
+                                    </i>
+                                <li class="mb-2 font-15 text-muted"><i class="mdi mdi-file-cabinet text-success mr-3">
+                                    </i>&nbsp;Internal Depository:&nbsp; <strong>
+                                        {{will.internal_depository|title}}</strong></li>
+
+                                </i>
+                                <li class="mb-2 font-15 text-muted"><i
+                                        class="mdi mdi-checkbox-marked-circle-outline text-success mr-3">
+                                    </i>&nbsp;Lawyer:&nbsp; <strong>
+                                        {% for lawyer in lawyers  %}
+                                        {{lawyer}} ,
+
+                                        {% endfor %}
+
+                                    </strong></li>
+
+
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+
+
+
+
+
+
+                        <!--end row-->
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+                        <center>
+                            <h3>Actions</h3>
+                        </center>
+
+
+                        <center>
+                            <button class="btn btn-primary" data-toggle="modal" data-animation="bounce"
+                                data-target=".bs-example-modal-lg">Edit</button>
+
+                            {% if user.is_superuser %}
+                            <button class="btn btn-danger" data-toggle="modal" data-animation="bounce"
+                                data-target=".bs-example-modal-center">Delete</button>
+                            {% endif %}
+
+                        </center>
+
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+
+
+
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0 text text-center" id="myLargeModalLabel">Edit Will</h5>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body">
+
+
+
+                            <form action="{{will.get_update_url}}" method="post">
+                                {% csrf_token %}
+
+
+
+                                {{form.client|as_crispy_field}}
+                                {{form.user|as_crispy_field}}
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 mb-0">
+                                        {{ form.date_of_execution|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group col-md-6 mb-0">
+                                        {{ form.date_deposited|as_crispy_field }}
+                                    </div>
+
+                                </div>
+
+
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 mb-0">
+                                        {{ form.receipt_number|as_crispy_field }}
+                                    </div>
+                                    <div class="form-group col-md-6 mb-0">
+                                        {{ form.court|as_crispy_field }}
+                                    </div>
+
+                                </div>
+
+
+                                {{form.internal_depository|as_crispy_field}}
+
+
+
+                                {{form.errors}}
+
+
+
+                                <center>
+
+                                    <button type="submit" class="btn btn-primary">Update Will</button>
+                                    <button type="button" class="btn btn-danger waves-effect"
+                                        data-dismiss="modal">Close</button>
+
+                                </center>
+
+
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
+
+
+            <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0" id="exampleModalLabel">Delete </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="align-center">AreYou Sure You Want To Delete This Will ?</p>
+
+
+                            <form action="{{will.get_delete_url}}" method="POST">
+                                {% csrf_token %}
+
+
+                                <center>
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                    <button type="button" class="btn btn-secondary waves-effect"
+                                        data-dismiss="modal">Close</button>
+                                </center>
+
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+        </div>
+    </div>
+    {% endblock content %}

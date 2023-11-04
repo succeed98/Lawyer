@@ -1,0 +1,51 @@
+{% load crispy_forms_tags %}
+
+<form action="{% url 'accounts:staff_profileupdate' staff.pk %}" method="post" enctype="multipart/form-data">
+
+
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+            {{ user_form.first_name|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+            {{ user_form.last_name|as_crispy_field }}
+        </div>
+    
+    </div>
+    
+    
+    <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+            {{ user_form.username|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+            {{ user_form.email|as_crispy_field }}
+        </div>
+    
+    </div>
+    
+    
+  
+    
+    
+    <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+            {{ user_form.phone|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+            {{staff_form|crispy}}
+        </div>
+    
+    </div>
+    {{ user_form.avatar }}
+
+
+<br>
+<hr>
+<center>
+    <button type="submit" class="btn btn-secondary">Update Profile</button>
+
+</center>
+
+</form>

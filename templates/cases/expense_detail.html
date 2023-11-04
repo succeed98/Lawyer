@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load auth_extras %}
+{% load static %}
+
+{% block title %}
+Expense Details
+{% endblock title %}
+
+
+
+{% block content %}
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System.</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'cases:expenses' %}">Expenses</a>
+                            </li>
+                            <li class="breadcrumb-item active">Expense Detail</li>
+                        </ol>
+                    </div>
+
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12 col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="mt-0 header-title text-center">
+                            {{expense.case.name|title}}
+                            
+                        </h2>
+                    
+                    {% if  expense.categories == "Exists"%}
+                    <p>Approval: Approved</p>
+                        {% else %}
+                    <p>Approval: {{expense.categories}}</p>
+                    {% endif %}
+                        
+                    <p>Amount: {{expense.amount}}</p>
+                    <p>Added By: {{expense.user|title}}</p>
+                    <p>Date Added: {{expense.timestamp}}</p>
+                    <p>Description: {{expense.description}}</p>
+                    
+                       
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+
+                <div class="card">
+
+                    <div class="card-body">
+
+
+
+
+                        <!-- <button class="btn btn-gradient-primary px-4 float-right mt-0 mb-3" data-toggle="modal"
+                            data-target=".bd-example-modal-xl"><i class="mdi mdi-plus-circle-outline mr-2"></i>Add New
+                            Case</button>
+                        <button class="btn btn-gradient-primary px-4 float-left mt-0 mb-3" data-toggle="modal"
+                            data-target=".bd-example-modal-lg"><i class="mdi mdi-send mr-2"></i>Request Files</button> -->
+
+
+
+
+
+
+                        <div class="table-responsive dash-social">
+                            <p class="text text-muted">Total Expenses : &#8373; {{total_expense}}</p>
+                            <table id="datatable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Case</th>
+                                        <th>Description</th>
+                                        <th>Amount (&#8373;)</th>
+                                        <th>Date Added</th>
+                                        <th>Added By</th>
+                                       
+                                    </tr>
+                                </thead>
+
+
+                                <!-- load -->
+
+
+                                <tbody>
+
+                                    {% for exp in  case_expense_list %}
+                                    <tr>
+
+                                        <td>{{forloop.counter}}</td>
+                                        <td>
+                                            {{exp.case.name|title}}</td>
+
+                                        <td><a href="{% url 'cases:expense_detail' exp.pk %}">{{exp.description|title}}</a></td>
+
+
+                                        
+                                        <td> <span class="badge badge-md   badge-soft-success"><a href="{% url 'cases:expense_detail' exp.pk %}">{{exp.amount}}</a> </span>
+                                        </td>
+                                       
+                                       
+                                        
+
+
+                                        <td> {{exp.timestamp|date}}</td>
+                                        <td>{{exp.user|title}}</td>
+
+
+
+
+                                    </tr>
+
+
+
+                                    {% endfor %}
+
+
+
+                                    <!--end tr-->
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   
+
+                    </div>
+            </div>
+            <!--end col-->
+
+
+            <div class="col-md-12 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+
+
+
+                        <center>
+                            <h3>Actions</h3>
+                        </center>
+                        <center>
+                           
+
+                                
+                                {% if expense.case.lead_professional.user == request.user %}
+                                {% if  expense.categories == "Exists" or expense.categories == "Approved" %}
+                                   <p>You have approved this expense</p>
+                                    
+                                {% else %}
+
+                                <a href="{% url 'cases:accept_expense' expense.pk %}"
+                                class="btn btn-gradient-secondary waves-effect waves-light">Approve</a>
+    
+                                <a href="{% url 'cases:decline_expense' expense.pk %}"
+                                class="btn btn-danger waves-effect waves-light">Disapprove</a>
+                                {% endif %}
+                                
+                                {% else %}
+                                {% if  expense.categories == "Exists" or expense.categories == "Approved" %}
+                                   <p>Your Expense has been approved</p>
+
+                                {% elif expense.categories == "Pending" %}
+                                    <p>Your Expense has been send for approval</p>
+
+                                {% else %}
+                                <button class="btn btn-primary" data-toggle="modal" data-animation="bounce"
+                                data-target=".bs-example-modal-lg">Edit</button>
+                                
+                                
+                                <button class="btn btn-danger" data-toggle="modal" data-animation="bounce"
+                                    data-target=".bs-example-modal-center">Delete</button>
+
+                                <a href="{% url 'cases:resend_expense' expense.pk %}"
+                                class="btn btn-success waves-effect waves-light">Resend</a>
+                                
+                                {% endif %}
+                                {% endif %}
+                                    
+                            
+                                
+                                
+                            </center>
+
+                            
+                            
+                        <!-- {% if user.is_superuser or user.is_staff %} -->
+
+                        <!-- {% endif %} -->
+
+
+
+
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+
+
+
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0 text text-center" id="myLargeModalLabel">Edit
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body">
+
+
+
+                            <form action="{% url 'cases:update_expense' expense.pk %}" method="post">
+                                {% csrf_token %}
+                                {{form|crispy}}
+                                {{form.erorrs}}
+
+
+                                <center>
+
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Close</button>
+                                </center>
+
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
+
+
+            <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0" id="exampleModalLabel">Delete </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>AreYou Sure You Want To Delete this expense </p>
+
+
+                            <form action="{% url 'cases:delete_expense' expense.pk %}" method="POST">
+                                {% csrf_token %}
+
+
+                                <center>
+
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">Close</span>
+                                    </button>
+                                </center>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+        </div>
+    </div>
+    {% endblock content %}

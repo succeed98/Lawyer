@@ -1,0 +1,146 @@
+{% load crispy_forms_tags %}
+
+
+{% csrf_token %}
+
+
+<div class="form-row">
+    <div class="form-group col-md-6 mb-0">
+        
+        <div id="div_id_name" class="form-group">
+            <label for="id_name" class=" requiredField">
+                Name<span class="asteriskField">*</span>
+            </label>
+                <div class="">
+                    <input type="text" onkeypress="return validateInputText(event);" name="name" class="form-control textinput textInput form-control" required="" id="id_name">
+                </div>
+    </div>
+
+    
+    </div>
+    <div class="form-group col-md-6 mb-0">
+        {{ form.client_email|as_crispy_field }}
+    </div>
+
+</div>
+
+
+
+<div id="div_id_phone" class="form-group">
+        
+    <label for="id_phone" class=" requiredField">
+        Phone<span class="asteriskField">*</span>
+    </label>
+
+        <div class="">
+            <input type="text" name="phone" onkeypress="return validateInputNumbers(event);" class="form-control textinput textInput form-control" required="" id="id_phone">
+            
+
+
+        </div>
+    
+
+</div>
+
+<!--Added by Dartisan: START-->
+<div class="form-row">
+    <div class="form-group col-md-6 mb-0">
+        <div id="div_id_contact_person" class="form-group">
+        
+            <label for="id_contact_person" class="">
+                Contact person
+            </label>
+                <div class="">
+                    <input type="text" onkeypress="return validateInputText(event);" name="contact_person" maxlength="250" class="textinput textInput form-control" id="id_contact_person">
+                </div>
+    </div>
+    </div>
+    <div class="form-group col-md-6 mb-0">
+        <div id="div_id_contact_number" class="form-group">
+        
+            <label for="id_contact_number" class="">
+                Contact number
+            </label>
+        
+        
+            
+                <div class="">
+                    <input type="text"  onkeypress="return validateInputNumbers(event);" name="contact_number" maxlength="250" class="textinput textInput form-control" id="id_contact_number">
+                    
+
+                </div>
+            
+        
+    </div>
+    </div>
+
+</div>
+<!--Added by Dartisan: END-->
+
+<div class="form-row">
+    <div class="form-group col-md-6 mb-0">
+        {{ form.lead_professional|as_crispy_field }}
+    </div>
+    <div class="form-group col-md-6 mb-0">
+        {{ form.client_type|as_crispy_field }}
+    </div>
+
+</div>
+
+
+
+{{ form.address|as_crispy_field }}
+
+<div class="form-row">
+    <div class="form-group col-md-12 mb-0">
+        {{ form.category|as_crispy_field }}
+</div>
+  </div>
+
+
+  <script>
+    function validateInputText(event) {
+        // Get the key code of the pressed key
+        var keyCode = event.which || event.keyCode;
+        
+        // Allow only alphabetic characters (A-Z and a-z), spaces, and some special characters
+        if ((keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || keyCode === 32 || keyCode === 13 || keyCode === 8 || keyCode === 9) {
+            // Check the length of the input field
+            var inputText = event.target.value;
+            if (inputText.length >= 100 && keyCode !== 8) { // Allow backspace (keyCode 8)
+                event.preventDefault();
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            // Prevent the key press
+            event.preventDefault();
+            return false;
+        }
+    }
+</script>
+
+
+<script>
+    function validateInputNumbers(event) {
+      // Get the key code of the pressed key
+      var keyCode = event.which || event.keyCode;
+
+      // Allow only numeric digits (0-9), Backspace (keyCode 8), and Tab (keyCode 9)
+      if ((keyCode >= 48 && keyCode <= 57) || keyCode === 8 || keyCode === 9) {
+          // Check the length of the input field
+          var inputText = event.target.value;
+          if (inputText.length >= 10 && keyCode !== 8) { // Allow backspace (keyCode 8)
+              event.preventDefault();
+              return false;
+          } else {
+              return true;
+          }
+      } else {
+          // Prevent the key press
+          event.preventDefault();
+          return false;
+      }
+  }
+</script>

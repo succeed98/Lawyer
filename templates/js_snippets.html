@@ -1,0 +1,572 @@
+{% load static %}
+
+<script>
+
+    var endpoint = "api/chart/data"
+    var defaultData = []
+    var labels = []
+
+    var label1 = []
+    var data2 = []
+    $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: function (data) {
+            console.log(data)
+
+            labels = data.labels
+            defaultData = data.default
+            label1 = data.label1
+            data2 = data.data2
+
+            setChart()
+
+
+
+        },
+        error: function (error_data) {
+            console.log("error")
+            console.log(error_data)
+
+
+
+
+
+        }
+
+    });
+
+
+
+    function setChart() {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        // var ctx2 = document.getElementById('myChart2').getContext('2d');
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '# Cases',
+                    data: defaultData,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+
+
+        
+
+
+    }
+</script>
+<!--
+
+<script>
+    $(document).ready(function () {
+        $('#table_id').DataTable(
+            {
+                dom: 'B<"clear">lfrtip',
+                buttons: {
+                    name: 'secondary',
+                    buttons: ['csv', 'excel', 'pdf']
+                },
+
+                columnDefs: [
+                    {
+                        targets: [0, 1, 2],
+                        className: 'mdl-data-table__cell--non-numeric'
+                    }
+                ]
+
+
+
+            }
+        )
+
+    });
+</script> -->
+
+<script>
+    $(document).ready(function () {
+        $("#e1").select2({
+        placeholder:' ',
+        dropdownAutoWidth : true,
+        width: '100%',
+        height: '100%',
+        });
+        });
+</script>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#e2").select2({
+        placeholder:' ',
+        dropdownAutoWidth : true,
+        width: '100%',
+        height: '100%',
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#e4").select2({
+        placeholder:' ',
+        dropdownAutoWidth : true,
+        width: '100%',
+        height: '100%',
+        });
+    });
+</script>
+
+
+<script>
+    $(function () {
+        $("#datetimepicker1").datetimepicker();
+    });
+</script>
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#e3').select2({
+            placeholder: ' ',
+            dropdownAutoWidth: true,
+            width: '100%',
+            height: '100%',
+        });
+    });
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        $('#chinese_staff_edit').select2({
+            placeholder: ' ',
+            dropdownAutoWidth: true,
+            width: '100%',
+            height: '100%',
+        });
+    });
+
+$(document).ready(function () {
+        $('#chinese_lawyer_edit').select2({
+            placeholder: ' ',
+            dropdownAutoWidth: true,
+            width: '100%',
+            height: '100%',
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+    $('#data_table1').DataTable();
+} );
+</script>
+
+<script>
+    $(document).ready(function() {
+    $('#data_table').DataTable();
+} );
+</script>
+
+<script>
+    $(document).ready(function() {
+    $('.table').DataTable();
+} );
+</script>
+
+<script>
+    $('#id_chinese_wall').click(function() {
+  if ($(this).is(':checked')) {
+    $('#chinese_staff').removeAttr('disabled');
+    $('#chinese_lawyer').removeAttr('disabled');
+  } else {
+    document.getElementById("chinese_staff").disabled = true;
+    document.getElementById("chinese_lawyer").disabled = true;
+  }
+});
+document.getElementById("chinese_staff").disabled = true;
+document.getElementById("chinese_lawyer").disabled = true;
+
+$(document).ready(function () {
+        $('#chinese_staff').select2({
+            placeholder: ' ',
+            dropdownAutoWidth: true,
+            width: '100%',
+            height: '100%',
+        });
+    });
+
+$(document).ready(function () {
+        $('#chinese_lawyer').select2({
+            placeholder: ' ',
+            dropdownAutoWidth: true,
+            width: '100%',
+            height: '100%',
+        });
+    });
+
+
+
+
+</script>
+
+<script>
+    the_id = '{{case.id}}';
+    the_url = "{%url 'cases:generate_process' pk=345345345345345345565  %}".replace('345345345345345345565', the_id);
+    Dropzone.options.myDropzone = {
+    // Configuration options go here
+    url: the_url,
+    dictDefaultMessage: "Drag and Drop files here to upload",
+    maxFiles: 100,
+    parallelUploads: 1000,
+    addRemoveLinks: true,
+    method: "POST",
+    acceptedFiles: '.pdf,.txt,.doc,.docx,.rtf',
+    params: 'file_upload',
+    maxFilesize: 256 * 4 * 2,
+    dictFileTooBig: "File is too big.",
+    autoProcessQueue: false,
+    
+    init : function() {
+        var submitButton = document.querySelector("#dropsubmit")
+        myDropzone = this;
+
+        submitButton.addEventListener("click", function() {
+            myDropzone.processQueue();
+            // Tell Dropzone to process all queued files.
+        });
+
+        // You might want to show the submit button only when
+        // files are dropped here:
+        this.on("addedfile", function() {
+            // Show submit button here and/or inform user to click it.
+            console.log("blah")
+        });
+    }
+
+    
+    
+  };
+//   myDropzone.on("complete", function(file) {
+//   myDropzone.removeFile(file);
+// });
+
+// final_url = "";
+//     Dropzone.options.myDropzone = {
+//         url: final_url,
+//         addRemoveLinks: true,
+//         method: "POST",
+//         params: 'file_upload',
+//         maxFilesize: 256 * 4 * 2,
+//         dictFileTooBig: "File is too big.",
+//         autoProcessQueue: false,
+//         uploadMultiple: true,
+//         parallelUploads: 10,
+//         clickable: true,
+//         headers: {
+//             'Access-Control-Request-Headers':'authorization,cache-control,x-requested-with',
+//             'Access-Control-Allow-Origin':'*'
+//             // remove Cache-Control and X-Requested-With
+//             // to be sent along with the request
+//         },
+//         init: function () {
+//             mydropzone = this;
+
+//             $("#submit-all").click(function (evt) {
+//                 evt.preventDefault();
+//                 evt.stopPropagation();
+//                 var paymentNotes = $("#paymentNotes").val();
+//                 mydropzone.autoProcessQueue = true;
+//                 mydropzone.processQueue();
+//             });
+//             mydropzone.on('sending', function (file, xhr, formData) {
+     
+//                 var notes = $("#paymentNotes").val();
+//                 var outgoingManualPaymentID = $("#outgoingManualPaymentID").val();
+//                 console.log('notes from sending' + notes);
+//                 console.log('notes from sending' + notes);
+//                 formData.append('paymentNotes', notes);
+//                 formData.append('outgoingManualPaymentID', outgoingManualPaymentID);
+//             });
+//         },
+//         success: function f(response) {
+//             console.log('response' + response);
+//             $('.dz-remove').hide();
+//         },
+//     };
+</script>
+
+
+
+
+<script>
+        localStorage.is_running = (localStorage.is_running || 0);
+
+        function myCallTimer(jkm) {
+            localStorage.timer2 = 0;
+            localStorage.timer1 = 0;
+            localStorage.timer = 0;
+            localStorage.is_running =  1;
+            localStorage.case_id =  jkm;
+            location.reload();
+
+        }
+
+        function myEndTimer() {
+            localStorage.is_running =  0;
+
+        }
+ 
+            if (window.localStorage && localStorage.is_running ==1) {
+
+
+                function myEndFunction() {
+      document.getElementById("demo").innerHTML = "Hello World";
+    }
+    
+        window.onload = function jkm(){
+            i = setInterval(function() {
+            localStorage.timer = +localStorage.timer + 1;
+            chronoDiv.innerHTML = (+localStorage.timer).toFixed(0);
+        
+            if (localStorage.timer >59) {
+            localStorage.timer = 0;
+            localStorage.timer1 = +localStorage.timer1 + 1;
+            chronoDiv1.innerHTML = (+localStorage.timer1).toFixed(0);
+    
+            
+            }
+    
+            if (localStorage.timer1 >59) {
+            localStorage.timer1 = 0;
+            localStorage.timer2 = +localStorage.timer2 + 1;
+            chronoDiv2.innerHTML = (+localStorage.timer2).toFixed(0);
+    
+            
+            }
+        
+        }, 1000);
+        }
+
+        
+        
+        // Initialize timer or get previous value
+        localStorage.timer = (localStorage.timer || 0);
+        localStorage.timer1 = (localStorage.timer1 || 0);
+        localStorage.timer2 = (localStorage.timer2 || 0);
+        
+        // Variable declaration
+        var chronoDiv = document.getElementById("chrono"),
+        chronoDiv1 = document.getElementById("chrono1"),
+        chronoDiv2 = document.getElementById("chrono2"),
+        playStopButton = document.getElementsByTagName("button")[1],
+        i = undefined;
+        j = undefined;
+        k = undefined;
+        
+        // Show current chrono value
+        chronoDiv.innerHTML = (+localStorage.timer).toFixed(1);
+        chronoDiv1.innerHTML = (+localStorage.timer1).toFixed(0);
+        chronoDiv2.innerHTML = (+localStorage.timer2).toFixed(0);
+        
+        // Start chrono and update each 0.1 seconds
+        function start() {
+            i = setInterval(function() {
+            localStorage.timer = +localStorage.timer + 0.1;
+            chronoDiv.innerHTML = (+localStorage.timer).toFixed(1);
+        
+            if (localStorage.timer >59) {
+            localStorage.timer = 0;
+            localStorage.timer1 = +localStorage.timer1 + 1;
+            chronoDiv1.innerHTML = (+localStorage.timer1).toFixed(0);
+    
+            
+            }
+    
+            if (localStorage.timer1 >59) {
+            localStorage.timer1 = 0;
+            localStorage.timer2 = +localStorage.timer2 + 1;
+            chronoDiv2.innerHTML = (+localStorage.timer2).toFixed(0);
+    
+            
+            }
+        
+        }, 100);
+        
+        
+        }
+        
+        function changeToStart() {
+                playStopButton.className = "start";
+                var x = document.getElementById("start");
+                x.innerHTML = "<img src='{% static 'icons/start.png' %}' width='20'>";
+            }
+        
+        
+        
+        function changeToStop() {
+                playStopButton.className = "stop";
+                var x = document.getElementById("start");
+                x.innerHTML = "<img src='{% static 'icons/pause.png' %}' width='20'>";
+            }
+        
+        // Reset event
+        document.getElementsByName("button-reset")[0].addEventListener("click", function() {
+        window.clearInterval(i);
+        i = undefined;
+        localStorage.timer = 0.0;
+        chronoDiv.innerHTML = (+localStorage.timer).toFixed(0);
+        
+        
+        window.clearInterval(j);
+        j = undefined;
+        localStorage.timer1 = 0;
+        chronoDiv1.innerHTML = (+localStorage.timer1).toFixed(0);
+    
+    
+        window.clearInterval(k);
+        k = undefined;
+        localStorage.timer2 = 0;
+        chronoDiv2.innerHTML = (+localStorage.timer2).toFixed(0);
+    
+        localStorage.is_running = 0;
+
+
+        
+
+        location.reload();
+
+        });
+        
+        
+        // End event
+        document.getElementsByName("button-end")[0].addEventListener("click", function() {
+        window.clearInterval(i);
+        changeToStart();
+        i = undefined;
+        var jkm = Math.floor(localStorage.timer);
+        var jkm1 = localStorage.timer1;
+        var jkm2 = localStorage.timer2;
+        
+        
+        // changeToNumber(jkm2 , jkm1 , jkm);
+        
+        
+        });
+        
+        
+        
+        // Start/stop event
+        document.getElementsByName("button-stop")[0].addEventListener("click", function() {
+        // Stop chrono
+        if (i) {
+            window.clearInterval(i);
+            changeToStart();
+            i = undefined;
+        
+            window.clearInterval(j);
+            j = undefined;
+        }
+        // Start chrono
+        else {
+            changeToStop();
+            start();
+        }
+        });
+        
+        } else {
+        // Error message
+        document.getElementsByTagName("header")[0].innerHTML += "<h3 style=\"color:red\">Sorry, your browser doesn't suppot LocalStorage</h3>";
+        }
+
+
+</script>
+
+
+<script>
+
+    function myCallingAll() {
+
+
+    localStorage.endtimer_2 = localStorage.timer2;
+    localStorage.endtimer_1 = localStorage.timer1;
+    localStorage.endtimer = localStorage.timer;
+    localStorage.case_id  = localStorage.case_id;
+
+    
+    
+    document.getElementById('brief_hour').value = localStorage.endtimer_2;
+    document.getElementById('brief_minutes').value =localStorage.endtimer_1;
+    document.getElementById('brief_seconds').value = Math.floor(localStorage.endtimer);
+    document.getElementById('case_id').value = localStorage.case_id;
+
+    document.getElementById('the_hour').innerHTML = localStorage.endtimer_2;
+    document.getElementById('the_min').innerHTML =localStorage.endtimer_1;
+    document.getElementById('the_sec').innerHTML = Math.floor(localStorage.endtimer);
+
+
+
+}
+
+
+var x = document.getElementById("ourstopwatch");
+  if (localStorage.is_running == 1) {
+    x.style.display = "inline-block";
+  } else {
+    x.style.display = "none";
+  }
+
+
+
+  function ClearAll() {
+    
+    localStorage.is_running = 0;
+    
+}
+
+
+
+
+
+document.ready(function() {
+  if (window.location.href.indexOf('/accounts/login/')) {
+    //Hide the element.
+    jQuery('.shadow').hide();
+  }
+});
+</script>

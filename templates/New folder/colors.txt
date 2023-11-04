@@ -1,0 +1,8 @@
+Icon Colors
+
+Reset - #FFFF6700
+Start - #FF036A1B
+End - #FFFF0800
+
+Button secondry - #5d73a4
+Button primary -#5389ff & #3979ff

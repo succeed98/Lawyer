@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load auth_extras %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% block title %}
+
+Renumeration requests
+{% endblock title %}
+
+{% block content %}
+<div class="page-content">
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="float-right">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Lawyer System. </a></li>
+
+                            <li class="breadcrumb-item"><a href="{% url 'cases:renumerations' %}">Renumeration Requests</a></li>
+
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Requests</h4>
+                </div>
+                <!--end page-title-box-->
+            </div>
+            <!--end col-->
+        </div>
+        <!-- end page title end breadcrumb -->
+
+        {% include 'messages/messages.html' %}
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+
+
+                                               <!-- ############## ACCORDION -->
+
+
+            <div class="accordion" id="accordionExample-faq">
+                <div class="card shadow-none border mb-1">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="my-0">
+                        <button class="btn btn-link ml-4" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Renumeration Requests
+                        </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample-faq">
+                    <div class="card-body">
+
+ <div class="table-responsive dash-social">
+                            <table id="datatable" class="table">
+                                <thead>
+                                    <tr>
+
+                                        <th>Case</th>
+                                        <th>Lawyer</th>
+                                        <th>Timestamp</th>
+                                        <th>Client(s)</th>
+                                        <th>Action</th>
+
+
+
+
+                                    </tr>
+                                </thead>
+
+
+                                <!-- load -->
+
+
+                                <tbody>
+
+                                    {% for object in  renumeration_list %}
+                                    <tr>
+                                        <td> {{object.case|title}}
+                                        </td>
+                                        <td> {{object.lead|title}} </td>
+                                        <td>{{object.timestamp|date}}</td>
+                                        <td>{% for client in object.case.client.all %}
+                                        {{client}},
+                                        {% endfor %}</td>
+                                        <td><a href="{% url 'cases:approve_renumeration' object.pk %}" class="btn btn-secondary"><i class="fa fa-check" aria-hidden="true"></i>Approve</a></td>
+                                                                  </tr>
+                                    {% endfor %}
+
+                                    <!--end tr-->
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+                <div class="card shadow-none border mb-1">
+                    <div class="card-header" id="headingTwo">
+                    <h5 class="my-0">
+                        <button class="btn btn-link collapsed ml-4 align-self-center" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                         Approved Requests
+                        </button>
+                    </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample-faq">
+                    <div class="card-body">
+                        <div class="table-responsive dash-social">
+                            <table id="datatable" class="table">
+                                <thead>
+                                    <tr>
+
+                                        <th>Case</th>
+                                        <th>Lawyer</th>
+                                        <th>Timestamp</th>
+                                        <th>Client(s)</th>
+
+
+
+
+                                    </tr>
+                                </thead>
+
+
+                                <!-- load -->
+
+
+                                <tbody>
+
+                                    {% for object in  renumeration_approved %}
+                                    <tr>
+                                        <td> {{object.case|title}}
+                                        </td>
+                                        <td> {{object.lead|title}} </td>
+                                        <td>{{object.timestamp|date}}</td>
+                                        <td>{% for client in object.case.client.all %}
+                                        {{client}} ,
+                                        {% endfor %}</td>
+                                                                  </tr>
+                                    {% endfor %}
+
+                                    <!--end tr-->
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+
+
+            </div><!--end accordion-->
+
+
+                        <!-- ############## END ACCORDION-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+
+
+    </div>
+
+</div>
+{% endblock content %}
+
+
